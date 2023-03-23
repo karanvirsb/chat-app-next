@@ -18,14 +18,16 @@ export default function App({ Component, pageProps }: AppProps) {
   });
   return (
     <SuperTokensWrapper>
-      <SocketHandler>
-        <QueryClientProvider client={queryClient}>
-          <Provider store={store}>
-            <Sidebar></Sidebar>
-            <Component {...pageProps} />;
-          </Provider>
-        </QueryClientProvider>
-      </SocketHandler>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <SocketHandler>
+            <>
+              <Sidebar></Sidebar>
+              <Component {...pageProps} />;
+            </>
+          </SocketHandler>
+        </Provider>
+      </QueryClientProvider>
     </SuperTokensWrapper>
   );
 }

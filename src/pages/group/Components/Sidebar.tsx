@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import Logo from "../../../assets/logo-nobg.png";
 import { signOut } from "supertokens-auth-react/recipe/emailpassword";
 import DropDown from "../../../Components/DropDown/DropDown";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
-import { useNavigate } from "react-router";
 import GroupList from "./GroupList";
 import useLocalStorage from "../../../Hooks/useLocalStorage";
 import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSockets";
 import useGetSession from "../../../Hooks/useGetSession";
 import { useQueryClient } from "@tanstack/react-query";
 import { IGroup } from "../../../Hooks/groupHooks";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 type props = {
   setTab: React.Dispatch<React.SetStateAction<"group" | "me">>;
@@ -20,7 +20,7 @@ type props = {
 export default function Sidebar({ setTab, setTabId }: props) {
   // const [activeIndex, setActiveIndex] = useState(-1);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const navigate = useNavigate();
+  const router = useRouter();
   const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
   const dispatch = useAppDispatch();
   const sessionInfo = useGetSession();
@@ -38,7 +38,11 @@ export default function Sidebar({ setTab, setTabId }: props) {
           }`}
           onClick={setTabToMe}
         >
-          <img src={Logo} className="rounded-full"></img>
+          <Image
+            src="/images/logo-nobg.png"
+            alt=""
+            className="rounded-full"
+          ></Image>
         </button>
         <div className="divider"></div>
         {/* Groups go here */}
@@ -156,8 +160,6 @@ export default function Sidebar({ setTab, setTabId }: props) {
   }
 
   function goToSettings() {
-    navigate(`/settings`, {
-      replace: false,
-    });
+    router.push(`/settings`);
   }
 }

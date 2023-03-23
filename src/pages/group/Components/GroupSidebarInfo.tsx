@@ -4,12 +4,13 @@ import DropDown from "../../../Components/DropDown/DropDown";
 import SidebarInfo from "../../../Components/SidebarInfo/SidebarInfo";
 import { useAppDispatch } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
-import { isGroup } from "../../../test/validation/schemaValidation";
+
 import { IGroup } from "../../../Hooks/groupHooks";
-import useFilterGroups from "../Hooks/useFilterGroups";
 import { useGetGroupChannelsQuery } from "../../../Hooks/groupChannelHooks";
 import { useQueryClient } from "@tanstack/react-query";
 import useLocalStorage from "../../../Hooks/useLocalStorage";
+import { isGroup } from "../../../../test/validation/schemaValidation";
+import useFilterGroups from "@/Hooks/useFilterGroups";
 
 type props = {
   groupId: string;

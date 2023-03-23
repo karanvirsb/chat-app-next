@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import useGetSession from "../../../Hooks/useGetSession";
 import { useGetGroupsQuery } from "../../../Hooks/groupHooks";
 import socket from "../../../Sockets";
-import { isGroupArray } from "../../../test/validation/schemaValidation";
+
 import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSockets";
+import { isGroupArray } from "../../../../test/validation/schemaValidation";
 
 type props = {
   activeIndex: number;

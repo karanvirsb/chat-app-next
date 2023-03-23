@@ -1,7 +1,7 @@
+import ChannelContainer from "@/Components/ChannelContainer/ChannelContainer";
+import ScrollWrapper from "@/Components/ScrollWrapper/ScrollWrapper";
 import { useAppSelector } from "@/Hooks/reduxHooks";
 import React, { useState } from "react";
-import ChannelContainer from "./Components/Components/ChannelContainer/ChannelContainer";
-import ScrollWrapper from "./Components/Components/ScrollWrapper/ScrollWrapper";
 import GroupChat from "./Components/GroupChat";
 import GroupSidebarInfo from "./Components/GroupSidebarInfo";
 import GroupTopBar from "./Components/GroupTopBar";

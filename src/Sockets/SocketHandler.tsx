@@ -26,7 +26,7 @@ import {
   ILoginEvent,
   ILogoutEvent,
 } from "./types/loginAndLogoutTypes";
-import { areGroupUsers } from "../test/validation/schemaValidation";
+import { areGroupUsers } from "../../test/validation/schemaValidation";
 
 type props = {
   children: JSX.Element;

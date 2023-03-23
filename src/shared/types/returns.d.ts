@@ -1,10 +1,10 @@
-interface ControllerReturn<T> {
+export interface ControllerReturn<T> {
   body: UseCaseReturn<T>;
   headers: Record<String, String>;
   statusCode: number;
 }
 
-type UseCaseReturn<T> =
+export type UseCaseReturn<T> =
   | {
       success: true;
       data: T | undefined;
@@ -14,7 +14,7 @@ type UseCaseReturn<T> =
       error: unknown;
     };
 
-type DBAccessReturn<T> =
+export type DBAccessReturn<T> =
   | {
       success: true;
       data: T | undefined;

@@ -17,7 +17,7 @@ type props = {
   setTabId: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function Sidebar({ setTab, setTabId }: props) {
+export default function Sidebar() {
   // const [activeIndex, setActiveIndex] = useState(-1);
   const [activeIndex, setActiveIndex] = useState(-1);
   const router = useRouter();
@@ -41,6 +41,8 @@ export default function Sidebar({ setTab, setTabId }: props) {
           <Image
             src="/images/logo-nobg.png"
             alt=""
+            width={20}
+            height={20}
             className="rounded-full"
           ></Image>
         </button>
@@ -50,7 +52,8 @@ export default function Sidebar({ setTab, setTabId }: props) {
         <ul className="mb-4 flex flex-col gap-4">
           <GroupList
             activeIndex={activeIndex}
-            setTabToGroup={setTabToGroup}
+            setTabToGroup={() =>
+              ({}) => {}}
           ></GroupList>
         </ul>
 
@@ -149,15 +152,15 @@ export default function Sidebar({ setTab, setTabId }: props) {
   }
 
   function setTabToMe() {
-    setTab("me");
+    // setTab("me");
     setActiveIndex(-1);
   }
 
-  function setTabToGroup(id: string, index: number) {
-    setTab("group");
-    setTabId(id);
-    setActiveIndex(index);
-  }
+  // function setTabToGroup(id: string, index: number) {
+  //   setTab("group");
+  //   setTabId(id);
+  //   setActiveIndex(index);
+  // }
 
   function goToSettings() {
     router.push(`/settings`);

@@ -5,7 +5,7 @@ import styles from "@/styles/Home.module.css";
 import { useState } from "react";
 import GroupChannel from "./group";
 import MeChannel from "./me/Components/MeChannel";
-import Sidebar from "./group/Components/Sidebar";
+import Sidebar from "../Components/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 

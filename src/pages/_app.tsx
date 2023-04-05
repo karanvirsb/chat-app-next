@@ -29,11 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <SocketHandler>
-            <>
-              <Layout>
-                <Component {...pageProps} />;
-              </Layout>
-            </>
+            <Layout>
+              <Component {...pageProps} />;
+            </Layout>
           </SocketHandler>
         </Provider>
       </QueryClientProvider>

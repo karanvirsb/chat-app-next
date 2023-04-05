@@ -16,8 +16,7 @@ import {
   IUpdateGroupMessageEvent,
 } from "./types/groupChat";
 import { ILogoutEvent } from "./types/user";
-import { editUser } from "../src/Features/user/use-cases";
-import { disconnect } from "process";
+import { editUser } from "../Features/user/use-cases";
 
 type props = {
   httpServer: Partial<ServerOptions> | undefined | any;

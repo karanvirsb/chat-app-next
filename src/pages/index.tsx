@@ -1,20 +1,6 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import { useState } from "react";
-import GroupChannel from "./group";
-import MeChannel from "./me/Components/MeChannel";
-import Sidebar from "../Components/Sidebar";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [tab, setTab] = useState<"group" | "me">("me");
-  // const [tab, setTab] = useLocalStorage<"group" | "me">("groupOrMeTab", "me");
-  const [tabId, setTabId] = useState("-1");
-  // const [tabId, setTabId] = useLocalStorage<string>("tabId", "-1"); // can be a userId or groupId
-
   return (
     <>
       <Head>
@@ -23,11 +9,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex h-screen min-h-screen">
-        <Sidebar setTab={setTab} setTabId={setTabId}></Sidebar>
-        {tab === "group" && <GroupChannel groupId={tabId}></GroupChannel>}
-        {tab === "me" && <MeChannel></MeChannel>}
-      </div>
+      <div className="flex h-screen min-h-screen"></div>
     </>
   );
 }

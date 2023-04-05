@@ -4,7 +4,6 @@ import DropDown from "./DropDown/DropDown";
 import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
 import { setModal } from "../Redux/slices/modalSlice";
 import GroupList from "../pages/group/Components/GroupList";
-import useLocalStorage from "../Hooks/useLocalStorage";
 import useLoginAndLogoutSockets from "../Sockets/Hooks/useLoginAndLogoutSockets";
 import useGetSession from "../Hooks/useGetSession";
 import { useQueryClient } from "@tanstack/react-query";

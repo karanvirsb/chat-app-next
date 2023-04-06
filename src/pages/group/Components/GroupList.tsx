@@ -5,6 +5,7 @@ import socket from "../../../Sockets";
 
 import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSockets";
 import { isGroupArray } from "../../../../test/validation/schemaValidation";
+import Link from "next/link";
 
 type props = {
   activeIndex: number;
@@ -52,7 +53,8 @@ export default function GroupList({ setTabToGroup, activeIndex }: props) {
         if (index === activeIndex) {
           return (
             <li key={group.groupId}>
-              <button
+              <Link
+                href={`/group/${group.groupId}`}
                 className="btn btn-circle bg-white text-black"
                 onClick={() => {
                   setTabToGroup(group.groupId, index);
@@ -61,13 +63,14 @@ export default function GroupList({ setTabToGroup, activeIndex }: props) {
                 {
                   group.groupName[0] // TODO split and get first index
                 }
-              </button>
+              </Link>
             </li>
           );
         } else {
           return (
             <li key={group.groupId}>
-              <button
+              <Link
+                href={`/group/${group.groupId}`}
                 className="btn btn-circle"
                 onClick={() => {
                   setTabToGroup(group.groupId, index);
@@ -76,7 +79,7 @@ export default function GroupList({ setTabToGroup, activeIndex }: props) {
                 {
                   group.groupName[0] // TODO split and get first index
                 }
-              </button>
+              </Link>
             </li>
           );
         }

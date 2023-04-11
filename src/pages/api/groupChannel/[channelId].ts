@@ -1,4 +1,7 @@
-import { getChannelById } from "@/server/Features/groupChannel/use-cases";
+import {
+  createChannel,
+  getChannelById,
+} from "@/server/Features/groupChannel/use-cases";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -10,6 +13,8 @@ export default async function handler(
   };
   if (req.method?.toUpperCase() === "GET") {
     await getChannelRequest(req, res, headers);
+  } else if (req.method?.toUpperCase() === "POST") {
+    await createChannelRequest(req, res, headers);
   }
 }
 
@@ -21,6 +26,38 @@ async function getChannelRequest(
   try {
     const channelId = req.query.channelId as string;
     const foundChannel = await getChannelById(channelId);
+    res.json({
+      headers,
+      statusCode: 200,
+      body: foundChannel,
+    });
+  } catch (error: any) {
+    res.json({
+      headers,
+      statusCode: 400,
+      body: {
+        success: false,
+        data: undefined,
+        error: error.message,
+      },
+    });
+  }
+}
+
+async function createChannelRequest(
+  req: NextApiRequest,
+  res: NextApiResponse<any>,
+  headers: { [key: string]: string }
+) {
+  try {
+    const channelId = req.query.channelId as string;
+    const { channelName, groupId, dateCreated } = req.body;
+    const foundChannel = await createChannel({
+      channelId,
+      channelName,
+      dateCreated,
+      groupId,
+    });
     res.json({
       headers,
       statusCode: 200,

@@ -1,5 +1,6 @@
 import {
   createChannel,
+  deleteChannel,
   getChannelById,
 } from "@/server/Features/groupChannel/use-cases";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -15,6 +16,8 @@ export default async function handler(
     await getChannelRequest(req, res, headers);
   } else if (req.method?.toUpperCase() === "POST") {
     await createChannelRequest(req, res, headers);
+  } else if (req.method?.toUpperCase() === "DELETE") {
+    await deleteChannelRequest(req, res, headers);
   }
 }
 
@@ -52,7 +55,7 @@ async function createChannelRequest(
   try {
     const channelId = req.query.channelId as string;
     const { channelName, groupId, dateCreated } = req.body;
-    const foundChannel = await createChannel({
+    const createdChannel = await createChannel({
       channelId,
       channelName,
       dateCreated,
@@ -61,7 +64,33 @@ async function createChannelRequest(
     res.json({
       headers,
       statusCode: 200,
-      body: foundChannel,
+      body: createdChannel,
+    });
+  } catch (error: any) {
+    res.json({
+      headers,
+      statusCode: 400,
+      body: {
+        success: false,
+        data: undefined,
+        error: error.message,
+      },
+    });
+  }
+}
+
+async function deleteChannelRequest(
+  req: NextApiRequest,
+  res: NextApiResponse<any>,
+  headers: { [key: string]: string }
+) {
+  try {
+    const channelId = req.query.channelId as string;
+    const deletedChannel = await deleteChannel(channelId);
+    res.json({
+      headers,
+      statusCode: 200,
+      body: deletedChannel,
     });
   } catch (error: any) {
     res.json({

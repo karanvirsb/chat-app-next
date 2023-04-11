@@ -17,6 +17,8 @@ export default async function handler(
     await createGroupMessage(req, res, headers);
   } else if (req.method?.toUpperCase() === "DELETE") {
     await deleteGroupMessage(req, res, headers);
+  } else if (req.method?.toUpperCase() === "PUT") {
+    // TODO add put
   }
 }
 

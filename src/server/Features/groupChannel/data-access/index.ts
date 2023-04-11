@@ -1,15 +1,14 @@
-require("dotenv").config();
 import makeChannelDb from "./channel-db";
 import { Pool, PoolClient } from "pg";
 
 export interface IGroupChannelDb {
-    makeDb: () => Promise<PoolClient>;
+  makeDb: () => Promise<PoolClient>;
 }
 
 const pool = new Pool({}); // configure to add group
 
 export async function makeDb() {
-    return await pool.connect();
+  return await pool.connect();
 }
 
 const channelDb = makeChannelDb({ makeDb });

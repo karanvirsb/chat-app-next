@@ -1,6 +1,4 @@
 import { makeDb } from "../data-access";
-import dotenv from "dotenv";
-dotenv.config();
 
 export default async function setupMessageDb() {
   console.log("setting up message database...");

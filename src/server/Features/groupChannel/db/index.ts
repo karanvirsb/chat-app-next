@@ -1,6 +1,4 @@
 import { makeDb } from "../data-access";
-import dotenv from "dotenv";
-dotenv.config();
 
 export default async function setupChannelDb() {
   console.log("setting up channel database...");

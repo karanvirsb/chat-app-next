@@ -18,6 +18,8 @@ export default async function handler(
     await createChannelRequest(req, res, headers);
   } else if (req.method?.toUpperCase() === "DELETE") {
     await deleteChannelRequest(req, res, headers);
+  } else if (req.method?.toUpperCase() === "PUT") {
+    // TODO add updating feature
   }
 }
 

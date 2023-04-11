@@ -8,7 +8,7 @@ export default async function handler(
   const headers: { [key: string]: string } = {
     "Content-Type": "application/json",
   };
-  if (req.method === "GET") {
+  if (req.method?.toUpperCase() === "GET") {
     await getChannelsByGroupIdRequest(req, res, headers);
   }
 }

@@ -19,6 +19,8 @@ export default async function handler(
     await getGroupRequest(req, res, headers);
   } else if (req.method?.toUpperCase() === "DELETE") {
     await deleteGroupRequest(req, res, headers);
+  } else if (req.method?.toUpperCase() === "PUT") {
+    // TODO create a update function
   }
 }
 async function addGroupRequest(

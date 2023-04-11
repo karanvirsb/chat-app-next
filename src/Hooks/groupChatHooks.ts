@@ -33,7 +33,7 @@ type ReturnGroupMessage = {
 };
 
 // setting up global variables
-const baseurl = "http://localhost:8000/groupMessage";
+const baseurl = "http://localhost:8000/api/groupMessage";
 
 type IUserGetGroupMessagesByChannelIdQuery = UseInfiniteQueryResult<
   PaginatedGroupMessages<IMessage> | undefined,

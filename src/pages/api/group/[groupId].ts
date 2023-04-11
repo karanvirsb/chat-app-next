@@ -1,5 +1,5 @@
 import { IGroup } from "@/server/Features/group/group";
-import { addGroup } from "@/server/Features/group/use-cases";
+import { addGroup, getGroupById } from "@/server/Features/group/use-cases";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -11,6 +11,9 @@ export default async function handler(
   };
   if (req.method === "POST") {
     await addGroupRequest(req, res, headers);
+  }
+  if (req.method === "GET") {
+    await getGroupRequest(req, res, headers);
   }
 }
 async function addGroupRequest(
@@ -24,6 +27,32 @@ async function addGroupRequest(
       headers,
       statusCode: 200,
       body: addedGroup,
+    });
+  } catch (error: any) {
+    res.json({
+      headers,
+      statusCode: 400,
+      body: {
+        success: false,
+        data: undefined,
+        error: error.message,
+      },
+    });
+  }
+}
+
+async function getGroupRequest(
+  req: NextApiRequest,
+  res: NextApiResponse<any>,
+  headers: { [key: string]: string }
+) {
+  try {
+    const groupId = req.query.groupId as string;
+    const foundGroup = await getGroupById(groupId);
+    res.json({
+      headers,
+      statusCode: 200,
+      body: foundGroup,
     });
   } catch (error: any) {
     res.json({

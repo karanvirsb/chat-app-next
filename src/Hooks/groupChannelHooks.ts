@@ -9,7 +9,7 @@ import {
 import useGroupChannelSockets from "../Sockets/Hooks/useGroupChannelSockets";
 
 // setting up global variables
-const baseurl = "http://localhost:8000/api/groupChannel";
+const baseurl = "http://localhost:3000/api/groupChannel";
 
 export type IGroupChannel = {
   channelId: string;

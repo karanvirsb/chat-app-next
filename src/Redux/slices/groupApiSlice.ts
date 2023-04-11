@@ -50,7 +50,7 @@ export {};
 
 // export const groupApiSlice = createApi({
 //     reducerPath: "groups",
-//     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000" }),
+//     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
 //     tagTypes: ["Groups", "Group", "GroupUsers"],
 //     endpoints: (builder) => ({
 //         getGroups: builder.query<IGroup[] | string, string | undefined>({

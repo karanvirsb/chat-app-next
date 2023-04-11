@@ -10,7 +10,7 @@ import useGroupSockets from "../Sockets/Hooks/useGroupSockets";
 import useGetSession from "./useGetSession";
 
 // setting up global variables
-const baseurl = "http://localhost:8000/api/group";
+const baseurl = "http://localhost:3000/api/group";
 
 // interfaces
 export type IGroup = {
@@ -209,7 +209,7 @@ function useCreateGroupMutation(): IUseCreateGroupMutation {
       await queryClient.invalidateQueries(["groups"]);
       if (data.data != null) {
         await axios({
-          url: "http://localhost:8000/groupChannel",
+          url: "http://localhost:3000/groupChannel",
           method: "POST",
           data: {
             channelInfo: {

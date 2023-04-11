@@ -1,9 +1,9 @@
 import supertokens, { deleteUser } from "supertokens-node";
 import Session from "supertokens-node/recipe/session";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
-import { addUserUC } from "../src/Features/user/AddUser";
-import { getUser } from "../src/Features/user/use-cases";
-import { IUser } from "../src/Features/user/user";
+import { addUserUC } from "../Features/user/AddUser";
+import { getUser } from "../Features/user/use-cases";
+import { IUser } from "../Features/user/user";
 import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
 
 type signupResponse =

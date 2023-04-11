@@ -73,7 +73,7 @@ function useGetGroupsQuery({
 }): IUseGetGroupsQuery {
   const getGroups = async (): Promise<IGroup[] | string> => {
     const resp = await axios({
-      url: `${baseurl}/userId/${userId ?? ""}`,
+      url: `${baseurl}/user/${userId ?? ""}`,
       method: "GET",
     });
     const result: returnGroupsData = resp.data;

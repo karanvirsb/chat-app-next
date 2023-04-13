@@ -75,7 +75,7 @@ function useGetGroupsQuery({
   console.log(userId);
   const getGroups = async (): Promise<IGroup[] | string> => {
     const resp = await axios({
-      url: `${baseurl}/user/${userId ?? ""}`,
+      url: `${baseurl}/user/${userId}`,
       method: "GET",
     });
     const result: returnGroupsData = resp.data;
@@ -89,9 +89,8 @@ function useGetGroupsQuery({
 
   return useQuery({
     queryKey: [`groups`],
+    enabled: userId !== undefined,
     queryFn: getGroups,
-    enabled: userId !== undefined ?? !!userId,
-    retryDelay: 1000000,
     // staleTime: 10 * 60 * 1000, // mins * sec * ms
   });
 }

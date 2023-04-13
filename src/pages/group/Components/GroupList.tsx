@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import useGetSession from "../../../Hooks/useGetSession";
 import { useSession } from "next-auth/react";
 import { useGetGroupsQuery } from "../../../Hooks/groupHooks";
 import socket from "../../../Sockets";
@@ -8,7 +7,6 @@ import socket from "../../../Sockets";
 import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSockets";
 import { isGroupArray } from "../../../../test/validation/schemaValidation";
 import Link from "next/link";
-import { getToken } from "next-auth/jwt";
 
 type props = {
   activeIndex: number;
@@ -18,7 +16,6 @@ type props = {
 // TODO prefetch group data
 export default function GroupList({ setTabToGroup, activeIndex }: props) {
   const { data: sessionInfo } = useSession();
-
   const {
     data: groups,
     isLoading,

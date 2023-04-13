@@ -11,6 +11,9 @@ import { deleteUser } from "supertokens-node";
 import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
 import { APIOptions } from "supertokens-node/lib/build/recipe/jwt";
 import { User } from "supertokens-auth-react/lib/build/recipe/authRecipe/types";
+import { RecipeInterface } from "supertokens-web-js/recipe/session";
+import { getUser } from "@/server/Features/user/use-cases";
+import { addUserUC } from "@/server/Features/user/AddUser";
 
 export let backendConfig = () => {
   return {
@@ -21,23 +24,29 @@ export let backendConfig = () => {
     appInfo,
     recipeList: [
       EmailPasswordReact.init({
-        signUpFeature: {
-          formFields: [
-            {
-              id: "username",
-            },
-            {
-              id: "email",
-            },
-            {
-              id: "password",
-            },
-          ],
+        signInAndUpFeature: {
+          signUpForm: {
+            formFields: [
+              {
+                id: "username",
+                label: "username",
+              },
+              {
+                id: "email",
+                label: "email",
+              },
+              {
+                id: "password",
+                label: "password",
+              },
+            ],
+          },
         },
         override: {
-          apis: (originalImplementation) => {
+          functions: (originalImplementation) => {
             return {
               ...originalImplementation,
+
               signUpPOST: signUpPost(originalImplementation),
               signInPOST: signInPost(originalImplementation),
             };
@@ -48,11 +57,10 @@ export let backendConfig = () => {
       SessionNode.init(),
       DashboardNode.init(),
     ],
-    isInServerlessEnv: true,
   };
 };
 
-function signInPost(originalImplementation: APIInterface):
+function signInPost(originalImplementation: any):
   | ((input: {
       formFields: { id: string; value: string }[];
       options: APIOptions;
@@ -100,17 +108,17 @@ function signInPost(originalImplementation: APIInterface):
   };
 }
 
-function signUpPost(originalImplementation: EmailPassword.APIInterface):
+function signUpPost(originalImplementation: any):
   | ((input: {
       formFields: { id: string; value: string }[];
-      options: EmailPassword.APIOptions;
+      options: any;
       userContext: any;
     }) => Promise<
       | GeneralErrorResponse
       | {
           status: "OK";
-          user: EmailPassword.User;
-          session: Session.SessionContainer;
+          user: any;
+          session: any;
         }
       | { status: "EMAIL_ALREADY_EXISTS_ERROR" }
     >)
@@ -122,9 +130,7 @@ function signUpPost(originalImplementation: EmailPassword.APIInterface):
 
     const user: IUser = createUserObj(input);
 
-    let response: signupResponse = await originalImplementation.signUpPOST(
-      input
-    );
+    let response: any = await originalImplementation.signUpPOST(input);
 
     try {
       if (response.status === "OK") {
@@ -161,7 +167,7 @@ function signUpPost(originalImplementation: EmailPassword.APIInterface):
 
 function createUserObj(input: {
   formFields: { id: string; value: string }[];
-  options: EmailPassword.APIOptions;
+  options: any;
   userContext: any;
 }) {
   const user: IUser = {

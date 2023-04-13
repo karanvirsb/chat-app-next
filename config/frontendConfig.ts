@@ -36,7 +36,7 @@ export let frontendConfig = () => {
       SessionReact.init(),
     ],
     // this is so that the SDK uses the next router for navigation
-    windowHandler: (oI) => {
+    windowHandler: (oI: { location: any }) => {
       return {
         ...oI,
         location: {

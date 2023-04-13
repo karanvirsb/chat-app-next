@@ -76,11 +76,9 @@ export default function makeUsersDb({ makeDb }: props) {
   async function findByUsername(username: string): returningData["type"] {
     const db = await makeDb();
     try {
-      const query = `SELECT u."userId", e.email, u.username, u.status, e.time_joined 
-                            FROM userT u 
-                                LEFT JOIN emailpassword_users e 
-                                ON u."userId" = e.user_id 
-                            WHERE u."username"='${username}';`;
+      const query = `SELECT "userId", username, status, password 
+                      FROM userT
+                      WHERE username='${username}';`;
       const res = await db.query(query);
       if (res.rows.length > 0) {
         return { success: true, data: res.rows[0], error: "" };

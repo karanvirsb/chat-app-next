@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { signOut } from "supertokens-auth-react/recipe/emailpassword";
+import { signOut } from "next-auth/react";
 import DropDown from "./DropDown/DropDown";
 import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
 import { setModal } from "../Redux/slices/modalSlice";

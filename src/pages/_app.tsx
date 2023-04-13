@@ -11,13 +11,17 @@ import { frontendConfig } from "../../config/frontendConfig";
 import { Layout } from "@/Components/Layout";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
 if (typeof window !== "undefined") {
   // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
-  SuperTokensReact.init(frontendConfig());
+  // SuperTokensReact.init(frontendConfig());
 }
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   const queryClient = new QueryClient({
-    defaultOptions: { queries: { staleTime: Infinity } },
+    defaultOptions: { queries: { staleTime: Infinity, retryDelay: 10000 } },
   });
   const router = useRouter();
 
@@ -25,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
     router.replace("/me");
   }, [router]);
   return (
-    <SuperTokensWrapper>
+    <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <SocketHandler>
@@ -35,6 +39,6 @@ export default function App({ Component, pageProps }: AppProps) {
           </SocketHandler>
         </Provider>
       </QueryClientProvider>
-    </SuperTokensWrapper>
+    </SessionProvider>
   );
 }

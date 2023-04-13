@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 import useGetSession from "../../../Hooks/useGetSession";
 import { useGetGroupsQuery } from "../../../Hooks/groupHooks";
@@ -19,6 +20,7 @@ export default function GroupList({ setTabToGroup, activeIndex }: props) {
     data: groups,
     isLoading,
     isSuccess,
+    error,
   } = useGetGroupsQuery({ userId: sessionInfo?.userId });
   const send = useLoginAndLogoutSockets();
   useEffect(() => {
@@ -87,7 +89,7 @@ export default function GroupList({ setTabToGroup, activeIndex }: props) {
     }
   } else {
     content = <button className="btn btn-circle">!</button>;
-    console.error(groups);
+    console.error(error, groups);
   }
   return <>{content}</>;
 }

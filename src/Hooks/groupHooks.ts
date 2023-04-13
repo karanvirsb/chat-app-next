@@ -7,7 +7,8 @@ import {
   UseMutationResult,
 } from "@tanstack/react-query";
 import useGroupSockets from "../Sockets/Hooks/useGroupSockets";
-import useGetSession from "./useGetSession";
+// import useGetSession from "./useGetSession";
+import { useSession } from "next-auth/react";
 
 // setting up global variables
 const baseurl = "http://localhost:3000/api/group";
@@ -71,6 +72,7 @@ function useGetGroupsQuery({
 }: {
   userId: string | undefined;
 }): IUseGetGroupsQuery {
+  console.log(userId);
   const getGroups = async (): Promise<IGroup[] | string> => {
     const resp = await axios({
       url: `${baseurl}/user/${userId ?? ""}`,
@@ -79,16 +81,17 @@ function useGetGroupsQuery({
     const result: returnGroupsData = resp.data;
 
     if (result.success && result.data !== undefined) {
-      return result.data;
+      return result.data ?? [];
     } else {
-      return result.error;
+      return result.error ?? "";
     }
   };
 
   return useQuery({
     queryKey: [`groups`],
     queryFn: getGroups,
-    enabled: userId !== undefined,
+    enabled: userId !== undefined ?? !!userId,
+    retryDelay: 1000000,
     // staleTime: 10 * 60 * 1000, // mins * sec * ms
   });
 }
@@ -182,7 +185,7 @@ type IUseCreateGroupMutation = UseMutationResult<
 function useCreateGroupMutation(): IUseCreateGroupMutation {
   const queryClient = useQueryClient();
   const send = useGroupSockets();
-  const { sessionInfo } = useGetSession();
+  const { data: sessionInfo } = useSession();
   const createGroup = async ({
     groupInfo,
     userId,
@@ -221,7 +224,7 @@ function useCreateGroupMutation(): IUseCreateGroupMutation {
         if (sessionInfo !== null) {
           send("join_rooms", {
             rooms: [data.data.groupId],
-            userId: sessionInfo.userId,
+            userId: sessionInfo.user?.id,
           });
         }
       }

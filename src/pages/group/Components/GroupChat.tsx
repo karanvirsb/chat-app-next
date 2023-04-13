@@ -4,10 +4,11 @@ import {
   useEditMessageTextMutation,
   useGetGroupMessagesByChannelIdQuery,
 } from "../../../Hooks/groupChatHooks";
-import useGetSession from "../../../Hooks/useGetSession";
+// import useGetSession from "../../../Hooks/useGetSession";
 import Messages from "../../../Components/Messages/Messages";
 import { useAppDispatch } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
+import { useSession } from "next-auth/react";
 
 type props = {
   channelId: string;
@@ -28,7 +29,7 @@ export default function GroupChat({ channelId, groupId }: props): JSX.Element {
   const { mutate: updateText } = useEditMessageTextMutation({ groupId });
 
   const dispatch = useAppDispatch();
-  const { sessionInfo } = useGetSession();
+  const { data: sessionInfo } = useSession();
 
   // useEffect(() => {
   //   // scroll height gives height of element
@@ -130,7 +131,7 @@ export default function GroupChat({ channelId, groupId }: props): JSX.Element {
         channelId,
         dateCreated: new Date(),
         text: messageRef.current.value,
-        userId: sessionInfo.userId,
+        userId: sessionInfo.user?.id,
       });
       messageRef.current.value = ""; // resetting value
     }

@@ -5,11 +5,11 @@ import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
 import { setModal } from "../Redux/slices/modalSlice";
 import GroupList from "../pages/group/Components/GroupList";
 import useLoginAndLogoutSockets from "../Sockets/Hooks/useLoginAndLogoutSockets";
-import useGetSession from "../Hooks/useGetSession";
 import { useQueryClient } from "@tanstack/react-query";
 import { IGroup } from "../Hooks/groupHooks";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 type props = {
   setTab: React.Dispatch<React.SetStateAction<"group" | "me">>;
@@ -22,7 +22,7 @@ export default function Sidebar() {
   const router = useRouter();
   const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
   const dispatch = useAppDispatch();
-  const sessionInfo = useGetSession();
+  const { data: sessionInfo } = useSession();
   const queryClient = useQueryClient();
   return (
     <>
@@ -123,14 +123,14 @@ export default function Sidebar() {
   );
 
   async function logout() {
-    if (sessionInfo.sessionInfo) {
+    if (sessionInfo?.user) {
       console.log("logging out");
       const send = useLoginAndLogoutSockets();
       const groupIds: IGroup[] = queryClient.getQueryData(["groups"]) ?? [];
       send({
         event: "logout_user",
         data: {
-          userId: sessionInfo.sessionInfo?.userId,
+          userId: sessionInfo.user?.id,
           payload: { groupIds: groupIds.map((group) => group.groupId) },
         },
       });

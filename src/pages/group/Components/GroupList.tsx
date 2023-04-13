@@ -1,12 +1,14 @@
 "use client";
 import React, { useEffect } from "react";
 import useGetSession from "../../../Hooks/useGetSession";
+import { useSession } from "next-auth/react";
 import { useGetGroupsQuery } from "../../../Hooks/groupHooks";
 import socket from "../../../Sockets";
 
 import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSockets";
 import { isGroupArray } from "../../../../test/validation/schemaValidation";
 import Link from "next/link";
+import { getToken } from "next-auth/jwt";
 
 type props = {
   activeIndex: number;
@@ -15,13 +17,14 @@ type props = {
 
 // TODO prefetch group data
 export default function GroupList({ setTabToGroup, activeIndex }: props) {
-  const { sessionInfo } = useGetSession();
+  const { data: sessionInfo } = useSession();
+
   const {
     data: groups,
     isLoading,
     isSuccess,
     error,
-  } = useGetGroupsQuery({ userId: sessionInfo?.userId });
+  } = useGetGroupsQuery({ userId: sessionInfo?.user.id });
   const send = useLoginAndLogoutSockets();
   useEffect(() => {
     // check if its done loading and is successful then add groups into array and add rooms;
@@ -34,11 +37,11 @@ export default function GroupList({ setTabToGroup, activeIndex }: props) {
 
       socket.emit("join_rooms", {
         rooms: groupIds,
-        userId: sessionInfo.userId,
+        userId: sessionInfo.user.id,
       });
       send({
         event: "login_user",
-        data: { userId: sessionInfo?.userId, payload: { groupIds: groupIds } },
+        data: { userId: sessionInfo.user.id, payload: { groupIds: groupIds } },
       });
     }
   }, [isLoading, isSuccess]);

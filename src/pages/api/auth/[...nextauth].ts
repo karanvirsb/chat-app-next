@@ -36,7 +36,7 @@
 //   }
 // }
 
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextApiRequest, NextApiResponse } from "next";
 import z from "zod";
@@ -45,7 +45,7 @@ import { getUserByUsername } from "@/server/Features/user/GetUserByUsername";
 import { addUserUC } from "@/server/Features/user/AddUser";
 import makeId from "@/server/Utilities/id";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
@@ -80,6 +80,25 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
+  callbacks: {
+    session({ session, token }) {
+      // I skipped the line below coz it gave me a TypeError
+      // session.accessToken = token.accessToken;
+      session.user.id = token.id;
+
+      return session;
+    },
+    jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = user?.id;
+      }
+      return token;
+    },
+  },
+  session: {
+    strategy: "jwt",
+  },
 };
 
 const user = z.object({

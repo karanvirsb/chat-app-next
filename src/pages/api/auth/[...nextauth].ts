@@ -46,7 +46,6 @@ import { addUserUC } from "@/server/Features/user/AddUser";
 import makeId from "@/server/Utilities/id";
 
 export const authOptions = {
-  secret: process.env.AUTH_SECRET,
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({

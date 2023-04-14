@@ -242,17 +242,7 @@ export default function SocketHandler({ children }: props) {
     });
 
     return () => {
-      socket.off("echo");
-      socket.off("logged_user_in");
-      socket.off("logged_user_out");
-      socket.off("update_group_name");
-      socket.off("delete_group");
-      socket.off("update_group_users");
-      socket.off("removed_user");
-      socket.off("update_channel_list");
-      socket.off("new_group_chat_message");
-      socket.off("update_group_chat_message");
-      socket.off("delete_group_chat_message");
+      socket.removeAllListeners();
     };
   }, [queryClient]);
   return <>{children}</>;

@@ -29,7 +29,7 @@ import {
 import { areGroupUsers } from "../../test/validation/schemaValidation";
 
 type props = {
-  children: JSX.Element;
+  children: React.ReactNode;
 };
 
 // USER EVENTS
@@ -255,7 +255,7 @@ export default function SocketHandler({ children }: props) {
       socket.off("delete_group_chat_message");
     };
   }, [queryClient]);
-  return children;
+  return <>{children}</>;
 }
 
 function checkIfPagesExist(

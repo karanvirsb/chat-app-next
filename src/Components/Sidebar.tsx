@@ -131,13 +131,17 @@ export default function Sidebar() {
         event: "logout_user",
         data: {
           userId: sessionInfo.user?.id,
-          payload: { groupIds: groupIds.map((group) => group.groupId) },
+          payload: {
+            groupIds:
+              groupIds.length < 1
+                ? []
+                : groupIds?.map((group) => group.groupId),
+          },
         },
       });
     }
     await signOut();
-
-    window.location.href = "/";
+    router.replace("/api/auth/signin");
   }
 
   function displayCreateGroupModal() {

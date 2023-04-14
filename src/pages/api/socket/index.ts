@@ -7,8 +7,7 @@ const SocketHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
     const io = new Server(res.socket.server as any, { path: "/api/socket" });
     io.on("disconnect", () => {});
     io.on("connection", (socket) => {
-      console.log(socket.id);
-     
+      console.log("🚀 ~ file: index.ts:10 ~ io.on ~ socket:", socket);
     });
 
     res.socket.server.io = io;

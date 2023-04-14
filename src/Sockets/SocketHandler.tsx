@@ -60,6 +60,7 @@ export type groupChatSocketEvents =
 export default function SocketHandler({ children }: props) {
   const queryClient = useQueryClient();
   useEffect(() => {
+    fetch("/api/socket");
     socket.on("echo", () => {
       socket.emit("ping");
     });

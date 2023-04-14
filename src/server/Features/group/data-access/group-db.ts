@@ -141,7 +141,8 @@ export default function makeGroupDb({
       ]);
       // TODO add group users use case
       if (result.rows.length >= 1) {
-        const group = result.rows[0];
+        const group: IGroup = result.rows[0];
+        addUserToGroup(group.groupId, userId, ["2001"]);
         return { success: true, data: group, error: "" };
       } else {
         return {

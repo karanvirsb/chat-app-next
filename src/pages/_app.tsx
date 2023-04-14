@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 
 import { Layout } from "@/Components/Layout";
 import { SessionProvider } from "next-auth/react";
+import ModalDisplay from "@/Components/Modal/ModalDisplay";
 if (typeof window !== "undefined") {
   // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
   // SuperTokensReact.init(frontendConfig());
@@ -25,6 +26,7 @@ export default function App({
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <SocketHandler>
+            <ModalDisplay></ModalDisplay>
             <Layout>
               <Component {...pageProps} />;
             </Layout>

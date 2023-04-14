@@ -32,7 +32,7 @@ export default function makeGroupUser() {
       getgId: () => gId,
       getuId: () => uId,
       getRoles: () => roles,
-      getLastChecked: () => lastChecked,
+      getLastChecked: () => (!lastChecked ? new Date() : lastChecked),
     });
   };
 }

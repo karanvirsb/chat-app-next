@@ -14,6 +14,7 @@ import {
   makeUpdateGroupUserUC,
 } from "./updateGroupUser";
 import DBUpdateStr from "../../../Utilities/DBUpdateString";
+import { makeGetGroupIdsDBA, makeGetGroupIdsUC } from "./getGroupIds";
 
 // CREATE GROUP USER
 export const createGroupUserDBA = makeCreateGroupDBAccess({ makeDb });
@@ -37,3 +38,7 @@ export const updateGroupUserUC = makeUpdateGroupUserUC({ updateGroupUserDBA });
 export const updateGroupUserController = makeUpdateGroupUserController({
   updateGroupUserUC,
 });
+
+// GET GROUP IDS
+export const getGroupIdsDBA = makeGetGroupIdsDBA({ makeDb });
+export const getGroupIdsUC = makeGetGroupIdsUC({ getGroupIdsDBA });

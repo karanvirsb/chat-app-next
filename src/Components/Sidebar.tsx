@@ -50,11 +50,7 @@ export default function Sidebar() {
         {/* Groups go here */}
 
         <ul className="mb-4 flex flex-col gap-4">
-          <GroupList
-            activeIndex={activeIndex}
-            setTabToGroup={() =>
-              ({}) => {}}
-          ></GroupList>
+          <GroupList></GroupList>
         </ul>
 
         {/* Btn is to create a group  */}

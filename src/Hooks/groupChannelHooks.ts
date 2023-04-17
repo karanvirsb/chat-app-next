@@ -60,7 +60,7 @@ function useGetGroupChannelsQuery({
       url: `${baseurl}/all/${groupId}`,
       method: "GET",
     });
-    const resp: returnGroupChannels = data.data;
+    const resp: returnGroupChannels = data.data.body;
     return resp.data ?? [];
   };
 

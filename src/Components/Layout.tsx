@@ -26,7 +26,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     );
   }
   return (
-    <>
+    <div className="flex h-screen min-h-screen">
       <Sidebar></Sidebar>
       {isSideBarOpen && (
         <GroupSidebarInfo
@@ -36,6 +36,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       )}
       <div className="min-w-[314px]"></div>
       {children}
-    </>
+    </div>
   );
 }

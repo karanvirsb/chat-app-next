@@ -33,13 +33,8 @@ export default function makeCreateChannel({
     if (!channelInfo.groupId) throw new Error("Group Id needs to be supplied");
 
     const channel = makeChannel(channelInfo);
-    console.log("🚀 ~ file: createChannel.ts:37 ~ channel:", channel);
 
     const moderatedName = await handleModeration(channel.getChannelName());
-    console.log(
-      "🚀 ~ file: createChannel.ts:40 ~ moderatedName:",
-      moderatedName
-    );
 
     if (moderatedName) {
       throw new Error("Channel name contains profanity");

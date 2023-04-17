@@ -7,9 +7,11 @@ import socket from "../../../Sockets";
 import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSockets";
 import { isGroupArray } from "../../../../test/validation/schemaValidation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // TODO prefetch group data
 export default function GroupList() {
+  const pathname = usePathname();
   const { data: sessionInfo } = useSession();
   const {
     data: groups,
@@ -18,6 +20,7 @@ export default function GroupList() {
     error,
   } = useGetGroupsQuery({ userId: sessionInfo?.user.id });
   const send = useLoginAndLogoutSockets();
+  console.log(pathname);
   useEffect(() => {
     // check if its done loading and is successful then add groups into array and add rooms;
     if (!isLoading && isSuccess && sessionInfo && isGroupArray(groups)) {
@@ -51,7 +54,11 @@ export default function GroupList() {
           <li key={group.groupId}>
             <Link
               href={`/group/${group.groupId}`}
-              className="btn btn-circle bg-white text-black"
+              className={`btn btn-circle ${
+                pathname === `/group/${group.groupId}`
+                  ? "bg-white text-black"
+                  : ""
+              }`}
             >
               {
                 group.groupName[0] // TODO split and get first index

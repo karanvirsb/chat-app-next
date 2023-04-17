@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Spinner from "./Spinner/Spinner";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import GroupSidebarInfo from "@/pages/group/Components/GroupSidebarInfo";
+import { useSearchParams } from "next/navigation";
+import { useAppSelector } from "@/Hooks/reduxHooks";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { status } = useSession({
     required: true,
     onUnauthenticated() {
       router.replace("/api/auth/signin");
     },
   });
-
+  const [selectedChannel, setSelectedChannel] = useState("-1");
+  const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
   if (status === "loading") {
     return (
       <div>
@@ -23,7 +28,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Sidebar></Sidebar>
-      <div className=""></div>
+      {isSideBarOpen && (
+        <GroupSidebarInfo
+          groupId={searchParams.get("groupId") ?? ""}
+          setSelectedChannel={setSelectedChannel}
+        ></GroupSidebarInfo>
+      )}
+      <div className="min-w-[314px]"></div>
       {children}
     </>
   );

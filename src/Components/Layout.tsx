@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           setSelectedChannel={setSelectedChannel}
         ></GroupSidebarInfo>
       )}
-      <div className="min-w-[314px]"></div>
+      {/* <div className="min-w-[314px]"></div> */}
       {children}
     </div>
   );

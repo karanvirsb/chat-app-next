@@ -10,6 +10,7 @@ import { IGroup } from "../Hooks/groupHooks";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 type props = {
   setTab: React.Dispatch<React.SetStateAction<"group" | "me">>;
@@ -31,11 +32,11 @@ export default function Sidebar() {
           isSideBarOpen ? "md:translate-x-0" : "md:-translate-x-[100%]"
         } `}
       >
-        <button
+        <Link
+          href="/me"
           className={`btn btn-circle z-10 ${
             activeIndex === -1 && "bg-gray-400"
           }`}
-          onClick={setTabToMe}
         >
           <Image
             src="/images/logo-nobg.png"
@@ -44,7 +45,7 @@ export default function Sidebar() {
             height={20}
             className="rounded-full"
           ></Image>
-        </button>
+        </Link>
         <div className="divider"></div>
         {/* Groups go here */}
 

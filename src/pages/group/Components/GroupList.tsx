@@ -8,13 +8,8 @@ import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSo
 import { isGroupArray } from "../../../../test/validation/schemaValidation";
 import Link from "next/link";
 
-type props = {
-  activeIndex: number;
-  setTabToGroup: (id: string, index: number) => void;
-};
-
 // TODO prefetch group data
-export default function GroupList({ setTabToGroup, activeIndex }: props) {
+export default function GroupList() {
   const { data: sessionInfo } = useSession();
   const {
     data: groups,
@@ -52,39 +47,18 @@ export default function GroupList({ setTabToGroup, activeIndex }: props) {
       content = <></>;
     } else if (isGroupArray(groups)) {
       content = groups.map((group, index) => {
-        if (index === activeIndex) {
-          return (
-            <li key={group.groupId}>
-              <Link
-                href={`/group/${group.groupId}`}
-                className="btn btn-circle bg-white text-black"
-                onClick={() => {
-                  setTabToGroup(group.groupId, index);
-                }}
-              >
-                {
-                  group.groupName[0] // TODO split and get first index
-                }
-              </Link>
-            </li>
-          );
-        } else {
-          return (
-            <li key={group.groupId}>
-              <Link
-                href={`/group/${group.groupId}`}
-                className="btn btn-circle"
-                onClick={() => {
-                  setTabToGroup(group.groupId, index);
-                }}
-              >
-                {
-                  group.groupName[0] // TODO split and get first index
-                }
-              </Link>
-            </li>
-          );
-        }
+        return (
+          <li key={group.groupId}>
+            <Link
+              href={`/group/${group.groupId}`}
+              className="btn btn-circle bg-white text-black"
+            >
+              {
+                group.groupName[0] // TODO split and get first index
+              }
+            </Link>
+          </li>
+        );
       });
     }
   } else {

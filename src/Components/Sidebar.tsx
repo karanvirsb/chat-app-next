@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type props = {
   setTab: React.Dispatch<React.SetStateAction<"group" | "me">>;
@@ -18,9 +19,8 @@ type props = {
 };
 
 export default function Sidebar() {
-  // const [activeIndex, setActiveIndex] = useState(-1);
-  const [activeIndex, setActiveIndex] = useState(-1);
   const router = useRouter();
+  const pathname = usePathname();
   const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
   const dispatch = useAppDispatch();
   const { data: sessionInfo } = useSession();
@@ -35,12 +35,12 @@ export default function Sidebar() {
         <Link
           href="/me"
           className={`btn btn-circle z-10 ${
-            activeIndex === -1 && "bg-gray-400"
+            pathname.includes("/me") ? "bg-gray-400" : ""
           }`}
         >
           <Image
             src="/images/logo-nobg.png"
-            alt=""
+            alt="Chatter"
             width={20}
             height={20}
             className="rounded-full"
@@ -150,17 +150,6 @@ export default function Sidebar() {
       })
     );
   }
-
-  function setTabToMe() {
-    // setTab("me");
-    setActiveIndex(-1);
-  }
-
-  // function setTabToGroup(id: string, index: number) {
-  //   setTab("group");
-  //   setTabId(id);
-  //   setActiveIndex(index);
-  // }
 
   function goToSettings() {
     router.push(`/settings`);

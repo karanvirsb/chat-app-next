@@ -72,13 +72,12 @@ function useGetGroupsQuery({
 }: {
   userId: string | undefined;
 }): IUseGetGroupsQuery {
-  console.log(userId);
   const getGroups = async (): Promise<IGroup[] | string> => {
     const resp = await axios({
       url: `${baseurl}/user/${userId}`,
       method: "GET",
     });
-    const result: returnGroupsData = resp.data;
+    const result: returnGroupsData = resp.data.body;
 
     if (result.success && result.data !== undefined) {
       return result.data ?? [];

@@ -35,7 +35,7 @@ export default function SocketHandler(
     io.on("disconnect", () => {});
     io.on("connection", (socket) => {
       let droppedConnectionTimeout: NodeJS.Timeout;
-      console.log("🚀 ~ file: index.ts:10 ~ io.on ~ socket:", socket);
+      console.log("🚀 ~ file: index.ts:10 ~ io.on ~ socket:", socket.id);
 
       socket.on("ping", () => {
         clearTimeout(droppedConnectionTimeout);

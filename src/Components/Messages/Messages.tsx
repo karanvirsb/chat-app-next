@@ -62,9 +62,11 @@ export default function Messages({
   const isVisible = !!(entry?.isIntersecting ?? false);
 
   const queryClient = useQueryClient();
-  const groupUsers = queryClient.getQueriesData([
-    `group-users-${groupId}`,
-  ])[0][1] as unknown[];
+  const groupUsers = queryClient.getQueriesData([`group-users-${groupId}`])[0]
+    ? (queryClient.getQueriesData([
+        `group-users-${groupId}`,
+      ])[0][1] as unknown[])
+    : [];
 
   useEffect(() => {
     if (isVisible && fetchNextPage != null) {

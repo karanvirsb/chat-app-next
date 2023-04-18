@@ -20,7 +20,6 @@ export default function GroupList() {
     error,
   } = useGetGroupsQuery({ userId: sessionInfo?.user.id });
   const send = useLoginAndLogoutSockets();
-  console.log(pathname);
   useEffect(() => {
     // check if its done loading and is successful then add groups into array and add rooms;
     if (!isLoading && isSuccess && sessionInfo && isGroupArray(groups)) {
@@ -55,7 +54,7 @@ export default function GroupList() {
             <Link
               href={`/group/${group.groupId}`}
               className={`btn btn-circle ${
-                pathname === `/group/${group.groupId}`
+                pathname.includes(`/group/${group.groupId}`)
                   ? "bg-white text-black"
                   : ""
               }`}

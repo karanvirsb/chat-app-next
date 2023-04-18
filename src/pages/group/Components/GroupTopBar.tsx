@@ -4,31 +4,32 @@ import ToggleSidebarBtn from "../../../Components/ToggleSidebarBtn/ToggleSidebar
 import TopBarContainer from "../../../Components/TopBarContainer/TopBarContainer";
 import { IGroupChannel } from "../../../Hooks/groupChannelHooks";
 import toCapitalize from "../../../utilities/toCapitalize";
+import { useSearchParams } from "next/navigation";
 
 type props = {
   isUserMenuOpen: boolean;
   toggleUserMenu: () => void;
-  selectedChannel: string;
   groupId: string;
 };
 
 export default function GroupTopBar({
   isUserMenuOpen,
   toggleUserMenu,
-  selectedChannel,
   groupId,
 }: props) {
   const queryClient = useQueryClient();
-
+  const searchParams = useSearchParams();
+  const selectedChannel = searchParams.get("channel") ?? "";
   // getting channel from querys
   const channels: IGroupChannel[] | undefined = queryClient.getQueryData([
     `group-channels-${groupId}`,
   ]);
 
   // filtering out the channel needed
-  const channel = (channels != null)
-    ? channels.find((c) => c.channelId === selectedChannel)
-    : null;
+  const channel =
+    channels != null
+      ? channels.find((c) => c.channelId === selectedChannel)
+      : null;
 
   return (
     <TopBarContainer>

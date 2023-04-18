@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import useLocalStorage from "../../../Hooks/useLocalStorage";
 import { isGroup } from "../../../../test/validation/schemaValidation";
 import useFilterGroups from "@/Hooks/useFilterGroups";
+import { useRouter } from "next/navigation";
 
 type props = {
   groupId: string;
@@ -22,6 +23,7 @@ export default function GroupSidebarInfo({
   groupId,
   setSelectedChannel,
 }: props) {
+  const router = useRouter();
   const [activeChannel, setActiveChannel] = useState("");
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
@@ -42,6 +44,9 @@ export default function GroupSidebarInfo({
 
   useEffect(() => {
     setSelectedChannel(activeChannel);
+    if (activeChannel.length > 0) {
+      router.push(`/group/${groupId}?channel=${activeChannel}`);
+    }
   }, [activeChannel]);
 
   return (

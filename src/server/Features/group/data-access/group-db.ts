@@ -355,12 +355,10 @@ export default function makeGroupDb({
     const db = await makeDb();
     try {
       const query = `
-            SELECT U."userId", U.username, U.status, E.email, E.time_joined, G."roles", G."gId" AS "groupId" 
+            SELECT U."userId", U.username, U.status, G."roles", G."gId" AS "groupId" 
             FROM usert U 
-                LEFT JOIN emailpassword_users E 
-                    ON U."userId" = E.user_id 
-                LEFT JOIN  "groupUsers" G
-                    ON U."userId" = G."uId"
+              JOIN  "groupUsers" G
+                ON U."userId" = G."uId"
             WHERE g."gId" = '${groupId}'
             `;
 
@@ -371,7 +369,7 @@ export default function makeGroupDb({
       //     );
 
       const res = await db.query(query);
-
+      console.log(res.rows);
       if (res.rows.length >= 1) {
         const users: user[] = res.rows;
         return {

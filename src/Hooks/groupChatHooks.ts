@@ -58,7 +58,7 @@ function useGetGroupMessagesByChannelIdQuery({
       method: "GET",
     });
 
-    const data: ReturnGroupMessages = resp.data;
+    const data: ReturnGroupMessages = resp.data.body;
     return data.data;
   };
 
@@ -105,7 +105,7 @@ function useCreateGroupMessageMutation({
       data: { messageInfo: { channelId, dateCreated, userId, text } },
     });
 
-    const data: ReturnGroupMessage = resp.data;
+    const data: ReturnGroupMessage = resp.data.body;
     return data;
   };
 
@@ -159,7 +159,7 @@ function useEditMessageTextMutation({
       data: { messageId, updateValue },
       method: "PUT",
     });
-    const data: ReturnGroupMessage = resp.data;
+    const data: ReturnGroupMessage = resp.data.body;
     return data;
   };
 
@@ -215,7 +215,7 @@ function useDeleteGroupMessageMutation({
       data: { messageId },
     });
 
-    const data: ReturnGroupMessage = resp.data;
+    const data: ReturnGroupMessage = resp.data.body;
     return data;
   };
 

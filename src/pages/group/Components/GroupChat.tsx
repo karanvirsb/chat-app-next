@@ -12,18 +12,18 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
 type props = {
-  channelId: string;
   groupId: string;
 };
 
-export default function GroupChat({ channelId, groupId }: props): JSX.Element {
+export default function GroupChat({ groupId }: props): JSX.Element {
   const searchParams = useSearchParams();
+  const channelId = searchParams.get("channel") ?? "";
   const messageRef = useRef<null | HTMLInputElement>(null);
   const chatMessagesRef = useRef<null | HTMLDivElement>(null);
   // TODO after inital load need to set dateCreated to last message.
   const { data: chatMessages, fetchNextPage } =
     useGetGroupMessagesByChannelIdQuery({
-      channelId: searchParams.get("channel") ?? "",
+      channelId,
       dateCreated: new Date(),
       limit: 10,
     });

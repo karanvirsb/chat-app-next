@@ -40,7 +40,7 @@ function useGetGroupChannelQuery({
       url: `baseurl/${channelId}`,
       method: "GET",
     });
-    const resp: returnGroupChannel = data.data;
+    const resp: returnGroupChannel = data.data.body;
     return resp.data;
   };
 
@@ -103,7 +103,7 @@ function useCreateGroupChannelMutation(): IUseCreateGroupChannelMutation {
         },
       },
     });
-    const result: returnGroupChannel = resp.data;
+    const result: returnGroupChannel = resp.data.body;
 
     return result;
   };

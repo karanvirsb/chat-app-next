@@ -1,6 +1,5 @@
 import ChannelContainer from "@/Components/ChannelContainer/ChannelContainer";
 import ScrollWrapper from "@/Components/ScrollWrapper/ScrollWrapper";
-import { useAppSelector } from "@/Hooks/reduxHooks";
 import React, { useState } from "react";
 import GroupChat from "./Components/GroupChat";
 import GroupTopBar from "./Components/GroupTopBar";
@@ -12,7 +11,6 @@ export default function GroupChannel() {
   const groupId = searchParams.get("groupId") ?? "";
   console.log(groupId);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(true);
-  const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
 
   return (
     <ChannelContainer>

@@ -16,7 +16,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       router.replace("/api/auth/signin");
     },
   });
-  const [selectedChannel, setSelectedChannel] = useState("-1");
   const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
   if (status === "loading") {
     return (
@@ -31,7 +30,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {isSideBarOpen && (
         <GroupSidebarInfo
           groupId={searchParams.get("groupId") ?? ""}
-          setSelectedChannel={setSelectedChannel}
         ></GroupSidebarInfo>
       )}
       {/* <div className="min-w-[314px]"></div> */}

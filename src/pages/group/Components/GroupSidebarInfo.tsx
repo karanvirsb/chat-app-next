@@ -11,7 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import useLocalStorage from "../../../Hooks/useLocalStorage";
 import { isGroup } from "../../../../test/validation/schemaValidation";
 import useFilterGroups from "@/Hooks/useFilterGroups";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type props = {
   groupId: string;
@@ -20,6 +20,7 @@ type props = {
 // TODO create channel components and set selected channel id
 export default function GroupSidebarInfo({ groupId }: props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeChannel, setActiveChannel] = useState("");
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
@@ -99,7 +100,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
           >
             <ul className="flex flex-col mt-4 gap-1 justify-center w-full capitalize">
               {channels?.map((channel) => {
-                if (channel.channelId === activeChannel) {
+                if (channel.channelId === searchParams.get("channel")) {
                   return (
                     <li className="opacity-80" key={channel.channelId}>
                       <span className="mr-2">#</span>

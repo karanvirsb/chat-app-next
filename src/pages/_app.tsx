@@ -18,7 +18,7 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   const queryClient = new QueryClient({
-    defaultOptions: { queries: { staleTime: Infinity, retryDelay: 10000 } },
+    defaultOptions: { queries: { staleTime: Infinity } },
   });
 
   return (

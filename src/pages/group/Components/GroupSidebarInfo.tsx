@@ -15,14 +15,10 @@ import { useRouter } from "next/navigation";
 
 type props = {
   groupId: string;
-  setSelectedChannel: React.Dispatch<React.SetStateAction<string>>;
 };
 
 // TODO create channel components and set selected channel id
-export default function GroupSidebarInfo({
-  groupId,
-  setSelectedChannel,
-}: props) {
+export default function GroupSidebarInfo({ groupId }: props) {
   const router = useRouter();
   const [activeChannel, setActiveChannel] = useState("");
   const dispatch = useAppDispatch();
@@ -43,7 +39,6 @@ export default function GroupSidebarInfo({
     useGetGroupChannelsQuery({ groupId: group.groupId });
 
   useEffect(() => {
-    setSelectedChannel(activeChannel);
     if (activeChannel.length > 0) {
       router.push(`/group/${groupId}?channel=${activeChannel}`);
     }

@@ -100,7 +100,7 @@ function useGetGroupQuery({ groupId }: { groupId: string }): IUseGetGroupQuery {
       url: `${baseurl}/${groupId}`,
       method: "GET",
     });
-    const result: returnGroupData = resp.data;
+    const result: returnGroupData = resp.data.body;
 
     if (result.success && result.data !== undefined) {
       return result.data;
@@ -127,7 +127,7 @@ function useGetGroupByInviteCodeQuery({
       url: `${baseurl}/invite/${inviteCode}`,
       method: "GET",
     });
-    const result: returnGroupData = resp.data;
+    const result: returnGroupData = resp.data.body;
 
     if (result.success && result.data !== undefined) {
       return result.data;
@@ -154,7 +154,7 @@ function useGetGroupUsersQuery({
       url: `${baseurl}/users/${groupId}`,
       method: "GET",
     });
-    const result: returnGroupUsersData = resp.data;
+    const result: returnGroupUsersData = resp.data.body;
 
     if (result.success && result.data !== undefined) {
       return result.data;
@@ -199,7 +199,7 @@ function useCreateGroupMutation(): IUseCreateGroupMutation {
         userId,
       },
     });
-    const result: returnGroupData = resp.data;
+    const result: returnGroupData = resp.data.body;
 
     return result;
   };
@@ -256,7 +256,7 @@ function useUpdateGroupNameMutation(): IUseUpdateGroupNameMutation {
         newGroupName,
       },
     });
-    const result: returnGroupData = resp.data;
+    const result: returnGroupData = resp.data.body;
     return result;
   };
   // TODO change with sockets for everyone
@@ -296,7 +296,7 @@ function useDeleteGroupMutation(): IUseDeleteGroupMutation {
         groupId,
       },
     });
-    const result: returnGroupData = resp.data;
+    const result: returnGroupData = resp.data.body;
     return result;
   };
   // TODO change with sockets for everyone
@@ -339,7 +339,7 @@ function useAddUserToGroupMutation(): IUseAddUserToGroupMutation {
         groupId,
       },
     });
-    const result: returnUserData = resp.data;
+    const result: returnUserData = resp.data.body;
     return result;
   };
   // TODO change with sockets for everyone
@@ -390,7 +390,7 @@ function useLeaveGroupMutation(): IUseLeaveGroupMutation {
         groupId,
       },
     });
-    const result: returnGroupUserData = resp.data;
+    const result: returnGroupUserData = resp.data.body;
     return result;
   };
   // TODO change with sockets for everyone

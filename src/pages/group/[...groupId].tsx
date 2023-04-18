@@ -12,7 +12,6 @@ export default function GroupChannel() {
   const groupId = searchParams.get("groupId") ?? "";
   console.log(groupId);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(true);
-  const [selectedChannel, setSelectedChannel] = useState("-1"); // TODO this is for when a different channel is selected for the chat
   const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
 
   return (
@@ -21,11 +20,10 @@ export default function GroupChannel() {
         <GroupTopBar
           isUserMenuOpen={isUserMenuOpen}
           toggleUserMenu={toggleUserMenu}
-          selectedChannel={selectedChannel}
           groupId={groupId}
         ></GroupTopBar>
         <ScrollWrapper>
-          <GroupChat channelId={selectedChannel} groupId={groupId}></GroupChat>
+          <GroupChat groupId={groupId}></GroupChat>
           <>
             {isUserMenuOpen ? (
               <GroupUsers

@@ -9,6 +9,7 @@ import Messages from "../../../Components/Messages/Messages";
 import { useAppDispatch } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 type props = {
   channelId: string;
@@ -16,12 +17,13 @@ type props = {
 };
 
 export default function GroupChat({ channelId, groupId }: props): JSX.Element {
+  const searchParams = useSearchParams();
   const messageRef = useRef<null | HTMLInputElement>(null);
   const chatMessagesRef = useRef<null | HTMLDivElement>(null);
   // TODO after inital load need to set dateCreated to last message.
   const { data: chatMessages, fetchNextPage } =
     useGetGroupMessagesByChannelIdQuery({
-      channelId,
+      channelId: searchParams.get("channel") ?? "",
       dateCreated: new Date(),
       limit: 10,
     });

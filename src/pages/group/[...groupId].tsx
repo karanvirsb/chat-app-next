@@ -9,7 +9,6 @@ import { useSearchParams } from "next/navigation";
 export default function GroupChannel() {
   const searchParams = useSearchParams();
   const groupId = searchParams.get("groupId") ?? "";
-  console.log(groupId);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(true);
 
   return (

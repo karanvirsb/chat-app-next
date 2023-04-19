@@ -249,13 +249,16 @@ function useUpdateGroupNameMutation(): IUseUpdateGroupNameMutation {
     newGroupName: string;
   }): Promise<returnGroupData> => {
     const resp = await axios({
-      url: `${baseurl}/name`,
+      url: `${baseurl}`,
       method: "PUT",
       data: {
         groupId,
-        newGroupName,
+        updates: {
+          groupName: newGroupName,
+        },
       },
     });
+    console.log(resp.data);
     const result: returnGroupData = resp.data.body;
     return result;
   };

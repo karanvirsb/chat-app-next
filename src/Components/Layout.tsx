@@ -16,7 +16,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       router.replace("/api/auth/signin");
     },
   });
-  const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
+
   if (status === "loading") {
     return (
       <div>
@@ -27,11 +27,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen min-h-screen">
       <Sidebar></Sidebar>
-      {isSideBarOpen && (
-        <GroupSidebarInfo
-          groupId={searchParams.get("groupId") ?? ""}
-        ></GroupSidebarInfo>
-      )}
       {/* <div className="min-w-[314px]"></div> */}
       {children}
     </div>

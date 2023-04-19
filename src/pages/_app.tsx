@@ -13,14 +13,13 @@ if (typeof window !== "undefined") {
   // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
   // SuperTokensReact.init(frontendConfig());
 }
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: Infinity } },
+});
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { staleTime: Infinity } },
-  });
-
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>

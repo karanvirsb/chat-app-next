@@ -10,7 +10,7 @@ type props = {
 
 export const GroupSchema = z.object({
   groupName: z.string().min(3).max(50),
-  groupId: z.string().uuid(),
+  groupId: z.string().min(20),
   inviteCode: z.string().min(7).max(10),
   dateCreated: z.date(),
 });

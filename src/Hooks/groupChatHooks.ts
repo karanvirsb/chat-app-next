@@ -155,8 +155,8 @@ function useEditMessageTextMutation({
     messageIndex: number;
   }): Promise<ReturnGroupMessage> => {
     const resp = await axios({
-      url: `${baseurl}/text`,
-      data: { messageId, updateValue },
+      url: `${baseurl}`,
+      data: { messageId, updates: { text: updateValue } },
       method: "PUT",
     });
     const data: ReturnGroupMessage = resp.data.body;

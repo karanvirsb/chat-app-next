@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { IId } from "../../Utilities/id";
 import { IInviteCodeGenerator } from "../../Utilities/inviteCodeGenerator";
 
@@ -7,13 +8,22 @@ type props = {
   inviteCodeGenerator: IInviteCodeGenerator;
 };
 
-export interface IGroup {
-  groupName: string;
-  groupId: string;
-  inviteCode: string;
-  dateCreated: Date;
-  // lastActive: Date
-}
+export const GroupSchema = z.object({
+  groupName: z.string().min(3).max(50),
+  groupId: z.string().uuid(),
+  inviteCode: z.string().min(7).max(10),
+  dateCreated: z.date(),
+});
+
+// export interface IGroup {
+//   groupName: string;
+//   groupId: string;
+//   inviteCode: string;
+//   dateCreated: Date;
+//   // lastActive: Date
+// }
+
+export type IGroup = z.infer<typeof GroupSchema>;
 
 export default function buildGroup({
   Id,

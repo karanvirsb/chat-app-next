@@ -30,11 +30,11 @@ async function createGroupMessage(
   try {
     const newMessage: IGroupMessage = req.body.messageInfo;
     newMessage.dateCreated = new Date(req.body.messageInfo.dateCreated);
-    const deletedMessage = await createMessage(newMessage);
+    const createdMessage = await createMessage(newMessage);
     res.json({
       headers,
       statusCode: 200,
-      body: deletedMessage,
+      body: createdMessage,
     });
   } catch (error: any) {
     res.json({
@@ -55,7 +55,7 @@ async function deleteGroupMessage(
   headers: { [key: string]: string }
 ) {
   try {
-    const messageId: IGroupMessage["messageId"] = req.body.messageInfo;
+    const messageId: IGroupMessage["messageId"] = req.body.messageId;
     const deletedMessage = await deleteMessage(messageId);
     res.json({
       headers,

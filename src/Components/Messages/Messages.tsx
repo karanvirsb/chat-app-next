@@ -113,6 +113,7 @@ export default function Messages({
   function isGroupUsers(arr: IUser[] | unknown[]): arr is IUser[] {
     return (
       (arr as IUser[]).map !== undefined &&
+      (arr as IUser[])[0] &&
       (arr as IUser[])[0].userId !== undefined
     );
   }

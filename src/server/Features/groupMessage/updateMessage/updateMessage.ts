@@ -5,13 +5,13 @@ import DBUpdateStr from "@/server/Utilities/DBUpdateString";
 
 const UpdateMessageSchema = z.object({
   messageId: GroupMessageSchema.shape.messageId,
-  updates: GroupMessageSchema.partial().omit({
+  updates: GroupMessageSchema.omit({
     channelId: true,
     messageId: true,
     dateCreated: true,
     replyTo: true,
     userId: true,
-  }),
+  }).partial(),
 });
 type UpdateMessage = z.infer<typeof UpdateMessageSchema>;
 
@@ -27,7 +27,7 @@ export function makeUpdateGroupMessageUC({
     messageId,
     updates,
   }: UpdateMessage): Promise<UseCaseReturn<IGroupMessage>> {
-    const result = GroupMessageSchema.safeParse({ messageId, updates });
+    const result = UpdateMessageSchema.safeParse({ messageId, updates });
 
     if (!result.success) {
       return { success: false, error: result.error };
@@ -47,8 +47,8 @@ export function makeUpdateGroupMessageDBA({
     updates,
   }: UpdateMessage): Promise<DBAccessReturn<IGroupMessage>> {
     const db = await makeDb();
-    const newUpdates = (updates["dateModified"] = new Date());
-    const updateStr = DBUpdateStr(newUpdates);
+    updates["dateModified"] = new Date();
+    const updateStr = DBUpdateStr(updates);
 
     const query = `
       UPDATE "group_messages" 

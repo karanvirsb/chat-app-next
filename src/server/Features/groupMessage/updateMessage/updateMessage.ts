@@ -14,6 +14,29 @@ const UpdateMessageSchema = z.object({
   }),
 });
 type UpdateMessage = z.infer<typeof UpdateMessageSchema>;
+
+export function makeUpdateGroupMessageUC({
+  updateGroupMessageDBA,
+}: {
+  updateGroupMessageDBA: ({
+    messageId,
+    updates,
+  }: UpdateMessage) => Promise<DBAccessReturn<IGroupMessage>>;
+}) {
+  return async function updateGroupMessageUC({
+    messageId,
+    updates,
+  }: UpdateMessage): Promise<UseCaseReturn<IGroupMessage>> {
+    const result = GroupMessageSchema.safeParse({ messageId, updates });
+
+    if (!result.success) {
+      return { success: false, error: result.error };
+    }
+
+    return await updateGroupMessageDBA({ messageId, updates });
+  };
+}
+
 export function makeUpdateGroupMessageDBA({
   makeDb,
 }: {

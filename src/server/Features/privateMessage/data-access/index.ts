@@ -1,5 +1,6 @@
-import makePrivateMessageDb from "./privateMessage-db";
 import { Pool, PoolClient } from "pg";
+
+import makePrivateMessageDb from "./privateMessage-db";
 
 export interface IPrivateMessageDb {
   makeDb: () => Promise<PoolClient>;

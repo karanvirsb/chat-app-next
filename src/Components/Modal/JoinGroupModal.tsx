@@ -1,24 +1,24 @@
+import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
-import { useAppDispatch } from "../../Hooks/reduxHooks";
+
+import {
+  areGroupUsers,
+  isGroup,
+  isGroupArray,
+} from "../../../test/validation/schemaValidation";
 // import useGetSession from "../../Hooks/useGetSession";
 import {
-  useGetGroupsQuery,
   useAddUserToGroupMutation,
   useGetGroupByInviteCodeQuery,
+  useGetGroupsQuery,
   useGetGroupUsersQuery,
 } from "../../Hooks/groupHooks";
+import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { resetModal } from "../../Redux/slices/modalSlice";
-
 import BtnCallToAction from "../Buttons/BtnCallToAction";
 import BtnCancelAction from "../Buttons/BtnCancelAction";
 import Spinner from "../Spinner/Spinner";
 import Modal from "./Modal";
-import { useSession } from "next-auth/react";
-import {
-  isGroup,
-  areGroupUsers,
-  isGroupArray,
-} from "../../../test/validation/schemaValidation";
 
 type props = {
   inviteCode: string;

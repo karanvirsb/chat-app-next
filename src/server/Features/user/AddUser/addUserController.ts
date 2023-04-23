@@ -1,8 +1,8 @@
-import { IAddUserUseCase } from "./addUserUseCase";
 import {
-  IHttpRequest,
   httpResponseType,
+  IHttpRequest,
 } from "../../../express-callback/index";
+import { IAddUserUseCase } from "./addUserUseCase";
 
 export default function makePostUser({ addUser }: IAddUserUseCase) {
   return async function addUserController(

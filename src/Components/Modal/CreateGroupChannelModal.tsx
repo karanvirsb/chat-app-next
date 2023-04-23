@@ -1,4 +1,10 @@
+import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
+
+import {
+  returnGroupChannel,
+  useCreateGroupChannelMutation,
+} from "../../Hooks/groupChannelHooks";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import useGetSession from "../../Hooks/useGetSession";
 import { resetModal } from "../../Redux/slices/modalSlice";
@@ -6,11 +12,6 @@ import BtnCallToAction from "../Buttons/BtnCallToAction";
 import BtnCancelAction from "../Buttons/BtnCancelAction";
 import ModalInput from "../Inputs/ModalInput";
 import Modal from "./Modal";
-import { AxiosError } from "axios";
-import {
-  returnGroupChannel,
-  useCreateGroupChannelMutation,
-} from "../../Hooks/groupChannelHooks";
 
 type props = {
   groupId: string;

@@ -1,7 +1,7 @@
-import makeDb from "../fixures/db";
 import { IGroupUser } from "../../src/Features/groupUsers/groupUsers";
 import { makeCreateGroupDBAccess } from "../../src/Features/groupUsers/slice/createGroupUser";
 import { makeDeleteGroupUserDBA } from "../../src/Features/groupUsers/slice/deleteGroupUser";
+import makeDb from "../fixures/db";
 
 const groupUserTests = Object.freeze({
   createGroupUserTest,
@@ -17,7 +17,7 @@ async function createGroupUserTest({
   groupId: string;
   userId: string;
 }) {
-  let groupUserDb = makeCreateGroupDBAccess({ makeDb });
+  const groupUserDb = makeCreateGroupDBAccess({ makeDb });
   const groupUser: IGroupUser = {
     gId: groupId,
     uId: userId,

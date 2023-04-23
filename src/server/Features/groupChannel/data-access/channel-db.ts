@@ -1,5 +1,5 @@
-import { IGroupChannelDb } from ".";
 import { IGroupChannel } from "../groupChannel";
+import { IGroupChannelDb } from ".";
 
 type props = {
   makeDb: IGroupChannelDb["makeDb"];

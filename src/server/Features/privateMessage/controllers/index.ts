@@ -7,47 +7,46 @@ import makeUpdateDateModifiedController from "./update-dateModified";
 import makeUpdatePrivateMessageTextController from "./update-privateMessageText";
 
 const createPrivateMessageController = makeCreatePrivateMessageController({
-    createPrivateMessage: privateMessageService.createPrivateMessage,
+  createPrivateMessage: privateMessageService.createPrivateMessage,
 });
 const deletePrivateMessageController = makeDeletePrivateMessageController({
-    deletePrivateMessage: privateMessageService.deletePrivateMessage,
+  deletePrivateMessage: privateMessageService.deletePrivateMessage,
 });
 const getPrivateMessageByIdController = makeGetPrivateMessageByIdController({
-    getPrivateMessageById: privateMessageService.getPrivateMessageById,
+  getPrivateMessageById: privateMessageService.getPrivateMessageById,
 });
 
 const getPrivateMessagesByChannelIdController =
-    makeGetPrivateMessagesByChannelIdController({
-        getPrivateMessagesByChannelId:
-            privateMessageService.getPrivateMessagesByChannelId,
-    });
+  makeGetPrivateMessagesByChannelIdController({
+    getPrivateMessagesByChannelId:
+      privateMessageService.getPrivateMessagesByChannelId,
+  });
 
 const updateDateModifiedController = makeUpdateDateModifiedController({
-    updateDateModified: privateMessageService.updateDateModified,
+  updateDateModified: privateMessageService.updateDateModified,
 });
 
 const updatePrivateMessageTextController =
-    makeUpdatePrivateMessageTextController({
-        updatePrivateMessageText:
-            privateMessageService.updatePrivateMessageText,
-    });
+  makeUpdatePrivateMessageTextController({
+    updatePrivateMessageText: privateMessageService.updatePrivateMessageText,
+  });
 
 const privateMessagesController = Object.freeze({
-    createPrivateMessageController,
-    deletePrivateMessageController,
-    getPrivateMessageByIdController,
-    getPrivateMessagesByChannelIdController,
-    updateDateModifiedController,
-    updatePrivateMessageTextController,
+  createPrivateMessageController,
+  deletePrivateMessageController,
+  getPrivateMessageByIdController,
+  getPrivateMessagesByChannelIdController,
+  updateDateModifiedController,
+  updatePrivateMessageTextController,
 });
 
 export default privateMessagesController;
 
 export {
-    createPrivateMessageController,
-    deletePrivateMessageController,
-    getPrivateMessageByIdController,
-    getPrivateMessagesByChannelIdController,
-    updateDateModifiedController,
-    updatePrivateMessageTextController,
+  createPrivateMessageController,
+  deletePrivateMessageController,
+  getPrivateMessageByIdController,
+  getPrivateMessagesByChannelIdController,
+  updateDateModifiedController,
+  updatePrivateMessageTextController,
 };

@@ -1,9 +1,10 @@
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
+
 import Spinner from "@/Components/Spinner/Spinner";
 import { useAppDispatch } from "@/Hooks/reduxHooks";
 import { setModal } from "@/Redux/slices/modalSlice";
-import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
 
 function Invite() {
   const { data: sessionInfo } = useSession();

@@ -1,32 +1,32 @@
-import { IUser } from "../user";
 import { IMakeUsersDb } from "../data-access/users-db";
+import { IUser } from "../user";
 
 type props = {
-    usersDb: IMakeUsersDb["returnType"];
+  usersDb: IMakeUsersDb["returnType"];
 };
 
 type returnData = Promise<{
-    success: boolean;
-    data: IUser | undefined;
-    error: string;
+  success: boolean;
+  data: IUser | undefined;
+  error: string;
 }>;
 
 export interface IDeleteUserUserCase {
-    deleteUser: (userId: string) => Promise<returnData>;
+  deleteUser: (userId: string) => Promise<returnData>;
 }
 
 export default function makeDeleteUser({ usersDb }: props) {
-    return async function deleteUser(userId: string): Promise<returnData> {
-        if (!userId) {
-            throw new Error("An userId must be passed");
-        }
+  return async function deleteUser(userId: string): Promise<returnData> {
+    if (!userId) {
+      throw new Error("An userId must be passed");
+    }
 
-        const foundUser = await usersDb.findById({ id: userId });
+    const foundUser = await usersDb.findById({ id: userId });
 
-        if (foundUser.success && foundUser.data === undefined) {
-            return foundUser;
-        }
+    if (foundUser.success && foundUser.data === undefined) {
+      return foundUser;
+    }
 
-        return await usersDb.remove(userId);
-    };
+    return await usersDb.remove(userId);
+  };
 }

@@ -7,43 +7,43 @@ import makeUpdateDateModifiedController from "./update-dateModified";
 import makeUpdateMessageTextController from "./update-messageText";
 
 const createMessageController = makeCreateMessageController({
-    createMessage: messageService.createMessage,
+  createMessage: messageService.createMessage,
 });
 const deleteMessageController = makeDeleteMessageController({
-    deleteMessage: messageService.deleteMessage,
+  deleteMessage: messageService.deleteMessage,
 });
 const getMessageByIdController = makeGetMessageByIdController({
-    getMessageById: messageService.getMessageById,
+  getMessageById: messageService.getMessageById,
 });
 
 const getMessagesByChannelIdController = makeGetMessagesByChannelIdController({
-    getMessagesByChannelId: messageService.getMessagesByChannelId,
+  getMessagesByChannelId: messageService.getMessagesByChannelId,
 });
 
 const updateDateModifiedController = makeUpdateDateModifiedController({
-    updateDateModified: messageService.updateDateModified,
+  updateDateModified: messageService.updateDateModified,
 });
 
 const updateMessageTextController = makeUpdateMessageTextController({
-    updateMessageText: messageService.updateMessageText,
+  updateMessageText: messageService.updateMessageText,
 });
 
 const messagesController = Object.freeze({
-    createMessageController,
-    deleteMessageController,
-    getMessageByIdController,
-    getMessagesByChannelIdController,
-    updateDateModifiedController,
-    updateMessageTextController,
+  createMessageController,
+  deleteMessageController,
+  getMessageByIdController,
+  getMessagesByChannelIdController,
+  updateDateModifiedController,
+  updateMessageTextController,
 });
 
 export default messagesController;
 
 export {
-    createMessageController,
-    deleteMessageController,
-    getMessageByIdController,
-    getMessagesByChannelIdController,
-    updateDateModifiedController,
-    updateMessageTextController,
+  createMessageController,
+  deleteMessageController,
+  getMessageByIdController,
+  getMessagesByChannelIdController,
+  updateDateModifiedController,
+  updateMessageTextController,
 };

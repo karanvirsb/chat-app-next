@@ -1,4 +1,4 @@
-import { ZodError, z } from "zod";
+import { z, ZodError } from "zod";
 export const IGroupUserSchema = z.object({
   gId: z.string().min(21),
   lastChecked: z.date(),

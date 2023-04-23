@@ -1,10 +1,11 @@
+import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
-import { useAppDispatch } from "../../Hooks/reduxHooks";
+
 // import useGetSession from "../../Hooks/useGetSession";
 import { useLeaveGroupMutation } from "../../Hooks/groupHooks";
+import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { resetModal } from "../../Redux/slices/modalSlice";
 import MutationModal from "./MutationModal";
-import { useSession } from "next-auth/react";
 
 type props = {
   groupId: string;

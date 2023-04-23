@@ -1,32 +1,33 @@
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect } from "react";
 import { produce } from "immer";
-import socket from ".";
+import React, { useEffect } from "react";
+
+import { areGroupUsers } from "../../test/validation/schemaValidation";
 import { IGroupChannel } from "../Hooks/groupChannelHooks";
+import { IMessage } from "../Hooks/groupChatHooks";
 import { IGroup, IGroupUsers, IUser } from "../Hooks/groupHooks";
+import { PaginatedGroupMessages } from "../utilities/types/pagination";
+import socket from ".";
 import { UpdateChannelsListEvent } from "./types/groupChannelTypes";
-import {
-  InvalidateEvent,
-  UpdateEvent,
-  JoinRoomEvent,
-  UpdateGroupUsersEvent,
-  LeaveRoomEvent,
-  LeaveGroupEvent,
-  DeleteEvent,
-} from "./types/groupTypes";
 import {
   ICreateGroupMessageEvent,
   IDeleteGroupMessageEvent,
   IUpdateGroupMessageEvent,
 } from "./types/groupChatTypes";
-import { PaginatedGroupMessages } from "../utilities/types/pagination";
-import { IMessage } from "../Hooks/groupChatHooks";
+import {
+  DeleteEvent,
+  InvalidateEvent,
+  JoinRoomEvent,
+  LeaveGroupEvent,
+  LeaveRoomEvent,
+  UpdateEvent,
+  UpdateGroupUsersEvent,
+} from "./types/groupTypes";
 import {
   IChangeUserStatus,
   ILoginEvent,
   ILogoutEvent,
 } from "./types/loginAndLogoutTypes";
-import { areGroupUsers } from "../../test/validation/schemaValidation";
 
 type props = {
   children: React.ReactNode;

@@ -1,7 +1,9 @@
 import { z } from "zod";
+
+import DBUpdateStr from "@/server/Utilities/DBUpdateString";
+
 import { IGroupDb } from "../data-access";
 import { GroupSchema, IGroup } from "../group";
-import DBUpdateStr from "@/server/Utilities/DBUpdateString";
 
 const UpdateGroupSchema = z.object({
   groupId: GroupSchema.shape.groupId,

@@ -1,11 +1,12 @@
+import { z, ZodError } from "zod";
+
 import { IHttpRequest } from "../../../express-callback";
 import { IGroupUser, IGroupUserSchema } from "../groupUsers";
-import { ZodError, z } from "zod";
 import type {
   makeUpdateGroupUserControllerDeps,
-  updateGroupUserProps,
-  makeUpdateGroupUserUCDeps,
   makeUpdateGroupUserDBADeps,
+  makeUpdateGroupUserUCDeps,
+  updateGroupUserProps,
 } from "../types/updateGroupUser";
 
 export const updateGroupUserPropsSchema = z.object({

@@ -1,11 +1,11 @@
 import cuid from "cuid";
 
 export interface IInviteCodeGenerator {
-    makeInviteCode: () => string;
+  makeInviteCode: () => string;
 }
 
 function makeInviteCode() {
-    return cuid.slug();
+  return cuid.slug();
 }
 
 export default { makeInviteCode };

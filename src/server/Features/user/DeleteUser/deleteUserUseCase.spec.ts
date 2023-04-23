@@ -1,16 +1,16 @@
-import makeDeleteUser from "./deleteUserUseCase";
 import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeUsersDb from "../data-access/users-db";
 import makeFakeUser from "../../../../__test__/fixures/user";
 import makeSupertokenDb, {
   IMakeSupertokensDb,
 } from "../../../../supertokens/data-access/supertokens-db";
+import makeUsersDb from "../data-access/users-db";
+import makeDeleteUser from "./deleteUserUseCase";
 
 describe("Delete use case", () => {
   let usersDb = makeUsersDb({ makeDb });
-  let deleteUser = makeDeleteUser({ usersDb });
+  const deleteUser = makeDeleteUser({ usersDb });
 
-  let SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
+  const SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
     makeDb,
   });
   jest.setTimeout(30000);

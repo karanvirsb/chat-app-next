@@ -1,11 +1,12 @@
+import { compare, genSalt, hash } from "bcrypt";
+import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { NextApiRequest, NextApiResponse } from "next";
-import z from "zod";
-import { compare, genSalt, hash } from "bcrypt";
-import { getUserByUsername } from "@/server/Features/user/GetUserByUsername";
-import { addUserUC } from "@/server/Features/user/AddUser";
 import { v4 as uuidv4 } from "uuid";
+import z from "zod";
+
+import { addUserUC } from "@/server/Features/user/AddUser";
+import { getUserByUsername } from "@/server/Features/user/GetUserByUsername";
 
 export const authOptions: NextAuthOptions = {
   pages: {

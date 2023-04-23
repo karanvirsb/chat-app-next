@@ -1,18 +1,19 @@
+import Express from "express";
+
+import makeDb from "../../../../__test__/fixures/db";
+import groupTests from "../../../../__test__/functions/group";
+import groupUserTests from "../../../../__test__/functions/groupUser";
+import userTests from "../../../../__test__/functions/user";
+import id from "../../../Utilities/id";
+import { IGroupUser } from "../groupUsers";
 import {
   makeDeleteGroupUserController,
   makeDeleteGroupUserDBA,
   makeDeleteGroupUserUC,
 } from "./deleteGroupUser";
-import makeDb from "../../../../__test__/fixures/db";
-import groupTests from "../../../../__test__/functions/group";
-import userTests from "../../../../__test__/functions/user";
-import groupUserTests from "../../../../__test__/functions/groupUser";
-import { IGroupUser } from "../groupUsers";
-import Express from "express";
-import id from "../../../Utilities/id";
 
 describe("Testing deleting group user DB", () => {
-  let uuid = id.makeId();
+  const uuid = id.makeId();
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
   beforeAll(async () => {
     await createTests(uuid);
@@ -49,7 +50,7 @@ describe("Test Delete group user use case", () => {
       error: "",
     })
   );
-  let deleteGroupUserUC = makeDeleteGroupUserUC({
+  const deleteGroupUserUC = makeDeleteGroupUserUC({
     deleteGroupUserDBA: deleteGroupUserMockedDBA,
   });
 
@@ -95,8 +96,8 @@ describe("Test Delete group user use case", () => {
 describe("Test Delete group user controller", () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
   type args = { groupId: string; userId: string };
-  let deleteGroupUserUC = makeDeleteGroupUserUC({ deleteGroupUserDBA });
-  let deleteGroupUserUCMock = jest.fn<typeof deleteGroupUserUC, []>();
+  const deleteGroupUserUC = makeDeleteGroupUserUC({ deleteGroupUserDBA });
+  const deleteGroupUserUCMock = jest.fn<typeof deleteGroupUserUC, []>();
   deleteGroupUserUCMock.mockImplementation(() => ({ groupId, userId }) => {
     return Promise.resolve({
       success: true,
@@ -110,7 +111,7 @@ describe("Test Delete group user controller", () => {
     });
   });
 
-  let deleteGroupUserC = makeDeleteGroupUserController({ deleteGroupUserUC });
+  const deleteGroupUserC = makeDeleteGroupUserController({ deleteGroupUserUC });
 
   beforeAll(async () => {
     await createTests("123");
@@ -134,24 +135,24 @@ describe("Test Delete group user controller", () => {
 });
 
 async function deleteTests(uuid: string) {
-  let testUser = await userTests.deleteTestUser({ userId: uuid });
-  let testGroup = await groupTests.deleteTestGroup({
+  const testUser = await userTests.deleteTestUser({ userId: uuid });
+  const testGroup = await groupTests.deleteTestGroup({
     groupId: uuid,
     userId: uuid,
   });
-  let testGroupUser = await groupUserTests.deleteGroupUserTest({
+  const testGroupUser = await groupUserTests.deleteGroupUserTest({
     groupId: uuid,
     userId: uuid,
   });
 }
 
 async function createTests(uuid: string) {
-  let testUser = await userTests.addTestUserToDB({ userId: uuid });
-  let testGroup = await groupTests.createTestGroup({
+  const testUser = await userTests.addTestUserToDB({ userId: uuid });
+  const testGroup = await groupTests.createTestGroup({
     groupId: uuid,
     userId: uuid,
   });
-  let testGroupUser = await groupUserTests.createGroupUserTest({
+  const testGroupUser = await groupUserTests.createGroupUserTest({
     groupId: uuid,
     userId: uuid,
   });

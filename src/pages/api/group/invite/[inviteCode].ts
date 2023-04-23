@@ -1,5 +1,6 @@
-import { getGroupByInviteCode } from "@/server/Features/group/use-cases";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import { getGroupByInviteCode } from "@/server/Features/group/use-cases";
 
 export default async function handler(
   req: NextApiRequest,

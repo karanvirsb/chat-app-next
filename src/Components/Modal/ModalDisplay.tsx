@@ -1,19 +1,20 @@
 import React from "react";
-import ChangeGroupNameModal from "./ChangeGroupNameModal";
+
 import { useAppSelector } from "../../Hooks/reduxHooks";
-import InviteUserModal from "./InviteUserModal";
-import DeleteGroupModal from "./DeleteGroupModal";
-import LeaveGroupModal from "./LeaveGroupModal";
-import CreateGroupModal from "./CreateGroupModal";
+import { ModalState } from "../../Redux/slices/modalSlice";
 import AddFriendModal from "./AddFriendModal";
+import ChangeGroupNameModal from "./ChangeGroupNameModal";
+import CreateGroupChannelModal from "./CreateGroupChannelModal";
+import CreateGroupModal from "./CreateGroupModal";
 import DeleteAccountModal from "./DeleteAccountModal";
-import EditUsernameModal from "./EditUsernameModal";
+import DeleteMessageModal from "./DeleteGroupMessageModal";
+import DeleteGroupModal from "./DeleteGroupModal";
 import EditEmailModal from "./EditEmailModal";
 import EditPasswordModal from "./EditPasswordModal";
+import EditUsernameModal from "./EditUsernameModal";
+import InviteUserModal from "./InviteUserModal";
 import JoinGroupModal from "./JoinGroupModal";
-import CreateGroupChannelModal from "./CreateGroupChannelModal";
-import { ModalState } from "../../Redux/slices/modalSlice";
-import DeleteMessageModal from "./DeleteGroupMessageModal";
+import LeaveGroupModal from "./LeaveGroupModal";
 
 export default function ModalDisplay() {
   const modalState: ModalState = useAppSelector((state) => state.modalReducer);

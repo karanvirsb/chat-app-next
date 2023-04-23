@@ -1,28 +1,29 @@
+import { ZodError } from "zod";
+
 import makeDb from "../../../../__test__/fixures/db";
 import groupTests from "../../../../__test__/functions/group";
 import userTests from "../../../../__test__/functions/user";
+import id from "../../../Utilities/id";
+import { IGroupUser } from "../groupUsers";
 import {
   makeCreateGroupDBAccess,
   makeCreateGroupUseCase,
 } from "./createGroupUser";
-import id from "../../../Utilities/id";
-import { ZodError } from "zod";
-import { IGroupUser } from "../groupUsers";
 
 describe("Create Group User Tests DBA", () => {
-  let createGroupDb = makeCreateGroupDBAccess({ makeDb });
-  let uuid = id.makeId();
+  const createGroupDb = makeCreateGroupDBAccess({ makeDb });
+  const uuid = id.makeId();
   beforeAll(async () => {
-    let testUser = await userTests.addTestUserToDB({ userId: uuid });
-    let testGroup = await groupTests.createTestGroup({
+    const testUser = await userTests.addTestUserToDB({ userId: uuid });
+    const testGroup = await groupTests.createTestGroup({
       groupId: uuid,
       userId: uuid,
     });
   });
 
   afterAll(async () => {
-    let testUser = await userTests.deleteTestUser({ userId: uuid });
-    let testGroup = await groupTests.deleteTestGroup({
+    const testUser = await userTests.deleteTestUser({ userId: uuid });
+    const testGroup = await groupTests.deleteTestGroup({
       groupId: uuid,
       userId: uuid,
     });
@@ -42,19 +43,19 @@ describe("Create Group User Tests DBA", () => {
 });
 
 describe("Testing create group user use case", () => {
-  let createGroupDb = makeCreateGroupDBAccess({ makeDb });
-  let uuid = id.makeId();
+  const createGroupDb = makeCreateGroupDBAccess({ makeDb });
+  const uuid = id.makeId();
   beforeAll(async () => {
-    let testUser = await userTests.addTestUserToDB({ userId: uuid });
-    let testGroup = await groupTests.createTestGroup({
+    const testUser = await userTests.addTestUserToDB({ userId: uuid });
+    const testGroup = await groupTests.createTestGroup({
       groupId: uuid,
       userId: uuid,
     });
   });
 
   afterAll(async () => {
-    let testUser = await userTests.deleteTestUser({ userId: uuid });
-    let testGroup = await groupTests.deleteTestGroup({
+    const testUser = await userTests.deleteTestUser({ userId: uuid });
+    const testGroup = await groupTests.deleteTestGroup({
       groupId: uuid,
       userId: uuid,
     });
@@ -74,7 +75,7 @@ describe("Testing create group user use case", () => {
       })
     );
 
-    let createGroupUseCase = makeCreateGroupUseCase({
+    const createGroupUseCase = makeCreateGroupUseCase({
       createGroupDb: createGroupMocked,
     });
     const createdGroupUser = await createGroupUseCase({
@@ -91,7 +92,7 @@ describe("Testing create group user use case", () => {
   it("ERROR: Created group user does not have group id", async () => {
     const createGroupMocked = jest.fn(createGroupDb);
 
-    let createGroupUseCase = makeCreateGroupUseCase({
+    const createGroupUseCase = makeCreateGroupUseCase({
       createGroupDb: createGroupMocked,
     });
 

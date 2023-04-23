@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import cuid from "cuid";
+
 import makeGroupDb from "../../src/Features/group/data-access/group-db";
 import makeDb from "../fixures/db";
 
@@ -8,34 +9,34 @@ const groupTests = Object.freeze({ createTestGroup, deleteTestGroup });
 export default groupTests;
 
 async function createTestGroup({
-    groupId,
-    userId,
+  groupId,
+  userId,
 }: {
-    groupId: string;
-    userId: string;
+  groupId: string;
+  userId: string;
 }) {
-    let groupDb = makeGroupDb({ makeDb });
-    const group = {
-        groupId,
-        groupName: faker.company.bsNoun(),
-        inviteCode: cuid.slug(),
-        dateCreated: new Date(),
-    };
+  const groupDb = makeGroupDb({ makeDb });
+  const group = {
+    groupId,
+    groupName: faker.company.bsNoun(),
+    inviteCode: cuid.slug(),
+    dateCreated: new Date(),
+  };
 
-    const addedGroup = await groupDb.createGroup(group, userId);
+  const addedGroup = await groupDb.createGroup(group, userId);
 
-    return addedGroup;
+  return addedGroup;
 }
 
 async function deleteTestGroup({
-    groupId,
-    userId,
+  groupId,
+  userId,
 }: {
-    groupId: string;
-    userId: string;
+  groupId: string;
+  userId: string;
 }) {
-    let groupDb = makeGroupDb({ makeDb });
-    const deletedGroup = await groupDb.removeGroup(groupId);
+  const groupDb = makeGroupDb({ makeDb });
+  const deletedGroup = await groupDb.removeGroup(groupId);
 
-    return deletedGroup;
+  return deletedGroup;
 }

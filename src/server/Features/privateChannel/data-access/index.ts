@@ -1,5 +1,6 @@
-import makePrivateChannelDb from "./privateChannel-db";
 import { Pool, PoolClient } from "pg";
+
+import makePrivateChannelDb from "./privateChannel-db";
 
 export interface IPrivateChannelDb {
   makeDb: () => Promise<PoolClient>;

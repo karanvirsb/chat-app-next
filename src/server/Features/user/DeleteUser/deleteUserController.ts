@@ -1,8 +1,8 @@
-import { IDeleteUserUserCase } from "./deleteUserUseCase";
 import {
-  IHttpRequest,
   httpResponseType,
+  IHttpRequest,
 } from "../../../express-callback/index";
+import { IDeleteUserUserCase } from "./deleteUserUseCase";
 
 export default function makeDeleteUserController({
   deleteUser,

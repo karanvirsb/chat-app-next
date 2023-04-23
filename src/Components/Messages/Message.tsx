@@ -1,6 +1,7 @@
-import React, { FormEvent, forwardRef, useRef, useState } from "react";
-import { IMessage } from "../../Hooks/groupChatHooks";
 import dayjs from "dayjs";
+import React, { FormEvent, forwardRef, useRef, useState } from "react";
+
+import { IMessage } from "../../Hooks/groupChatHooks";
 
 type props = {
   message: IMessage;

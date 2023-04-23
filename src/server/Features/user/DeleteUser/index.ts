@@ -1,6 +1,6 @@
-import makeDeleteUser from "../DeleteUser/deleteUserUseCase";
-import makeDeleteUserController from "../DeleteUser/deleteUserController";
 import usersDb from "../data-access";
+import makeDeleteUserController from "../DeleteUser/deleteUserController";
+import makeDeleteUser from "../DeleteUser/deleteUserUseCase";
 
 export const deleteUserUC = makeDeleteUser({ usersDb });
 

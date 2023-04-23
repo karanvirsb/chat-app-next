@@ -1,11 +1,11 @@
-import { IGroupUser } from "../groupUsers";
 import { IHttpRequest } from "../../../express-callback";
+import { IGroupUser } from "../groupUsers";
 import {
-  makeDeleteGroupUserControllerDep,
-  IDeleteGroupUserC,
-  deleteGroupUserUCDependency,
   deleteGroupUserDBAProps,
   deleteGroupUserProps,
+  deleteGroupUserUCDependency,
+  IDeleteGroupUserC,
+  makeDeleteGroupUserControllerDep,
 } from "../types/deleteGroupUser";
 
 export function makeDeleteGroupUserController({

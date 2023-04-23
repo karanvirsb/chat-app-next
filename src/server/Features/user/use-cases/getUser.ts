@@ -1,5 +1,5 @@
-import { IUser } from "../user";
 import { IMakeUsersDb } from "../data-access/users-db";
+import { IUser } from "../user";
 
 type props = {
   usersDb: IMakeUsersDb["returnType"];

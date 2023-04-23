@@ -1,15 +1,16 @@
+import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import React, { useEffect, useRef } from "react";
+
+// import useGetSession from "../../../Hooks/useGetSession";
+import Messages from "../../../Components/Messages/Messages";
 import {
   useCreateGroupMessageMutation,
   useEditMessageTextMutation,
   useGetGroupMessagesByChannelIdQuery,
 } from "../../../Hooks/groupChatHooks";
-// import useGetSession from "../../../Hooks/useGetSession";
-import Messages from "../../../Components/Messages/Messages";
 import { useAppDispatch } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
-import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 
 type props = {
   groupId: string;

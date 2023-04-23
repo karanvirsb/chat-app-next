@@ -1,5 +1,6 @@
-import { getMessagesByChannelId } from "@/server/Features/groupMessage/use-cases";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import { getMessagesByChannelId } from "@/server/Features/groupMessage/use-cases";
 
 export default async function handler(
   req: NextApiRequest,

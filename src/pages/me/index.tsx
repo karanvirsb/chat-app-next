@@ -1,5 +1,6 @@
-import { Layout } from "@/Components/Layout";
 import React from "react";
+
+import { Layout } from "@/Components/Layout";
 
 function index() {
   return (

@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import { updateGroupUC } from "@/server/Features/group/updateGroup";
 import { addGroup } from "@/server/Features/group/use-cases";
-import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,

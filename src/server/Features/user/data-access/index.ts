@@ -1,5 +1,6 @@
-import makeUsersDb from "./users-db";
 import { Pool, PoolClient } from "pg";
+
+import makeUsersDb from "./users-db";
 
 export interface IUserDb {
   makeDb: () => Promise<PoolClient>;

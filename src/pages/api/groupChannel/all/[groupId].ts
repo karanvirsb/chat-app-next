@@ -1,5 +1,6 @@
-import { getChannelsByGroupId } from "@/server/Features/groupChannel/use-cases";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import { getChannelsByGroupId } from "@/server/Features/groupChannel/use-cases";
 
 export default async function handler(
   req: NextApiRequest,

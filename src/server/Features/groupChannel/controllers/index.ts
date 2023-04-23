@@ -6,35 +6,35 @@ import makeGetChannelsByGroupIdController from "./get-channelsByGroupId";
 import makeUpdateChannelNameController from "./update-groupName";
 
 const createChannelController = makeCreateChannelController({
-    createChannel: channelService.createChannel,
+  createChannel: channelService.createChannel,
 });
 const deleteChannelController = makeDeleteChannelController({
-    deleteChannel: channelService.deleteChannel,
+  deleteChannel: channelService.deleteChannel,
 });
 const getChannelByIdController = makeGetChannelByIdController({
-    getChannelById: channelService.getChannelById,
+  getChannelById: channelService.getChannelById,
 });
 const getChannelsByGroupIdController = makeGetChannelsByGroupIdController({
-    getChannelsByGroupId: channelService.getChannelsByGroupId,
+  getChannelsByGroupId: channelService.getChannelsByGroupId,
 });
 const updateChannelNameController = makeUpdateChannelNameController({
-    updateChannelName: channelService.updateChannelName,
+  updateChannelName: channelService.updateChannelName,
 });
 
 const channelControllers = Object.freeze({
-    createChannelController,
-    deleteChannelController,
-    getChannelByIdController,
-    getChannelsByGroupIdController,
-    updateChannelNameController,
+  createChannelController,
+  deleteChannelController,
+  getChannelByIdController,
+  getChannelsByGroupIdController,
+  updateChannelNameController,
 });
 
 export default channelControllers;
 
 export {
-    createChannelController,
-    deleteChannelController,
-    getChannelByIdController,
-    getChannelsByGroupIdController,
-    updateChannelNameController,
+  createChannelController,
+  deleteChannelController,
+  getChannelByIdController,
+  getChannelsByGroupIdController,
+  updateChannelNameController,
 };

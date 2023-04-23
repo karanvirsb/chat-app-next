@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+
 import ChannelContainer from "../../../Components/ChannelContainer/ChannelContainer";
+import ScrollWrapper from "../../../Components/ScrollWrapper/ScrollWrapper";
 import { useAppSelector } from "../../../Hooks/reduxHooks";
+import useLocalStorage from "../../../Hooks/useLocalStorage";
 import GroupChat from "./GroupChat";
 import GroupSidebarInfo from "./GroupSidebarInfo";
 import GroupTopBar from "./GroupTopBar";
 import GroupUsers from "./GroupUsers";
-import useLocalStorage from "../../../Hooks/useLocalStorage";
-import ScrollWrapper from "../../../Components/ScrollWrapper/ScrollWrapper";
 
 type props = {
   groupId: string;

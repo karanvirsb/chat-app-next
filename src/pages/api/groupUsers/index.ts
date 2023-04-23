@@ -1,9 +1,10 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import {
   createGroupUserUC,
   deleteGroupUserUC,
   updateGroupUserUC,
 } from "@/server/Features/groupUsers/slice";
-import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,

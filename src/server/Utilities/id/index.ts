@@ -1,11 +1,11 @@
 import cuid from "cuid";
 
 export interface IId {
-    makeId: () => string;
+  makeId: () => string;
 }
 
 const makeId = () => {
-    return cuid();
+  return cuid();
 };
 
 export default { makeId };

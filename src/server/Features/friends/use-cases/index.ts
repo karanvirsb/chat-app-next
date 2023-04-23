@@ -1,5 +1,5 @@
-import makeAddFriend from "./addFriend";
 import friendsDb from "../data-access";
+import makeAddFriend from "./addFriend";
 import makeDeleteFriend from "./deleteFriend";
 import makeGetAFriend from "./getAFriend";
 import makeGetFriends from "./getFriends";
@@ -10,10 +10,10 @@ const getAFriend = makeGetAFriend({ friendsDb });
 const getFriends = makeGetFriends({ friendsDb });
 
 const friendsService = Object.freeze({
-    addFriend,
-    deleteFriend,
-    getAFriend,
-    getFriends,
+  addFriend,
+  deleteFriend,
+  getAFriend,
+  getFriends,
 });
 
 export default friendsService;

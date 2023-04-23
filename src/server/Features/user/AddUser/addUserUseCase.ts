@@ -1,7 +1,7 @@
-import makeUser from "../index";
-import { IUser } from "../user";
 import { IMakeUsersDb } from "../data-access/users-db";
+import makeUser from "../index";
 import { handleModerationType } from "../use-cases";
+import { IUser } from "../user";
 
 type props = {
   usersDb: IMakeUsersDb["returnType"];

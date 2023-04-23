@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from "react";
 
 type Args = {
   freezeOnceVisible?: boolean;
-} & IntersectionObserverInit
+} & IntersectionObserverInit;
 
 function useIntersectionObserver(
   elementRef: RefObject<Element>,
@@ -25,23 +25,19 @@ function useIntersectionObserver(
     const node = elementRef?.current; // DOM Ref
     const hasIOSupport = window.IntersectionObserver !== undefined;
 
-    if ((hasIOSupport === null) || frozen || (node === null)) return;
+    if (hasIOSupport === null || frozen || node === null) return;
 
     const observerParams = { threshold, root, rootMargin };
     const observer = new IntersectionObserver(updateEntry, observerParams);
 
     observer.observe(node);
 
-    return () => { observer.disconnect(); };
+    return () => {
+      observer.disconnect();
+    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    elementRef?.current,
-    threshold,
-    root,
-    rootMargin,
-    frozen,
-  ]);
+  }, [elementRef?.current, threshold, root, rootMargin, frozen]);
 
   return entry;
 }

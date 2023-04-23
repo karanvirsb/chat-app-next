@@ -1,13 +1,15 @@
-import ChannelContainer from "@/Components/ChannelContainer/ChannelContainer";
-import ScrollWrapper from "@/Components/ScrollWrapper/ScrollWrapper";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
+
+import ChannelContainer from "@/Components/ChannelContainer/ChannelContainer";
+import { Layout } from "@/Components/Layout";
+import ScrollWrapper from "@/Components/ScrollWrapper/ScrollWrapper";
+import { useAppSelector } from "@/Hooks/reduxHooks";
+
 import GroupChat from "./Components/GroupChat";
+import GroupSidebarInfo from "./Components/GroupSidebarInfo";
 import GroupTopBar from "./Components/GroupTopBar";
 import GroupUsers from "./Components/GroupUsers";
-import { useSearchParams } from "next/navigation";
-import { useAppSelector } from "@/Hooks/reduxHooks";
-import GroupSidebarInfo from "./Components/GroupSidebarInfo";
-import { Layout } from "@/Components/Layout";
 
 export default function GroupChannel() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(true);

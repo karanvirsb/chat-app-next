@@ -1,4 +1,4 @@
-import { getUser, editUser } from "../use-cases";
+import { editUser, getUser } from "../use-cases";
 import makeEditUser from "./edit-user";
 import makeGetUser from "./get-user";
 

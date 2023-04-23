@@ -1,17 +1,18 @@
+import { AxiosError } from "axios";
+import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { useAppDispatch } from "../../Hooks/reduxHooks";
+
 // import useGetSession from "../../Hooks/useGetSession";
 import {
   returnGroupData,
   useCreateGroupMutation,
 } from "../../Hooks/groupHooks";
+import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { resetModal } from "../../Redux/slices/modalSlice";
 import BtnCallToAction from "../Buttons/BtnCallToAction";
 import BtnCancelAction from "../Buttons/BtnCancelAction";
 import ModalInput from "../Inputs/ModalInput";
 import Modal from "./Modal";
-import { AxiosError } from "axios";
-import { useSession } from "next-auth/react";
 
 // TODO
 export default function CreateGroupModal() {

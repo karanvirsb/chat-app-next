@@ -1,18 +1,19 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+
+import useFilterGroups from "@/Hooks/useFilterGroups";
+
+import { isGroup } from "../../../../test/validation/schemaValidation";
 import Collapse from "../../../Components/Collapse/Collapse";
 import DropDown from "../../../Components/DropDown/DropDown";
 import SidebarInfo from "../../../Components/SidebarInfo/SidebarInfo";
-import { useAppDispatch } from "../../../Hooks/reduxHooks";
-import { setModal } from "../../../Redux/slices/modalSlice";
-
-import { IGroup, useGetGroupsQuery } from "../../../Hooks/groupHooks";
 import { useGetGroupChannelsQuery } from "../../../Hooks/groupChannelHooks";
-import { useQueryClient } from "@tanstack/react-query";
+import { IGroup, useGetGroupsQuery } from "../../../Hooks/groupHooks";
+import { useAppDispatch } from "../../../Hooks/reduxHooks";
 import useLocalStorage from "../../../Hooks/useLocalStorage";
-import { isGroup } from "../../../../test/validation/schemaValidation";
-import useFilterGroups from "@/Hooks/useFilterGroups";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { setModal } from "../../../Redux/slices/modalSlice";
 
 type props = {
   groupId: string;

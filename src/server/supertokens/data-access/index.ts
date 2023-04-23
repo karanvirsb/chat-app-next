@@ -1,5 +1,6 @@
-import makeSupertokensDb from "./supertokens-db";
 import { Pool, PoolClient } from "pg";
+
+import makeSupertokensDb from "./supertokens-db";
 
 export interface ISupertokensDb {
   makeDb: () => Promise<PoolClient>;

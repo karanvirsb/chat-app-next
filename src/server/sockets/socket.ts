@@ -1,14 +1,14 @@
 import { Server, ServerOptions, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
+import { editUser } from "../Features/user/use-cases";
 import {
+  DeleteEvent,
+  LeaveGroupEvent,
   LeaveRoomEvent,
   UpdateEvent,
-  DeleteEvent,
   UpdateGroupUsersEvent,
-  LeaveGroupEvent,
 } from "./types/group";
-
 import { UpdateChannelsListEvent } from "./types/groupChannel";
 import {
   ICreateGroupMessageEvent,
@@ -16,7 +16,6 @@ import {
   IUpdateGroupMessageEvent,
 } from "./types/groupChat";
 import { ILogoutEvent } from "./types/user";
-import { editUser } from "../Features/user/use-cases";
 
 type props = {
   httpServer: Partial<ServerOptions> | undefined | any;

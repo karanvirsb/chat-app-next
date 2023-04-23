@@ -1,40 +1,40 @@
-import makeFriends from "../index";
 import { IMakeFriendsDb } from "../data-access/friends-db";
 import { IFriends } from "../friends";
+import makeFriends from "../index";
 
 type props = {
-    friendsDb: IMakeFriendsDb["returnType"];
+  friendsDb: IMakeFriendsDb["returnType"];
 };
 
 type returnData = Promise<{
-    success: boolean;
-    data: undefined | IFriends;
-    error: string;
+  success: boolean;
+  data: undefined | IFriends;
+  error: string;
 }>;
 
 export interface IAddFriendsUseCase {
-    addFriend: (userId: string, friendId: string) => returnData;
+  addFriend: (userId: string, friendId: string) => returnData;
 }
 
 export default function makeAddFriend({
-    friendsDb,
+  friendsDb,
 }: props): IAddFriendsUseCase["addFriend"] {
-    return async function addFriend(userId: string, friendId: string) {
-        const friends = makeFriends({
-            userId,
-            friendId,
-            dateAdded: new Date(),
-        });
-        const foundFriends = await friendsDb.getAFriend(userId, friendId);
+  return async function addFriend(userId: string, friendId: string) {
+    const friends = makeFriends({
+      userId,
+      friendId,
+      dateAdded: new Date(),
+    });
+    const foundFriends = await friendsDb.getAFriend(userId, friendId);
 
-        if (foundFriends.success && foundFriends.data !== undefined) {
-            throw Error("User is already friends.");
-        }
+    if (foundFriends.success && foundFriends.data !== undefined) {
+      throw Error("User is already friends.");
+    }
 
-        return await friendsDb.addFriend({
-            userId: friends.getUserId(),
-            friendId: friends.getFriendsId(),
-            dateAdded: friends.getDateAdded(),
-        });
-    };
+    return await friendsDb.addFriend({
+      userId: friends.getUserId(),
+      friendId: friends.getFriendsId(),
+      dateAdded: friends.getDateAdded(),
+    });
+  };
 }

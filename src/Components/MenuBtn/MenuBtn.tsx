@@ -1,5 +1,7 @@
-import { setSideBarClosed, setSideBarOpen } from "@/Redux/slices/sideBarSlice";
 import React from "react";
+
+import { setSideBarClosed, setSideBarOpen } from "@/Redux/slices/sideBarSlice";
+
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 
 function MenuBtn() {

@@ -1,39 +1,39 @@
-import { IUser } from "../user";
 import { IMakeUsersDb } from "../data-access/users-db";
+import { IUser } from "../user";
 
 type props = {
-    usersDb: IMakeUsersDb["returnType"];
+  usersDb: IMakeUsersDb["returnType"];
 };
 
 type returnData = Promise<{
-    success: boolean;
-    data: IUser | undefined;
-    error: string;
+  success: boolean;
+  data: IUser | undefined;
+  error: string;
 }>;
 
 type editUserProps = {
-    username: string;
-    updates: Partial<Record<keyof IUser, string>>;
+  username: string;
+  updates: Partial<Record<keyof IUser, string>>;
 };
 
 export default function makeEditUserByUsername({ usersDb }: props) {
-    return async function editUser({
-        username,
-        updates,
-    }: editUserProps): returnData {
-        if (!username) {
-            throw new Error("An username must be passed");
-        }
-        if (Object.values(updates).length <= 0) {
-            throw new Error("At least one update must be passed");
-        }
+  return async function editUser({
+    username,
+    updates,
+  }: editUserProps): returnData {
+    if (!username) {
+      throw new Error("An username must be passed");
+    }
+    if (Object.values(updates).length <= 0) {
+      throw new Error("At least one update must be passed");
+    }
 
-        const foundUser = await usersDb.findByUsername(username);
+    const foundUser = await usersDb.findByUsername(username);
 
-        if (foundUser.success && foundUser.data === undefined) {
-            return foundUser;
-        }
+    if (foundUser.success && foundUser.data === undefined) {
+      return foundUser;
+    }
 
-        return await usersDb.updateByUsername({ username, updates });
-    };
+    return await usersDb.updateByUsername({ username, updates });
+  };
 }

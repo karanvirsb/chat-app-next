@@ -3,7 +3,7 @@ export type DBUpdateStr = (args: { [key: string]: any }) => string;
 export default function DBUpdateStr(args: { [key: string]: any }): string {
   const updateArr: string[] = [];
 
-  for (let i in args) {
+  for (const i in args) {
     updateArr.push(DBUpdateStrBroker(i, args[i]));
   }
 
@@ -39,7 +39,7 @@ export function NumberToDBNumber(key: string, value: number): string {
   return `"${key}" = ${value}`;
 }
 // Boolean -> uppercase
-export function BooleanToDBBoolean(key: string, value: Boolean): string {
+export function BooleanToDBBoolean(key: string, value: boolean): string {
   // true -> TRUE
   // false -> FALSE
   return `"${key}" = ${value === true ? "TRUE" : "FALSE"}`;

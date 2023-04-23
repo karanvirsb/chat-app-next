@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { IId } from "../../Utilities/id";
 import { IInviteCodeGenerator } from "../../Utilities/inviteCodeGenerator";
 
@@ -37,7 +38,7 @@ export default function buildGroup({
     dateCreated = new Date(),
   }: IGroup) {
     const regex = /'/g;
-    let sanitizedGroupName = sanitizeText(groupName);
+    const sanitizedGroupName = sanitizeText(groupName);
 
     if (sanitizedGroupName.length < 1) {
       throw new Error("Group name must contain valid characters");

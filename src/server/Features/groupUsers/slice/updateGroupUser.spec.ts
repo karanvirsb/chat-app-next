@@ -1,19 +1,20 @@
 import cuid from "cuid";
 import Express from "express";
+import { ZodError } from "zod";
+
 import groupTests from "../../../../__test__/functions/group";
 import groupUserTests from "../../../../__test__/functions/groupUser";
 import userTests from "../../../../__test__/functions/user";
 import DBUpdateStr from "../../../Utilities/DBUpdateString";
+import id from "../../../Utilities/id";
 import { makeDb } from "../data-access";
+import { IGroupUser } from "../groupUsers";
 import {
   makeUpdateGroupUserController,
   makeUpdateGroupUserDBA,
   makeUpdateGroupUserUC,
   updateGroupUser,
 } from "./updateGroupUser";
-import { IGroupUser } from "../groupUsers";
-import { ZodError } from "zod";
-import id from "../../../Utilities/id";
 
 describe("Testing update group user DB Access", () => {
   const updateGroupUserDBA = makeUpdateGroupUserDBA({ makeDb, DBUpdateStr });
@@ -206,24 +207,24 @@ describe("Testing update group user controller", () => {
 });
 
 async function deleteTests(uuid: string) {
-  let testUser = await userTests.deleteTestUser({ userId: uuid });
-  let testGroup = await groupTests.deleteTestGroup({
+  const testUser = await userTests.deleteTestUser({ userId: uuid });
+  const testGroup = await groupTests.deleteTestGroup({
     groupId: uuid,
     userId: uuid,
   });
-  let testGroupUser = await groupUserTests.deleteGroupUserTest({
+  const testGroupUser = await groupUserTests.deleteGroupUserTest({
     groupId: uuid,
     userId: uuid,
   });
 }
 
 async function createTests(uuid: string) {
-  let testUser = await userTests.addTestUserToDB({ userId: uuid });
-  let testGroup = await groupTests.createTestGroup({
+  const testUser = await userTests.addTestUserToDB({ userId: uuid });
+  const testGroup = await groupTests.createTestGroup({
     groupId: uuid,
     userId: uuid,
   });
-  let testGroupUser = await groupUserTests.createGroupUserTest({
+  const testGroupUser = await groupUserTests.createGroupUserTest({
     groupId: uuid,
     userId: uuid,
   });

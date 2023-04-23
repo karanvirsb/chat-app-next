@@ -1,10 +1,11 @@
 import { ZodError } from "zod";
+
+import id from "../../Utilities/id";
 import buildGroupUser from ".";
 import { IGroupUser } from "./groupUsers";
-import id from "../../Utilities/id";
 
 describe("Testing group user", () => {
-  let uuid = id.makeId();
+  const uuid = id.makeId();
   const fakeGroupUser: IGroupUser = {
     gId: uuid,
     lastChecked: new Date(),

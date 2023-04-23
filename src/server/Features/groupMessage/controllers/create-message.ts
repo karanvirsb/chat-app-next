@@ -1,6 +1,6 @@
 import {
-  IHttpRequest,
   httpResponseType,
+  IHttpRequest,
 } from "../../../express-callback/index";
 import { IGroupMessage } from "../groupMessage";
 import { ICreateMessageUseCase } from "../use-cases/createMessage";

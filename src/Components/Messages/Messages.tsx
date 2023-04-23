@@ -1,16 +1,17 @@
-import React, { useEffect, useRef } from "react";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import { IMessage } from "../../Hooks/groupChatHooks";
-import { IUser } from "../../Hooks/groupHooks";
 import {
   FetchNextPageOptions,
   InfiniteQueryObserverResult,
   useQueryClient,
 } from "@tanstack/react-query";
-import Message from "./Message";
-import { PaginatedGroupMessages } from "../../utilities/types/pagination";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import React, { useEffect, useRef } from "react";
+
+import { IMessage } from "../../Hooks/groupChatHooks";
+import { IUser } from "../../Hooks/groupHooks";
 import useIntersectionObserver from "../../Hooks/useIntersectionObserver";
+import { PaginatedGroupMessages } from "../../utilities/types/pagination";
+import Message from "./Message";
 dayjs.extend(localizedFormat);
 
 type props = {

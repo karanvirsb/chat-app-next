@@ -1,5 +1,5 @@
-import { IGroupUsersDb } from "../data-access";
 import { httpResponseType } from "../../../express-callback";
+import { IGroupUsersDb } from "../data-access";
 
 type deleteGroupUserProps = {
   groupId: string;

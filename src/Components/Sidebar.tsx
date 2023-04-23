@@ -1,17 +1,18 @@
-import React, { useState } from "react";
-import { signOut } from "next-auth/react";
-import DropDown from "./DropDown/DropDown";
-import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
-import { setModal } from "../Redux/slices/modalSlice";
-import GroupList from "../pages/group/Components/GroupList";
-import useLoginAndLogoutSockets from "../Sockets/Hooks/useLoginAndLogoutSockets";
 import { useQueryClient } from "@tanstack/react-query";
-import { IGroup } from "../Hooks/groupHooks";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import React, { useState } from "react";
+
+import { IGroup } from "../Hooks/groupHooks";
+import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
+import GroupList from "../pages/group/Components/GroupList";
+import { setModal } from "../Redux/slices/modalSlice";
+import useLoginAndLogoutSockets from "../Sockets/Hooks/useLoginAndLogoutSockets";
+import DropDown from "./DropDown/DropDown";
 
 type props = {
   setTab: React.Dispatch<React.SetStateAction<"group" | "me">>;

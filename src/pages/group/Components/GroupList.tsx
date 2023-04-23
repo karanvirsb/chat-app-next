@@ -1,16 +1,17 @@
 "use client";
-import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useGetGroupsQuery } from "../../../Hooks/groupHooks";
-import socket from "../../../Sockets";
-
-import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSockets";
-import { isGroupArray } from "../../../../test/validation/schemaValidation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
+
+import Spinner from "@/Components/Spinner/Spinner";
 import { useAppDispatch, useAppSelector } from "@/Hooks/reduxHooks";
 import { groupActions } from "@/Redux/slices/groupSlice";
-import Spinner from "@/Components/Spinner/Spinner";
+
+import { isGroupArray } from "../../../../test/validation/schemaValidation";
+import { useGetGroupsQuery } from "../../../Hooks/groupHooks";
+import socket from "../../../Sockets";
+import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSockets";
 
 // TODO prefetch group data
 export default function GroupList() {

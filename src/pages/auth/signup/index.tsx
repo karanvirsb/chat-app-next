@@ -1,11 +1,12 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getCsrfToken } from "next-auth/react";
-import React, { useState } from "react";
-import { getProviders, signIn } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../api/auth/[...nextauth]";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { getCsrfToken } from "next-auth/react";
+import { getProviders, signIn } from "next-auth/react";
+import React, { useState } from "react";
+
+import { authOptions } from "../../api/auth/[...nextauth]";
 
 export default function Signup({
   csrfToken,

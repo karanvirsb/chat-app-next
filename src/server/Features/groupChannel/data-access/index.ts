@@ -1,5 +1,6 @@
-import makeChannelDb from "./channel-db";
 import { Pool, PoolClient } from "pg";
+
+import makeChannelDb from "./channel-db";
 
 export interface IGroupChannelDb {
   makeDb: () => Promise<PoolClient>;

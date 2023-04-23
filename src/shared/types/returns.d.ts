@@ -1,6 +1,6 @@
 export interface ControllerReturn<T> {
   body: UseCaseReturn<T>;
-  headers: Record<String, String>;
+  headers: Record<string, string>;
   statusCode: number;
 }
 

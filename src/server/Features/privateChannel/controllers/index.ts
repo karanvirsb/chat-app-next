@@ -6,38 +6,38 @@ import makeGetPrivateChannelsByUserIdController from "./get-privateChannelsByUse
 import makeUpdateLastActiveController from "./update-lastActive";
 
 const createPrivateChannelController = makeCreatePrivateChannelController({
-    createPrivateChannel: privateChannelService.createPrivateChannel,
+  createPrivateChannel: privateChannelService.createPrivateChannel,
 });
 const deletePrivateChannelController = makeDeletePrivateChannelController({
-    deletePrivateChannel: privateChannelService.deletePrivateChannel,
+  deletePrivateChannel: privateChannelService.deletePrivateChannel,
 });
 const getPrivateChannelByIdController = makeGetPrivateChannelByIdController({
-    getPrivateChannelById: privateChannelService.getPrivateChannelById,
+  getPrivateChannelById: privateChannelService.getPrivateChannelById,
 });
 const getPrivateChannelsByUserIdController =
-    makeGetPrivateChannelsByUserIdController({
-        getPrivateChannelsByUserId:
-            privateChannelService.getPrivateChannelsByUserId,
-    });
+  makeGetPrivateChannelsByUserIdController({
+    getPrivateChannelsByUserId:
+      privateChannelService.getPrivateChannelsByUserId,
+  });
 
 const updateLastActiveController = makeUpdateLastActiveController({
-    updateLastActive: privateChannelService.updateLastActive,
+  updateLastActive: privateChannelService.updateLastActive,
 });
 
 const privateChannelControllers = Object.freeze({
-    createPrivateChannelController,
-    deletePrivateChannelController,
-    getPrivateChannelByIdController,
-    getPrivateChannelsByUserIdController,
-    updateLastActiveController,
+  createPrivateChannelController,
+  deletePrivateChannelController,
+  getPrivateChannelByIdController,
+  getPrivateChannelsByUserIdController,
+  updateLastActiveController,
 });
 
 export default privateChannelControllers;
 
 export {
-    createPrivateChannelController,
-    deletePrivateChannelController,
-    getPrivateChannelByIdController,
-    getPrivateChannelsByUserIdController,
-    updateLastActiveController,
+  createPrivateChannelController,
+  deletePrivateChannelController,
+  getPrivateChannelByIdController,
+  getPrivateChannelsByUserIdController,
+  updateLastActiveController,
 };

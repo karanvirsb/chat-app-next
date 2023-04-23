@@ -1,6 +1,6 @@
-import makeFriendsDb from "./friends-db";
-
 import { Pool, PoolClient } from "pg";
+
+import makeFriendsDb from "./friends-db";
 
 export interface IFriendsDb {
   makeDb: () => Promise<PoolClient>;

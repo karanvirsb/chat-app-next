@@ -1,10 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import React from "react";
+
 import ToggleSidebarBtn from "../../../Components/ToggleSidebarBtn/ToggleSidebarBtn";
 import TopBarContainer from "../../../Components/TopBarContainer/TopBarContainer";
 import { IGroupChannel } from "../../../Hooks/groupChannelHooks";
 import toCapitalize from "../../../utilities/toCapitalize";
-import { useSearchParams } from "next/navigation";
 
 type props = {
   isUserMenuOpen: boolean;

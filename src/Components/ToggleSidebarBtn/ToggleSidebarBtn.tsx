@@ -1,6 +1,8 @@
 import React from "react";
-import { useAppSelector, useAppDispatch } from "../../Hooks/reduxHooks";
+
 import { setSideBarClosed, setSideBarOpen } from "@/Redux/slices/sideBarSlice";
+
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import MenuBtn from "../MenuBtn/MenuBtn";
 
 export default function ToggleSidebarBtn() {

@@ -1,5 +1,6 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { IGroup } from "@/server/Features/group/group";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface IGroupState {
   groups: IGroup[];

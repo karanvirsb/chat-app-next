@@ -1,11 +1,11 @@
-import makeAddUser from "./addUserUseCase";
-import { moderateName } from "../../../Utilities/moderateText";
 import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeUsersDb from "../data-access/users-db";
 import makeFakeUser from "../../../../__test__/fixures/user";
 import makeSupertokenDb, {
   IMakeSupertokensDb,
 } from "../../../../supertokens/data-access/supertokens-db";
+import { moderateName } from "../../../Utilities/moderateText";
+import makeUsersDb from "../data-access/users-db";
+import makeAddUser from "./addUserUseCase";
 
 const handleModeration = async (name: string) => {
   return await moderateName(name);
@@ -13,9 +13,9 @@ const handleModeration = async (name: string) => {
 
 describe("Add User case", () => {
   let usersDb = makeUsersDb({ makeDb });
-  let addUser = makeAddUser({ usersDb, handleModeration });
+  const addUser = makeAddUser({ usersDb, handleModeration });
 
-  let SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
+  const SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
     makeDb,
   });
 

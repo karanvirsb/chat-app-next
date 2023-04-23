@@ -1,6 +1,7 @@
 import { deleteUser } from "supertokens-node";
-import { IUserDb } from ".";
+
 import { IUser } from "../user";
+import { IUserDb } from ".";
 
 type props = {
   makeDb: IUserDb["makeDb"];

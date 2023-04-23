@@ -1,17 +1,18 @@
 import Express from "express";
-import { deleteUserC } from ".";
+
+import { clearDb, closeDb } from "../../../../__test__/fixures/db";
+import makeFakeUser from "../../../../__test__/fixures/user";
 import makeSupertokenDb, {
   IMakeSupertokensDb,
 } from "../../../../supertokens/data-access/supertokens-db";
-import { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakeUser from "../../../../__test__/fixures/user";
+import { addUserUC } from "../AddUser";
 import { makeDb } from "../data-access";
 import makeUsersDb, { IMakeUsersDb } from "../data-access/users-db";
-import { addUserUC } from "../AddUser";
+import { deleteUserC } from ".";
 
 describe("delete user controller", () => {
   let usersDb: IMakeUsersDb["returnType"];
-  let SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
+  const SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
     makeDb,
   });
 

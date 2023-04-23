@@ -10,29 +10,29 @@ const createPrivateMessage = makeCreatePrivateMessage({ privateMessageDb });
 const deletePrivateMessage = makeDeletePrivateMessage({ privateMessageDb });
 const getPrivateMessageById = makeGetPrivateMessageById({ privateMessageDb });
 const getPrivateMessagesByChannelId = makeGetPrivateMessagesByChannelId({
-    privateMessageDb,
+  privateMessageDb,
 });
 const updatePrivateMessageText = makeUpdatePrivateMessageText({
-    privateMessageDb,
+  privateMessageDb,
 });
 const updateDateModified = makeUpdateDateModified({ privateMessageDb });
 
 const privateMessageService = Object.freeze({
-    createPrivateMessage,
-    deletePrivateMessage,
-    getPrivateMessageById,
-    getPrivateMessagesByChannelId,
-    updatePrivateMessageText,
-    updateDateModified,
+  createPrivateMessage,
+  deletePrivateMessage,
+  getPrivateMessageById,
+  getPrivateMessagesByChannelId,
+  updatePrivateMessageText,
+  updateDateModified,
 });
 
 export default privateMessageService;
 
 export {
-    createPrivateMessage,
-    deletePrivateMessage,
-    getPrivateMessageById,
-    getPrivateMessagesByChannelId,
-    updatePrivateMessageText,
-    updateDateModified,
+  createPrivateMessage,
+  deletePrivateMessage,
+  getPrivateMessageById,
+  getPrivateMessagesByChannelId,
+  updatePrivateMessageText,
+  updateDateModified,
 };

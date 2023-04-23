@@ -2,8 +2,8 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { getCsrfToken } from "next-auth/react";
 import Image from "next/image";
+import { getCsrfToken } from "next-auth/react";
 
 export default function SignIn({
   csrfToken,

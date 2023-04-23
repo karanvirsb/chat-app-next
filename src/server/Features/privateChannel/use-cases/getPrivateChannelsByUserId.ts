@@ -2,27 +2,27 @@ import { IMakePrivateChannelDb } from "../data-access/privateChannel-db";
 import { IPrivateChannel } from "../privateChannel";
 
 type props = {
-    privateChannelDb: IMakePrivateChannelDb["returnType"];
+  privateChannelDb: IMakePrivateChannelDb["returnType"];
 };
 
 type returnData = Promise<{
-    success: boolean;
-    data: IPrivateChannel[] | undefined;
-    error: string;
+  success: boolean;
+  data: IPrivateChannel[] | undefined;
+  error: string;
 }>;
 
 export interface IGetPrivateChannelsByUserIdUseCase {
-    getPrivateChannelsByUserId: (userId: string) => Promise<returnData>;
+  getPrivateChannelsByUserId: (userId: string) => Promise<returnData>;
 }
 
 export default function makeGetPrivateChannelsByUserId({
-    privateChannelDb,
+  privateChannelDb,
 }: props): IGetPrivateChannelsByUserIdUseCase["getPrivateChannelsByUserId"] {
-    return async function getPrivateChannelsByUserId(
-        userId: string
-    ): Promise<returnData> {
-        if (!userId) throw new Error("User Id needs to be supplied");
+  return async function getPrivateChannelsByUserId(
+    userId: string
+  ): Promise<returnData> {
+    if (!userId) throw new Error("User Id needs to be supplied");
 
-        return await privateChannelDb.getPrivateChannelsByUserId(userId);
-    };
+    return await privateChannelDb.getPrivateChannelsByUserId(userId);
+  };
 }

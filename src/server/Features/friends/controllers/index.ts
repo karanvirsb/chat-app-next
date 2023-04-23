@@ -5,30 +5,30 @@ import makeGetAFriendController from "./get-aFriend";
 import makeGetFriendsController from "./get-Friends";
 
 const addFriendController = makeAddFriendController({
-    addFriend: friendsService.addFriend,
+  addFriend: friendsService.addFriend,
 });
 const deleteFriendController = makeDeleteFriendController({
-    deleteFriend: friendsService.deleteFriend,
+  deleteFriend: friendsService.deleteFriend,
 });
 const getAFriendController = makeGetAFriendController({
-    getAFriend: friendsService.getAFriend,
+  getAFriend: friendsService.getAFriend,
 });
 const getFriendsController = makeGetFriendsController({
-    getFriends: friendsService.getFriends,
+  getFriends: friendsService.getFriends,
 });
 
 const friendsControllers = Object.freeze({
-    addFriendController,
-    deleteFriendController,
-    getAFriendController,
-    getFriendsController,
+  addFriendController,
+  deleteFriendController,
+  getAFriendController,
+  getFriendsController,
 });
 
 export default friendsControllers;
 
 export {
-    addFriendController,
-    deleteFriendController,
-    getAFriendController,
-    getFriendsController,
+  addFriendController,
+  deleteFriendController,
+  getAFriendController,
+  getFriendsController,
 };

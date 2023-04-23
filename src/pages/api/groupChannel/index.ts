@@ -1,7 +1,8 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import { IGroupChannel } from "@/server/Features/groupChannel/groupChannel";
 import { createChannel } from "@/server/Features/groupChannel/use-cases";
 import id from "@/server/Utilities/id";
-import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,

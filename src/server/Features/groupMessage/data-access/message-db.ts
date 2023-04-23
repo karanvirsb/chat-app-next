@@ -1,8 +1,8 @@
-import { IGroupMessageDb } from ".";
 import pagination, {
   Pagination,
 } from "../../../Utilities/pagination/pagination";
 import { IGroupMessage } from "../groupMessage";
+import { IGroupMessageDb } from ".";
 
 type props = {
   makeDb: IGroupMessageDb["makeDb"];

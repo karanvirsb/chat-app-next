@@ -1,7 +1,7 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import { getUser } from "@/server/Features/user/use-cases";
 import { IUser } from "@/server/Features/user/user";
-
-import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,

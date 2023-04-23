@@ -1,5 +1,5 @@
-import { IGroupChannel } from "../groupChannel";
 import { IMakeChannelDb } from "../data-access/channel-db";
+import { IGroupChannel } from "../groupChannel";
 import makeChannel from "../index";
 
 export type handleModerationType = {

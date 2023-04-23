@@ -1,5 +1,5 @@
-import { IGroupDb } from ".";
 import { IGroup } from "../group";
+import { IGroupDb } from ".";
 
 type props = {
   makeDb: IGroupDb["makeDb"];

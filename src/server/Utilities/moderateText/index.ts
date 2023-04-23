@@ -1,5 +1,6 @@
 import axios from "axios";
 import FormData from "form-data";
+
 import pipe from "../pipe";
 
 const createFormDataForName = (username: string) => {

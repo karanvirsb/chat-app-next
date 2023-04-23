@@ -1,10 +1,11 @@
 import supertokens, { deleteUser } from "supertokens-node";
-import Session from "supertokens-node/recipe/session";
+import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
+import Session from "supertokens-node/recipe/session";
+
 import { addUserUC } from "../Features/user/AddUser";
 import { getUser } from "../Features/user/use-cases";
 import { IUser } from "../Features/user/user";
-import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
 
 type signupResponse =
   | {
@@ -63,7 +64,7 @@ supertokens.init({
           return {
             ...originalImplementation,
             createNewSession: async function (input) {
-              let userId = input.userId;
+              const userId = input.userId;
 
               const user = await getUser(userId);
 
@@ -103,11 +104,11 @@ function signInPost(originalImplementation: EmailPassword.APIInterface):
     }
 
     // First we call the original implementation of signInPOST.
-    let response = await originalImplementation.signInPOST(input);
+    const response = await originalImplementation.signInPOST(input);
     try {
       // Post sign up response, we check if it was successful
       if (response.status === "OK") {
-        let { id } = response.user;
+        const { id } = response.user;
 
         const user = await getUser(id);
 
@@ -152,7 +153,7 @@ function signUpPost(originalImplementation: EmailPassword.APIInterface):
 
     const user: IUser = createUserObj(input);
 
-    let response: signupResponse = await originalImplementation.signUpPOST(
+    const response: signupResponse = await originalImplementation.signUpPOST(
       input
     );
 
@@ -201,7 +202,7 @@ function createUserObj(input: {
   };
 
   // These are the input form fields values that the user used while signing up
-  let formFields = input.formFields;
+  const formFields = input.formFields;
 
   // so here we are adding email, username
   formFields.forEach((field) => {

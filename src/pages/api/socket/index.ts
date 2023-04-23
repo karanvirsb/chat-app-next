@@ -1,24 +1,25 @@
-import { Server, Socket } from "socket.io";
 import { Server as NetServer } from "http";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextApiResponseServerIO } from "@/types/next";
+import { Server, Socket } from "socket.io";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import { io } from "socket.io-client";
+
+import { editUser } from "@/server/Features/user/use-cases";
 import { UpdateChannelsListEvent } from "@/Sockets/types/groupChannelTypes";
 import {
   ICreateGroupMessageEvent,
-  IUpdateGroupMessageEvent,
   IDeleteGroupMessageEvent,
+  IUpdateGroupMessageEvent,
 } from "@/Sockets/types/groupChatTypes";
 import {
+  DeleteEvent,
+  LeaveGroupEvent,
   LeaveRoomEvent,
   UpdateEvent,
-  DeleteEvent,
   UpdateGroupUsersEvent,
-  LeaveGroupEvent,
 } from "@/Sockets/types/groupTypes";
 import { ILogoutEvent } from "@/Sockets/types/loginAndLogoutTypes";
-import { editUser } from "@/server/Features/user/use-cases";
-import { io } from "socket.io-client";
-import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import { NextApiResponseServerIO } from "@/types/next";
 
 type socket = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
 

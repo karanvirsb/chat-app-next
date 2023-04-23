@@ -1,5 +1,6 @@
-import makeMessageDb from "./message-db";
 import { Pool, PoolClient } from "pg";
+
+import makeMessageDb from "./message-db";
 
 export interface IGroupMessageDb {
   makeDb: () => Promise<PoolClient>;

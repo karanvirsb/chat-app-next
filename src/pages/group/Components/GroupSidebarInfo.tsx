@@ -2,7 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import useFilterGroups from "@/Hooks/useFilterGroups";
-import { groupActions } from "@/Redux/slices/groupSlice";
+import { groupActions } from "@/Redux/group/groupSlice";
 
 import { isGroup } from "../../../../test/validation/schemaValidation";
 import Collapse from "../../../Components/Collapse/Collapse";

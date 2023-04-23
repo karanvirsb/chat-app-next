@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 
 import Spinner from "@/Components/Spinner/Spinner";
 import { useAppDispatch, useAppSelector } from "@/Hooks/reduxHooks";
-import { groupActions } from "@/Redux/slices/groupSlice";
+import { groupActions } from "@/Redux/group/groupSlice";
 
 import { isGroupArray } from "../../../../test/validation/schemaValidation";
 import { useGetGroupsQuery } from "../../../Hooks/groupHooks";

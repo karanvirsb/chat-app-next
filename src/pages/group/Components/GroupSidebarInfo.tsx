@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 import useFilterGroups from "@/Hooks/useFilterGroups";
@@ -10,9 +9,8 @@ import Collapse from "../../../Components/Collapse/Collapse";
 import DropDown from "../../../Components/DropDown/DropDown";
 import SidebarInfo from "../../../Components/SidebarInfo/SidebarInfo";
 import { useGetGroupChannelsQuery } from "../../../Hooks/groupChannelHooks";
-import { IGroup, useGetGroupsQuery } from "../../../Hooks/groupHooks";
+import { IGroup } from "../../../Hooks/groupHooks";
 import { useAppDispatch } from "../../../Hooks/reduxHooks";
-import useLocalStorage from "../../../Hooks/useLocalStorage";
 import { setModal } from "../../../Redux/slices/modalSlice";
 
 type props = {
@@ -25,13 +23,9 @@ export default function GroupSidebarInfo({ groupId }: props) {
   const searchParams = useSearchParams();
   const [activeChannel, setActiveChannel] = useState("");
   const dispatch = useAppDispatch();
-  const sessionInfo = useSession();
   const queryClient = useQueryClient();
 
   // TODO use cached data
-  // const { data, isLoading } = useGetGroupsQuery({
-  //   userId: sessionInfo.data?.user.id ?? "",
-  // });
 
   const data: IGroup[] | string | undefined = queryClient.getQueryData([
     "groups",

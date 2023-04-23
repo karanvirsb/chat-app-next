@@ -82,6 +82,9 @@ function useGetGroupsQuery({
     if (result.success && result.data !== undefined) {
       return result.data ?? [];
     } else {
+      if (result.error === "Could not find any groups.") {
+        return [];
+      }
       return result.error ?? "";
     }
   };

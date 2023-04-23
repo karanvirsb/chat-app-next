@@ -26,9 +26,9 @@ export default function App({
         <Provider store={store}>
           <SocketHandler>
             <ModalDisplay></ModalDisplay>
-            <Layout>
-              <Component {...pageProps} />;
-            </Layout>
+            {/* <Layout> */}
+            <Component {...pageProps} />
+            {/* </Layout> */}
           </SocketHandler>
         </Provider>
       </QueryClientProvider>

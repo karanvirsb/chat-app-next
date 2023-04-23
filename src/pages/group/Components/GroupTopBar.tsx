@@ -1,36 +1,25 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
+import { useAppSelector } from "@/Hooks/reduxHooks";
+
 import ToggleSidebarBtn from "../../../Components/ToggleSidebarBtn/ToggleSidebarBtn";
 import TopBarContainer from "../../../Components/TopBarContainer/TopBarContainer";
-import { IGroupChannel } from "../../../Hooks/groupChannelHooks";
 import toCapitalize from "../../../utilities/toCapitalize";
 
 type props = {
   isUserMenuOpen: boolean;
   toggleUserMenu: () => void;
-  groupId: string;
 };
 
-export default function GroupTopBar({
-  isUserMenuOpen,
-  toggleUserMenu,
-  groupId,
-}: props) {
-  const queryClient = useQueryClient();
+export default function GroupTopBar({ isUserMenuOpen, toggleUserMenu }: props) {
   const searchParams = useSearchParams();
   const selectedChannel = searchParams.get("channel") ?? "";
-  // getting channel from querys
-  const channels: IGroupChannel[] | undefined = queryClient.getQueryData([
-    `group-channels-${groupId}`,
-  ]);
+
+  const channels = useAppSelector((state) => state.groupReducer.channels);
 
   // filtering out the channel needed
-  const channel =
-    channels != null
-      ? channels.find((c) => c.channelId === selectedChannel)
-      : null;
+  const channel = channels.find((c) => c.channelId === selectedChannel);
 
   return (
     <TopBarContainer>

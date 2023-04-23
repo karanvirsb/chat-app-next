@@ -8,21 +8,23 @@ import useLoginAndLogoutSockets from "../../../Sockets/Hooks/useLoginAndLogoutSo
 import { isGroupArray } from "../../../../test/validation/schemaValidation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/Hooks/reduxHooks";
+import { groupActions } from "@/Redux/slices/groupSlice";
+import Spinner from "@/Components/Spinner/Spinner";
 
 // TODO prefetch group data
 export default function GroupList() {
   const pathname = usePathname();
   const { data: sessionInfo } = useSession();
-  const {
-    data: groups,
-    isLoading,
-    isSuccess,
-    error,
-  } = useGetGroupsQuery({ userId: sessionInfo?.user.id });
+  const dispatch = useAppDispatch();
+  const groups = useAppSelector((state) => state.groupReducer.groups);
+  const { data, isLoading, isSuccess, error } = useGetGroupsQuery({
+    userId: sessionInfo?.user.id,
+  });
   const send = useLoginAndLogoutSockets();
   useEffect(() => {
     // check if its done loading and is successful then add groups into array and add rooms;
-    if (!isLoading && isSuccess && sessionInfo && isGroupArray(groups)) {
+    if (!isLoading && isSuccess && sessionInfo && isGroupArray(data)) {
       const groupIds = [];
 
       for (const group of groups) {
@@ -37,13 +39,14 @@ export default function GroupList() {
         event: "login_user",
         data: { userId: sessionInfo.user.id, payload: { groupIds: groupIds } },
       });
+      dispatch(groupActions.setGroups(data));
     }
   }, [isLoading, isSuccess]);
 
   let content;
-  // TODO fix loading with spinner
+
   if (isLoading) {
-    content = <>Loading...</>;
+    content = <Spinner></Spinner>;
   } else if (isSuccess) {
     if (groups === undefined) {
       content = <></>;

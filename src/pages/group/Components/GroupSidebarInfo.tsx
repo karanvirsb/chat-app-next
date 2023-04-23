@@ -28,6 +28,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
   // filtering out groups to only get one
   const group = useFilterGroups({ groups, groupId });
 
+  // TODO find better way to handle this maybe add dispatch and state within the hook
   const {
     data,
     isLoading: isChannelsLoading,

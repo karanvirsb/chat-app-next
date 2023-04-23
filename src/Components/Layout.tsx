@@ -13,7 +13,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const { status } = useSession({
     required: true,
     onUnauthenticated() {
-      router.replace("/api/auth/signin");
+      router.replace("/auth/signin");
     },
   });
 

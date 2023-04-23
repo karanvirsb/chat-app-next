@@ -70,21 +70,23 @@ export default function GroupUsers({
 
   // TODO memoize the filter
   function OnlineUsers() {
-    if (isLoading) return <Spinner></Spinner>;
+    return useMemo(() => {
+      if (isLoading) return <Spinner></Spinner>;
 
-    if (!areGroupUsers(users)) {
+      if (!areGroupUsers(users)) {
+        return (
+          <ul className="p-2">
+            <li className="font-semibold">{users}</li>
+          </ul>
+        );
+      }
+
       return (
         <ul className="p-2">
-          <li className="font-semibold">{users}</li>
+          {users.length > 0 ? filterResults("online") : <p>No one is online</p>}
         </ul>
       );
-    }
-
-    return (
-      <ul className="p-2">
-        {users.length > 0 ? filterResults("online") : <p>No one is online</p>}
-      </ul>
-    );
+    }, []);
   }
 
   function OfflineUsers() {
@@ -108,15 +110,13 @@ export default function GroupUsers({
   function filterResults(filter: string) {
     if (!areGroupUsers(users)) return [];
 
-    return useMemo(() => {
-      return users.map((user) => {
-        if (user.status === filter)
-          return (
-            <li key={user.userId} className="font-semibold tracking-wide">
-              {user.username}
-            </li>
-          );
-      });
-    }, [users]);
+    return users.map((user) => {
+      if (user.status === filter)
+        return (
+          <li key={user.userId} className="font-semibold tracking-wide">
+            {user.username}
+          </li>
+        );
+    });
   }
 }

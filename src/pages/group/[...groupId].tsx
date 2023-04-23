@@ -7,6 +7,7 @@ import GroupUsers from "./Components/GroupUsers";
 import { useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/Hooks/reduxHooks";
 import GroupSidebarInfo from "./Components/GroupSidebarInfo";
+import { Layout } from "@/Components/Layout";
 
 export default function GroupChannel() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(true);
@@ -14,7 +15,7 @@ export default function GroupChannel() {
   const groupId = searchParams.get("groupId") ?? "";
   const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
   return (
-    <>
+    <Layout>
       {isSideBarOpen && (
         <GroupSidebarInfo
           groupId={searchParams.get("groupId") ?? ""}
@@ -41,7 +42,7 @@ export default function GroupChannel() {
           </ScrollWrapper>
         </>
       </ChannelContainer>
-    </>
+    </Layout>
   );
   function toggleUserMenu() {
     setIsUserMenuOpen((prev) => !prev);

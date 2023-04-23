@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint --ext .ts,.tsx src",
+    "lint:fix": "eslint --fix --ext .ts,.tsx src",
     "test": "jest --transformIgnorePatterns '**/node_modules' --watch --runInBand"
   },
   "dependencies": {

@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -9,7 +8,6 @@ import Collapse from "../../../Components/Collapse/Collapse";
 import DropDown from "../../../Components/DropDown/DropDown";
 import SidebarInfo from "../../../Components/SidebarInfo/SidebarInfo";
 import { useGetGroupChannelsQuery } from "../../../Hooks/groupChannelHooks";
-import { IGroup } from "../../../Hooks/groupHooks";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
 
@@ -24,13 +22,8 @@ export default function GroupSidebarInfo({ groupId }: props) {
   const [activeChannel, setActiveChannel] = useState("");
   const dispatch = useAppDispatch();
   const groups = useAppSelector((state) => state.groupReducer.groups);
-  const queryClient = useQueryClient();
 
   // TODO use cached data
-
-  // const data: IGroup[] | string | undefined = queryClient.getQueryData([
-  //   "groups",
-  // ]);
   // filtering out groups to only get one
   const group = useFilterGroups({ groups, groupId });
 
@@ -41,7 +34,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
     if (activeChannel.length > 0) {
       router.push(`/group/${groupId}?channel=${activeChannel}`);
     }
-  }, [activeChannel]);
+  }, [activeChannel, groupId, router]);
 
   return (
     <SidebarInfo>

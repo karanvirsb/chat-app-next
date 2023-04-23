@@ -2,6 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import useFilterGroups from "@/Hooks/useFilterGroups";
+import { groupActions } from "@/Redux/slices/groupSlice";
 
 import { isGroup } from "../../../../test/validation/schemaValidation";
 import Collapse from "../../../Components/Collapse/Collapse";
@@ -22,13 +23,22 @@ export default function GroupSidebarInfo({ groupId }: props) {
   const [activeChannel, setActiveChannel] = useState("");
   const dispatch = useAppDispatch();
   const groups = useAppSelector((state) => state.groupReducer.groups);
-
+  const channels = useAppSelector((state) => state.groupReducer.channels);
   // TODO use cached data
   // filtering out groups to only get one
   const group = useFilterGroups({ groups, groupId });
 
-  const { data: channels, isLoading: isChannelsLoading } =
-    useGetGroupChannelsQuery({ groupId: group.groupId });
+  const {
+    data,
+    isLoading: isChannelsLoading,
+    isSuccess: isChannelsSuccess,
+  } = useGetGroupChannelsQuery({ groupId: group.groupId });
+
+  useEffect(() => {
+    if (!isChannelsLoading && isChannelsSuccess) {
+      dispatch(groupActions.setChannels(data));
+    }
+  }, [data, dispatch, isChannelsLoading, isChannelsSuccess]);
 
   useEffect(() => {
     if (activeChannel.length > 0) {

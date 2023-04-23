@@ -124,18 +124,20 @@ export default function Sidebar() {
       console.log("logging out");
       const send = useLoginAndLogoutSockets();
       const groupIds: IGroup[] = queryClient.getQueryData(["groups"]) ?? [];
-      send({
-        event: "logout_user",
-        data: {
-          userId: sessionInfo.user?.id,
-          payload: {
-            groupIds:
-              groupIds.length < 1
-                ? []
-                : groupIds?.map((group) => group.groupId),
+
+      if (groupIds.length > 0)
+        send({
+          event: "logout_user",
+          data: {
+            userId: sessionInfo.user?.id,
+            payload: {
+              groupIds:
+                groupIds.length < 1
+                  ? []
+                  : groupIds?.map((group) => group.groupId),
+            },
           },
-        },
-      });
+        });
     }
     await signOut();
     router.replace("/api/auth/signin");

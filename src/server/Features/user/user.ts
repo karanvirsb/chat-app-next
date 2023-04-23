@@ -10,7 +10,7 @@ export interface IUser {
 }
 
 export default function buildUser({ sanitizeText }: props) {
-  return function makeUser({ userId, username, status }: IUser) {
+  return function makeUser({ userId, username, status, password }: IUser) {
     if (userId.length <= 10) {
       throw new Error("User must have an Id greater than 10 characters");
     }
@@ -34,6 +34,7 @@ export default function buildUser({ sanitizeText }: props) {
       getUserId: () => userId,
       getUsername: () => sanitizedText,
       getStatus: () => status,
+      getPassword: () => password,
       markDeleted: () => {
         sanitizedText = deletedUsername;
         userId = "deleted-" + userId;

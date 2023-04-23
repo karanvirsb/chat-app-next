@@ -4,16 +4,18 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function Home() {
-  const router = useRouter();
-  const { status } = useSession({
-    required: true,
-  });
+  // const router = useRouter();
+  // const { status } = useSession({
+  //   required: true,
+  // });
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.replace("/me");
-    }
-  }, [router, status]);
+  // useEffect(() => {
+  //   if (status === "authenticated") {
+  //     router.replace("/me");
+  //   } else {
+  //     router.replace("/auth/signin");
+  //   }
+  // }, [router, status]);
   return (
     <>
       <Head>

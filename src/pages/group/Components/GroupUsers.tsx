@@ -69,6 +69,7 @@ export default function GroupUsers({
   }
 
   // TODO memoize the filter
+  // TODO use a callback for filter users and for each user then render them out
   function OnlineUsers() {
     return useMemo(() => {
       if (isLoading) return <Spinner></Spinner>;

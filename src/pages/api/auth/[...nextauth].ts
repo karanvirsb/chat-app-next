@@ -1,41 +1,3 @@
-// import supertokens from "supertokens-node";
-// import { superTokensNextWrapper } from "supertokens-node/nextjs";
-// import { backendConfig } from "../../../../config/backendConfig";
-// import { NextApiRequest, NextApiResponse } from "next";
-// import NextCors from "nextjs-cors";
-// import { middleware } from "supertokens-node/lib/build/framework/express";
-
-// supertokens.init(backendConfig());
-
-// export default async function superTokens(
-//   req: NextApiRequest & Request,
-//   res: NextApiResponse & Response
-// ) {
-//   // NOTE: We need CORS only if we are querying the APIs from a different origin
-//   await NextCors(req, res, {
-//     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-//     origin: "http://localhost:3000",
-//     credentials: true,
-//     allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
-//   });
-
-//   await superTokensNextWrapper(
-//     async (next) => {
-//       // This is needed for production deployments with Vercel
-//       res.setHeader(
-//         "Cache-Control",
-//         "no-cache, no-store, max-age=0, must-revalidate"
-//       );
-//       await middleware()(req, res, next);
-//     },
-//     req,
-//     res
-//   );
-//   if (!res.writableEnded) {
-//     res.status(404).send("Not found");
-//   }
-// }
-
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -43,7 +5,7 @@ import z from "zod";
 import { compare, genSalt, hash } from "bcrypt";
 import { getUserByUsername } from "@/server/Features/user/GetUserByUsername";
 import { addUserUC } from "@/server/Features/user/AddUser";
-import makeId from "@/server/Utilities/id";
+import { v4 as uuidv4 } from "uuid";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -124,7 +86,7 @@ async function registerUser(req: NextApiRequest, res: NextApiResponse) {
     username,
     password: hashPassword,
     status: "online",
-    userId: makeId.makeId(),
+    userId: uuidv4(),
   });
 
   // res.redirect("/api/auth/signin");

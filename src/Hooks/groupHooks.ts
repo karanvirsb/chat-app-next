@@ -338,13 +338,14 @@ function useAddUserToGroupMutation(): IUseAddUserToGroupMutation {
     groupId: string;
   }): Promise<returnUserData> => {
     const resp = await axios({
-      url: `${baseurl}/user`,
+      url: `http://localhost:3000/api/groupUsers`,
       method: "POST",
       data: {
         userId,
         groupId,
       },
     });
+    console.log(resp);
     const result: returnUserData = resp.data.body;
     return result;
   };

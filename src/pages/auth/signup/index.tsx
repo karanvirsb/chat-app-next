@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getCsrfToken } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../api/auth/[...nextauth]";
@@ -12,6 +12,8 @@ export default function Signup({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <main className="flex flex-col justify-center items-center w-full h-screen">
       <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -38,6 +40,8 @@ export default function Signup({
               type="text"
               name="username"
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
             />
           </div>
 
@@ -55,6 +59,8 @@ export default function Signup({
               type="password"
               name="password"
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
           </div>
 
@@ -92,8 +98,8 @@ export default function Signup({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: "John",
-        password: "John_123",
+        username: username,
+        password: password,
       }),
     });
     const data: { completedRegistration: boolean } = await result.json();

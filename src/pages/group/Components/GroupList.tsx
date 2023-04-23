@@ -41,7 +41,7 @@ export default function GroupList() {
       });
       dispatch(groupActions.setGroups(data));
     }
-  }, [isLoading, isSuccess]);
+  }, [isLoading, isSuccess, data, sessionInfo]);
 
   let content;
 

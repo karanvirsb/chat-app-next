@@ -28,7 +28,6 @@ export default function GroupChannel() {
           <GroupTopBar
             isUserMenuOpen={isUserMenuOpen}
             toggleUserMenu={toggleUserMenu}
-            groupId={groupId}
           ></GroupTopBar>
           <ScrollWrapper>
             <GroupChat groupId={groupId}></GroupChat>

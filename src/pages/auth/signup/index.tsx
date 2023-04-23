@@ -12,6 +12,7 @@ export default function Signup({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
+  // TODO error checks
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   return (

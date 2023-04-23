@@ -46,6 +46,9 @@ import { addUserUC } from "@/server/Features/user/AddUser";
 import makeId from "@/server/Utilities/id";
 
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: "/auth/signin",
+  },
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({

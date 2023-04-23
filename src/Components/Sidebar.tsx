@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React from "react";
 
 import { IGroup } from "../Hooks/groupHooks";
 import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
@@ -13,11 +13,6 @@ import GroupList from "../pages/group/Components/GroupList";
 import { setModal } from "../Redux/slices/modalSlice";
 import useLoginAndLogoutSockets from "../Sockets/Hooks/useLoginAndLogoutSockets";
 import DropDown from "./DropDown/DropDown";
-
-type props = {
-  setTab: React.Dispatch<React.SetStateAction<"group" | "me">>;
-  setTabId: React.Dispatch<React.SetStateAction<string>>;
-};
 
 export default function Sidebar() {
   const router = useRouter();

@@ -190,9 +190,6 @@ export default function makeUsersDb({ makeDb }: props) {
   async function insert({ data }: { data: IUser }): returningData["type"] {
     const db = await makeDb();
     try {
-      const query =
-        "INSERT INTO userT VALUES((SELECT user_id FROM emailpassword_users WHERE user_id = $1), $2, $3) RETURNING *";
-
       const foundUser = await findByUsername(data.username);
       if (foundUser.data !== undefined) {
         return {
@@ -201,11 +198,9 @@ export default function makeUsersDb({ makeDb }: props) {
           error: "User already exists",
         };
       }
-      const res = await db.query(query, [
-        data.userId,
-        data.username,
-        data.status,
-      ]);
+      const query = `INSERT INTO userT VALUES('${data.userId}', '${data.username}', '${data.status}', '${data.password}') RETURNING *`;
+
+      const res = await db.query(query);
       if (res.rows.length > 0) {
         const user: IUser = res.rows[0];
         return { success: true, data: user, error: "" };

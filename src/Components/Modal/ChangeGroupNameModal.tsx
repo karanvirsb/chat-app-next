@@ -1,6 +1,8 @@
 import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 
+import { groupActions } from "@/Redux/group/groupSlice";
+
 import {
   returnGroupData,
   useUpdateGroupNameMutation,
@@ -88,7 +90,13 @@ export default function ChangeGroupNameModal({ groupId, previousName }: props) {
 
     if (!isLoading) {
       try {
-        mutate({ groupId, newGroupName });
+        dispatch(
+          groupActions.updateGroup({
+            groupId,
+            group_updates: { groupName: newGroupName },
+          })
+        );
+        // mutate({ groupId, newGroupName });
       } catch (error) {
         console.log(error);
       }

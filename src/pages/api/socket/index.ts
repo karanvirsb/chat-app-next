@@ -32,16 +32,16 @@ export default function SocketHandler(
   res: NextApiResponseServerIO
 ) {
   if (!res.socket.server.io) {
+    console.log("*** SETTING UP SOCKET SERVER ***");
     const io = new Server(res.socket.server as any, { path: "/api/socket" });
-    io.on("disconnect", () => {});
+    res.socket.server.io = io;
     io.on("connection", (socket) => {
       let droppedConnectionTimeout: NodeJS.Timeout;
-      console.log("🚀 ~ file: index.ts:10 ~ io.on ~ socket:", socket.id);
-
-      socket.on("ping", () => {
-        clearTimeout(droppedConnectionTimeout);
-        setCheckDroppedConnection(socket, droppedConnectionTimeout, io);
-      });
+      console.log("🚀 ~ file: index.ts:10 ~ io.on ~ sockets:", socket.id);
+      // socket.on("ping", () => {
+      //   clearTimeout(droppedConnectionTimeout);
+      //   setCheckDroppedConnection(socket, droppedConnectionTimeout, io);
+      // });
 
       // USER EVENTS
       // makes the socket join all the rooms
@@ -80,8 +80,9 @@ export default function SocketHandler(
 
       // GROUP EVENTS
       // when the update is successful
-      socket.on("updated_group_name", (data: UpdateEvent) => {
-        io.to(data.groupId).emit("update_group_name", data);
+      socket.on("update_group", (data: UpdateEvent) => {
+        console.log("🚀 ~ file: index.ts:84 ~ socket.on ~ data:", data);
+        io.to(data.groupId).emit("updates_for_group", data);
       });
 
       socket.on("delete_the_group", (groupData: DeleteEvent) => {
@@ -123,8 +124,6 @@ export default function SocketHandler(
         io.to(data.groupId).emit("delete_group_chat_message", data);
       });
     });
-
-    res.socket.server.io = io;
   }
   res.end();
 }

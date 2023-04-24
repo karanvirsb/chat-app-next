@@ -32,10 +32,10 @@ export default function GroupList() {
         groupIds.push(group.groupId);
       }
 
-      socket.emit("join_rooms", {
-        rooms: groupIds,
-        userId: sessionInfo.user.id,
-      });
+      // socket.emit("join_rooms", {
+      //   rooms: groupIds,
+      //   userId: sessionInfo.user.id,
+      // });
       send({
         event: "login_user",
         data: { userId: sessionInfo.user.id, payload: { groupIds: groupIds } },

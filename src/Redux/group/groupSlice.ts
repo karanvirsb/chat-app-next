@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGroup } from "@/server/Features/group/group";
 import { IGroupChannel } from "@/server/Features/groupChannel/groupChannel";
 
-interface IGroupState {
+export interface IGroupState {
   groups: IGroup[];
   channels: IGroupChannel[];
 }
@@ -22,6 +22,15 @@ const groupSlice = createSlice({
     },
     addGroup(state, action: PayloadAction<IGroup>) {
       state.groups.push(action.payload);
+    },
+    updateGroup(
+      state,
+      action: PayloadAction<{
+        groupId: string;
+        group_updates: Partial<Omit<IGroup, "groupId" | "dateCreated">>;
+      }>
+    ) {
+      return;
     },
     setChannels(state, action: PayloadAction<IGroupChannel[]>) {
       state.channels = action.payload;

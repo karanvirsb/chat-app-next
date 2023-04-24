@@ -61,14 +61,12 @@ export type groupChatSocketEvents =
 export default function SocketHandler({ children }: props) {
   const queryClient = useQueryClient();
   useEffect(() => {
-    fetch("/api/socket");
     socket.on("echo", () => {
       socket.emit("ping");
     });
 
     // USER EVENTS
     socket.on("logged_user_out", (data: IChangeUserStatus) => {
-      console.log("logged_user_out client");
       queryClient.setQueryData(
         [`group-users-${data.payload}`],
         (oldData: unknown) => {
@@ -80,7 +78,6 @@ export default function SocketHandler({ children }: props) {
               );
               if (foundIndex !== -1) draft[foundIndex].status = "offline";
             });
-            console.log(updatedValue);
             return updatedValue;
           };
 
@@ -92,7 +89,6 @@ export default function SocketHandler({ children }: props) {
     });
 
     socket.on("logged_user_in", (data: IChangeUserStatus) => {
-      console.log("logged_user_in client");
       queryClient.setQueryData(
         [`group-users-${data.payload}`],
         (oldData: unknown) => {
@@ -104,7 +100,6 @@ export default function SocketHandler({ children }: props) {
               );
               if (foundIndex !== -1) draft[foundIndex].status = "online";
             });
-            console.log(updatedValue);
             return updatedValue;
           };
           return Array.isArray(oldData) && areGroupUsers(oldData)
@@ -115,7 +110,8 @@ export default function SocketHandler({ children }: props) {
     });
 
     // GROUP EVENTS
-    socket.on("update_group_name", (data: UpdateEvent) => {
+    socket.on("update_for_group", (data: UpdateEvent) => {
+      console.log("🚀 ~ file: SocketHandler.tsx:119 ~ socket.on ~ data:", data);
       queryClient.setQueriesData(["groups"], (oldData: unknown) => {
         const update = (entity: IGroup) =>
           entity.groupId === data.groupId

@@ -8,6 +8,7 @@ import { IMessage } from "../Hooks/groupChatHooks";
 import { IGroup, IGroupUsers, IUser } from "../Hooks/groupHooks";
 import { PaginatedGroupMessages } from "../utilities/types/pagination";
 import socket from ".";
+import { groupEvents } from "./group-events";
 import { UpdateChannelsListEvent } from "./types/groupChannelTypes";
 import {
   ICreateGroupMessageEvent,
@@ -110,46 +111,7 @@ export default function SocketHandler({ children }: props) {
     });
 
     // GROUP EVENTS
-    socket.on("update_for_group", (data: UpdateEvent) => {
-      console.log("🚀 ~ file: SocketHandler.tsx:119 ~ socket.on ~ data:", data);
-      queryClient.setQueriesData(["groups"], (oldData: unknown) => {
-        const update = (entity: IGroup) =>
-          entity.groupId === data.groupId
-            ? { ...entity, ...data.payload }
-            : entity;
-        return Array.isArray(oldData) ? oldData.map(update) : oldData;
-      });
-    });
-
-    socket.on("delete_group", (data: DeleteEvent) => {
-      queryClient.setQueriesData(["groups"], (oldData: unknown) => {
-        const deleteGroup = (group: IGroup) => group.groupId !== data.groupId;
-        return Array.isArray(oldData) ? oldData.filter(deleteGroup) : oldData;
-      });
-    });
-
-    socket.on("update_group_users", (data: UpdateGroupUsersEvent) => {
-      queryClient.setQueriesData(
-        [`group-users-${data.groupId}`],
-        (oldData: unknown) => {
-          const pushResult = (arr: IUser[]) => {
-            return [...arr, data.payload.userInfo];
-          };
-          return Array.isArray(oldData) ? pushResult(oldData) : oldData;
-        }
-      );
-    });
-
-    socket.on("removed_user", (data: LeaveGroupEvent) => {
-      queryClient.setQueriesData(
-        [`group-users-${data.groupId}`],
-        (oldData: unknown) => {
-          const removeUser = (user: IUser) =>
-            user.userId !== data.payload.userId;
-          return Array.isArray(oldData) ? oldData.filter(removeUser) : oldData;
-        }
-      );
-    });
+    groupEvents({ socket, queryClient });
 
     // Group Channel Events
     socket.on("update_channel_list", (data: UpdateChannelsListEvent) => {

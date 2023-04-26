@@ -9,6 +9,7 @@ import { IGroup, IGroupUsers, IUser } from "../Hooks/groupHooks";
 import { PaginatedGroupMessages } from "../utilities/types/pagination";
 import socket from ".";
 import { groupEvents } from "./events/group-events";
+import { userEvents } from "./events/user-events";
 import { UpdateChannelsListEvent } from "./types/groupChannelTypes";
 import {
   ICreateGroupMessageEvent,
@@ -67,49 +68,7 @@ export default function SocketHandler({ children }: props) {
     });
 
     // USER EVENTS
-    socket.on("logged_user_out", (data: IChangeUserStatus) => {
-      queryClient.setQueryData(
-        [`group-users-${data.payload}`],
-        (oldData: unknown) => {
-          console.log("logged_user_out client", oldData, data);
-          const filterResult = (users: IUser[]) => {
-            const updatedValue = produce(users, (draft) => {
-              const foundIndex = draft.findIndex(
-                (user) => user.userId === data.userId
-              );
-              if (foundIndex !== -1) draft[foundIndex].status = "offline";
-            });
-            return updatedValue;
-          };
-
-          return Array.isArray(oldData) && areGroupUsers(oldData)
-            ? filterResult(oldData)
-            : oldData;
-        }
-      );
-    });
-
-    socket.on("logged_user_in", (data: IChangeUserStatus) => {
-      queryClient.setQueryData(
-        [`group-users-${data.payload}`],
-        (oldData: unknown) => {
-          console.log("logged_user_in client", oldData, data);
-          const filterResult = (users: IUser[]) => {
-            const updatedValue = produce(users, (draft) => {
-              const foundIndex = draft.findIndex(
-                (user) => user.userId === data.userId
-              );
-              if (foundIndex !== -1) draft[foundIndex].status = "online";
-            });
-            return updatedValue;
-          };
-          return Array.isArray(oldData) && areGroupUsers(oldData)
-            ? filterResult(oldData)
-            : oldData;
-        }
-      );
-    });
-
+    userEvents({ socket, queryClient });
     // GROUP EVENTS
     groupEvents({ socket, queryClient });
 

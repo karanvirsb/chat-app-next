@@ -8,7 +8,7 @@ import { IMessage } from "../Hooks/groupChatHooks";
 import { IGroup, IGroupUsers, IUser } from "../Hooks/groupHooks";
 import { PaginatedGroupMessages } from "../utilities/types/pagination";
 import socket from ".";
-import { groupEvents } from "./group-events";
+import { groupEvents } from "./events/group-events";
 import { UpdateChannelsListEvent } from "./types/groupChannelTypes";
 import {
   ICreateGroupMessageEvent,

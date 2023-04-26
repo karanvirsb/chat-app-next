@@ -2,6 +2,7 @@ import { Middleware } from "@reduxjs/toolkit";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
+import { IGroup } from "@/server/Features/group/group";
 import socket from "@/Sockets";
 import { UpdateEvent } from "@/Sockets/types/groupTypes";
 
@@ -16,17 +17,19 @@ export const groupMiddleware: Middleware = (store) => (next) => {
     if (groupActions.updateGroup.match(action) && socket.connected) {
       console.log(action);
       socket.emit("update_group", action.payload);
-      socket.on("updates_for_group", (data) => {
-        const groups: IGroupState["groups"] =
-          store.getState().groupReducer.groups;
-        const group = groups.findIndex(
-          (group) => group.groupId === data.groupId
-        );
-        const newGroups: IGroupState["groups"] = [...groups];
-        if (group !== -1) {
-          newGroups[group] = { ...newGroups[group], ...data.group_updates };
+      socket.on("updates_for_group", (data: UseCaseReturn<IGroup>) => {
+        if (data.success && data.data !== undefined) {
+          const groups: IGroupState["groups"] =
+            store.getState().groupReducer.groups;
+          const group = groups.findIndex(
+            (group) => group.groupId === data.data?.groupId
+          );
+          const newGroups: IGroupState["groups"] = [...groups];
+          if (group !== -1) {
+            newGroups[group] = data.data;
+          }
+          store.dispatch(groupActions.setGroups(newGroups));
         }
-        store.dispatch(groupActions.setGroups(newGroups));
         socket.off("updates_for_group");
       });
     }

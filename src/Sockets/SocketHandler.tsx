@@ -162,6 +162,7 @@ export default function SocketHandler({ children }: props) {
 
     return () => {
       socket.removeAllListeners();
+      socket.disconnect();
     };
   }, [queryClient]);
   return <>{children}</>;

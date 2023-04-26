@@ -4,6 +4,7 @@ import { Server, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { io } from "socket.io-client";
 
+import { updateGroupUC } from "@/server/Features/group/updateGroup";
 import { editUser } from "@/server/Features/user/use-cases";
 import { UpdateChannelsListEvent } from "@/Sockets/types/groupChannelTypes";
 import {
@@ -80,9 +81,14 @@ export default function SocketHandler(
 
       // GROUP EVENTS
       // when the update is successful
-      socket.on("update_group", (data: UpdateEvent) => {
+      socket.on("update_group", async (data: UpdateEvent) => {
         console.log("🚀 ~ file: index.ts:84 ~ socket.on ~ data:", data);
-        io.to(data.groupId).emit("updates_for_group", data);
+        const updatedGroup = await updateGroupUC({
+          groupId: data.groupId,
+          updates: data.group_updates,
+        });
+
+        io.to(data.groupId).emit("updates_for_group", updatedGroup);
       });
 
       socket.on("delete_the_group", (groupData: DeleteEvent) => {

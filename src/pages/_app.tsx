@@ -15,7 +15,11 @@ if (typeof window !== "undefined") {
   // SuperTokensReact.init(frontendConfig());
 }
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: Infinity } },
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
 });
 export default function App({
   Component,

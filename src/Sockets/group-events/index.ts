@@ -6,14 +6,12 @@ import { IUser } from "@/server/Features/user/user";
 import {
   DeleteEvent,
   LeaveGroupEvent,
-  UpdateEvent,
   UpdateGroupUsersEvent,
 } from "@/shared/socket-events/groupEventTypes";
 
 type props = { socket: Socket; queryClient: QueryClient };
 export function groupEvents({ socket, queryClient }: props) {
-  socket.on("update_for_group", (data: UseCaseReturn<IGroup>) => {
-    console.log("🚀 ~ file: SocketHandler.tsx:119 ~ socket.on ~ data:", data);
+  socket.on("updates_for_group", (data: UseCaseReturn<IGroup>) => {
     queryClient.setQueriesData(["groups"], (oldData: unknown) => {
       return Array.isArray(oldData) && data.success
         ? oldData.map((entity) =>

@@ -7,9 +7,11 @@ import {
 } from "@tanstack/react-query";
 // import useGetSession from "./useGetSession";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 import axios from "../API/axios";
 import useGroupSockets from "../Sockets/Hooks/useGroupSockets";
+import { useAppSelector } from "./reduxHooks";
 
 // setting up global variables
 const baseurl = "http://localhost:3000/api/group";
@@ -73,6 +75,8 @@ function useGetGroupsQuery({
 }: {
   userId: string | undefined;
 }): IUseGetGroupsQuery {
+  const queryClient = useQueryClient();
+  const groups = useAppSelector((state) => state.groupReducer.groups);
   const getGroups = async (): Promise<IGroup[] | string> => {
     const resp = await axios({
       url: `${baseurl}/user/${userId}`,
@@ -89,6 +93,12 @@ function useGetGroupsQuery({
       return result.error ?? "";
     }
   };
+
+  useEffect(() => {
+    if (groups.length > 0) {
+      queryClient.invalidateQueries(["groups"]);
+    }
+  }, [groups, queryClient]);
 
   return useQuery({
     queryKey: [`groups`],

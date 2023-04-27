@@ -1,8 +1,8 @@
 import { NextApiRequest } from "next";
 import { Server } from "socket.io";
 
+import { groupEvents } from "@/server/sockets/events/group-events";
 import { userEvents } from "@/server/sockets/events/user-events";
-import { groupEvents } from "@/Sockets/events/group-events";
 import { UpdateChannelsListEvent } from "@/Sockets/types/groupChannelTypes";
 import {
   ICreateGroupMessageEvent,

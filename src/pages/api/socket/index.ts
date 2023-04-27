@@ -3,7 +3,7 @@ import { Server, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 import { updateGroupUC } from "@/server/Features/group/updateGroup";
-import { editUser } from "@/server/Features/user/use-cases";
+import { userEvents } from "@/server/sockets/events/user-events";
 import { UpdateChannelsListEvent } from "@/Sockets/types/groupChannelTypes";
 import {
   ICreateGroupMessageEvent,
@@ -13,18 +13,12 @@ import {
 import {
   DeleteEvent,
   LeaveGroupEvent,
-  LeaveRoomEvent,
   UpdateEvent,
   UpdateGroupUsersEvent,
 } from "@/Sockets/types/groupTypes";
-import { ILogoutEvent } from "@/Sockets/types/loginAndLogoutTypes";
 import { NextApiResponseServerIO } from "@/types/next";
 
-type socket = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
-
 const chatRooms = new Map<string, Set<string>>();
-
-const MAX_TIMEOUT = 240000; // 3 mins
 
 export default function SocketHandler(
   req: NextApiRequest,
@@ -35,7 +29,6 @@ export default function SocketHandler(
     const io = new Server(res.socket.server as any, { path: "/api/socket" });
     res.socket.server.io = io;
     io.on("connection", (socket) => {
-      let droppedConnectionTimeout: NodeJS.Timeout;
       console.log("🚀 ~ file: index.ts:10 ~ io.on ~ sockets:", socket.id);
       // socket.on("ping", () => {
       //   clearTimeout(droppedConnectionTimeout);
@@ -44,38 +37,10 @@ export default function SocketHandler(
 
       // USER EVENTS
       // makes the socket join all the rooms
-      socket.on(
-        "join_rooms",
-        joinRooms(socket, () =>
-          setCheckDroppedConnection(socket, droppedConnectionTimeout, io)
-        )
-      );
+      userEvents(socket, io);
 
-      socket.on("leave_room", (data: LeaveRoomEvent) => {
-        socket.leave(data.groupId);
-      });
-
-      socket.on("login_user", async (data: ILogoutEvent) => {
-        await editUser({ userId: data.userId, updates: { status: "online" } });
-        data.payload.groupIds.forEach((groupId) => {
-          console.log(`userId: ${data.userId}, groupId: ${groupId}`);
-          io.to(groupId).emit("logged_user_in", {
-            userId: data.userId,
-            payload: groupId,
-          });
-        });
-      });
-
-      socket.on("logout_user", async (data: ILogoutEvent) => {
-        await editUser({ userId: data.userId, updates: { status: "offline" } });
-        data.payload.groupIds.forEach((groupId) => {
-          console.log(data.userId, groupId);
-          io.to(groupId).emit("logged_user_out", {
-            userId: data.userId,
-            payload: groupId,
-          });
-        });
-      });
+      // write a function that allows exporting socket io to another file
+      // and then import it in another file
 
       // GROUP EVENTS
       // when the update is successful
@@ -137,50 +102,3 @@ export const config = {
     bodyParser: false,
   },
 };
-
-function joinRooms(
-  socket: socket,
-  setCheckDroppedConnection: () => void
-): (...args: any[]) => void {
-  return ({ rooms, userId }: { rooms: string | string[]; userId: string }) => {
-    socket.data["userId"] = userId;
-    setCheckDroppedConnection();
-    console.log(
-      `socketId: ${socket.id} and userId: ${socket.data.userId} is joining rooms: ${rooms}`
-    );
-    socket.emit("joined_room");
-    socket.join(rooms);
-  };
-}
-
-function isConnectionDropped(
-  socket: socket,
-  drop: NodeJS.Timeout,
-  io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
-) {
-  if (!socket) return; // if socket does not exist exit
-  socket.emit("echo"); //emit an echo
-
-  // check to see if user will respond
-  drop = setTimeout(async () => {
-    console.log("socket did not respond");
-    await editUser({
-      userId: socket.data.userId,
-      updates: { status: "offline" },
-    }); // set status to offline
-    socket.rooms.forEach((room) => {
-      io.to(room).emit("logged_user_out", {
-        userId: socket.data.userId,
-        payload: room,
-      });
-    }); // send status change to other users
-  }, 5000);
-}
-
-function setCheckDroppedConnection(
-  socket: socket,
-  drop: NodeJS.Timeout,
-  io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
-) {
-  setTimeout(() => isConnectionDropped(socket, drop, io), MAX_TIMEOUT);
-}

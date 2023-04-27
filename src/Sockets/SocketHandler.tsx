@@ -60,6 +60,7 @@ export default function SocketHandler({ children }: props) {
 
     // USER EVENTS
     userEvents({ socket, queryClient });
+
     // GROUP EVENTS
     groupEvents({ socket, queryClient });
 
@@ -70,7 +71,6 @@ export default function SocketHandler({ children }: props) {
 
     return () => {
       socket.removeAllListeners();
-      socket.disconnect();
     };
   }, [queryClient]);
   return <>{children}</>;

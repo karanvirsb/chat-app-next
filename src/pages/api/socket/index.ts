@@ -4,6 +4,7 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 import { updateGroupUC } from "@/server/Features/group/updateGroup";
 import { userEvents } from "@/server/sockets/events/user-events";
+import { groupEvents } from "@/Sockets/events/group-events";
 import { UpdateChannelsListEvent } from "@/Sockets/types/groupChannelTypes";
 import {
   ICreateGroupMessageEvent,
@@ -37,40 +38,11 @@ export default function SocketHandler(
 
       // USER EVENTS
       // makes the socket join all the rooms
-      userEvents(socket, io);
-
-      // write a function that allows exporting socket io to another file
-      // and then import it in another file
+      userEvents({ socket, io });
 
       // GROUP EVENTS
       // when the update is successful
-      socket.on("update_group", async (data: UpdateEvent) => {
-        console.log("🚀 ~ file: index.ts:84 ~ socket.on ~ data:", data);
-        const updatedGroup = await updateGroupUC({
-          groupId: data.groupId,
-          updates: data.group_updates,
-        });
-
-        io.to(data.groupId).emit("updates_for_group", updatedGroup);
-      });
-
-      socket.on("delete_the_group", (groupData: DeleteEvent) => {
-        io.to(groupData.groupId).emit("delete_group", groupData);
-      });
-
-      socket.on(
-        "update_the_group_users",
-        (groupUserData: UpdateGroupUsersEvent) => {
-          io.to(groupUserData.groupId).emit(
-            "update_group_users",
-            groupUserData
-          );
-        }
-      );
-
-      socket.on("leave_the_group", (groupUserData: LeaveGroupEvent) => {
-        io.to(groupUserData.groupId).emit("removed_user", groupUserData);
-      });
+      groupEvents({ socket, io });
 
       // group channel events
       socket.on("update_channel_lists", (data: UpdateChannelsListEvent) => {

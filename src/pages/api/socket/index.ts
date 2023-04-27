@@ -1,8 +1,6 @@
 import { NextApiRequest } from "next";
-import { Server, Socket } from "socket.io";
-import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import { Server } from "socket.io";
 
-import { updateGroupUC } from "@/server/Features/group/updateGroup";
 import { userEvents } from "@/server/sockets/events/user-events";
 import { groupEvents } from "@/Sockets/events/group-events";
 import { UpdateChannelsListEvent } from "@/Sockets/types/groupChannelTypes";
@@ -11,12 +9,6 @@ import {
   IDeleteGroupMessageEvent,
   IUpdateGroupMessageEvent,
 } from "@/Sockets/types/groupChatTypes";
-import {
-  DeleteEvent,
-  LeaveGroupEvent,
-  UpdateEvent,
-  UpdateGroupUsersEvent,
-} from "@/Sockets/types/groupTypes";
 import { NextApiResponseServerIO } from "@/types/next";
 
 const chatRooms = new Map<string, Set<string>>();

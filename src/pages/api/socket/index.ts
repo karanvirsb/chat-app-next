@@ -1,8 +1,6 @@
-import { Server as NetServer } from "http";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 import { Server, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
-import { io } from "socket.io-client";
 
 import { updateGroupUC } from "@/server/Features/group/updateGroup";
 import { editUser } from "@/server/Features/user/use-cases";

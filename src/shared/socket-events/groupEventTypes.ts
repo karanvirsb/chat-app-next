@@ -8,7 +8,7 @@ export type InvalidateEvent = {
 
 export type UpdateEvent = {
   groupId: string;
-  payload: Partial<IGroup>;
+  group_updates: Partial<IGroup>;
 };
 
 export type DeleteEvent = {

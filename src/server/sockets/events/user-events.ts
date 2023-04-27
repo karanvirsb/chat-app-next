@@ -12,10 +12,7 @@ type props = {
 };
 
 const MAX_TIMEOUT = 240000; // 3 mins
-export function userEvents(
-  socket: Socket,
-  io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
-) {
+export function userEvents({ socket, io }: props) {
   console.log("here ");
   let droppedConnectionTimeout: NodeJS.Timeout;
   socket.on(

@@ -1,6 +1,7 @@
 import { NextApiRequest } from "next";
 import { Server } from "socket.io";
 
+import { groupChannelEvents } from "@/server/sockets/events/group-channel-events";
 import { groupEvents } from "@/server/sockets/events/group-events";
 import { userEvents } from "@/server/sockets/events/user-events";
 import { UpdateChannelsListEvent } from "@/Sockets/types/groupChannelTypes";
@@ -37,12 +38,7 @@ export default function SocketHandler(
       groupEvents({ socket, io });
 
       // group channel events
-      socket.on("update_channel_lists", (data: UpdateChannelsListEvent) => {
-        io.to(data.groupId).emit(
-          "update_channel_list",
-          data.payload.channelInfo
-        );
-      });
+      groupChannelEvents({ socket, io });
 
       // group chat events
       socket.on("create_group_message", (data: ICreateGroupMessageEvent) => {

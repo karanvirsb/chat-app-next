@@ -5,12 +5,6 @@ import { groupChannelEvents } from "@/server/sockets/events/group-channel-events
 import { groupChatEvents } from "@/server/sockets/events/group-chat-events";
 import { groupEvents } from "@/server/sockets/events/group-events";
 import { userEvents } from "@/server/sockets/events/user-events";
-import { UpdateChannelsListEvent } from "@/Sockets/types/groupChannelTypes";
-import {
-  ICreateGroupMessageEvent,
-  IDeleteGroupMessageEvent,
-  IUpdateGroupMessageEvent,
-} from "@/Sockets/types/groupChatTypes";
 import { NextApiResponseServerIO } from "@/types/next";
 
 const chatRooms = new Map<string, Set<string>>();

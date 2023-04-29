@@ -1,17 +1,19 @@
-import { z, ZodError } from "zod";
+import { z } from "zod";
+
+import { EntityReturn } from "@/shared/types/returns";
 
 import { IId } from "../../Utilities/id";
 
 export const GroupChannelSchema = z.object({
   channelId: z.string().uuid(),
-  channelName: z.string().refine(
-    (val) => {
-      if (val.length < 3 || val.length > 50) {
-        return false;
-      }
-    },
-    { message: "Channel name should be between 3 to 50 characters long" }
-  ),
+  channelName: z
+    .string()
+    .min(3, {
+      message: "Channel name should be greater than 3 characters",
+    })
+    .max(50, {
+      message: "Channel name should be less than 50 characters",
+    }),
   dateCreated: z.date(),
   groupId: z.string(),
 });
@@ -29,17 +31,24 @@ export default function buildChannel({ Id, sanitizeText }: props) {
     channelName,
     groupId,
     dateCreated = new Date(),
-  }: IGroupChannel) {
+  }: IGroupChannel): EntityReturn<
+    Readonly<{
+      getChannelId: () => string;
+      getChannelName: () => string;
+      getGroupId: () => string;
+      getDateCreated: () => Date;
+    }>
+  > {
     const sanitizedChannelName = sanitizeText(channelName);
 
     const result = GroupChannelSchema.safeParse({
       channelId,
-      sanitizedChannelName,
+      channelName: sanitizedChannelName,
       groupId,
       dateCreated,
     });
     if (!result.success) {
-      throw new ZodError(result.error.issues);
+      return result;
     }
     // if (sanitizedChannelName.length <= 1) {
     //   throw new Error("Channel name should contain valid characters");
@@ -64,11 +73,14 @@ export default function buildChannel({ Id, sanitizeText }: props) {
     // replace any ' with a '' to escape
     const updatedChannelName = sanitizedChannelName.replace(/'/g, "''");
 
-    return Object.freeze({
-      getChannelId: () => channelId,
-      getChannelName: () => updatedChannelName,
-      getGroupId: () => groupId,
-      getDateCreated: () => dateCreated,
-    });
+    return {
+      success: true,
+      data: Object.freeze({
+        getChannelId: () => channelId,
+        getChannelName: () => updatedChannelName,
+        getGroupId: () => groupId,
+        getDateCreated: () => dateCreated,
+      }),
+    };
   };
 }

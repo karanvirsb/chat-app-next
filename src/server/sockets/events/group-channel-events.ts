@@ -16,14 +16,14 @@ export function groupChannelEvents({ socket, io }: props) {
     TGroupChannelEvents.ADD_CHANNEL.send,
     async (data: UpdateChannelsListEvent) => {
       const result = await createChannel(data);
-      if (result.success && result.data) {
-        io.to(data.groupId).emit(TGroupChannelEvents.ADD_CHANNEL.broadcast, {
-          success: true,
-          data,
-        });
-      } else {
+      if (!result.success) {
         socket.emit(TGroupChannelEvents.ADD_CHANNEL.error, result.error);
+        return;
       }
+      io.to(data.groupId).emit(TGroupChannelEvents.ADD_CHANNEL.broadcast, {
+        success: true,
+        data,
+      });
     }
   );
 }

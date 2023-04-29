@@ -30,6 +30,10 @@ export const groupMiddleware: Middleware = (store) => (next) => {
       socket.off("join_rooms");
     }
 
+    if (groupActions.addChannel.match(action) && socket.connected) {
+      socket.emit("add_channel", action.payload);
+    }
+
     next(action);
   };
 };

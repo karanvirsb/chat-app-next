@@ -32,6 +32,7 @@ export const groupMiddleware: Middleware = (store) => (next) => {
 
     if (groupActions.addChannel.match(action) && socket.connected) {
       socket.emit("add_channel", action.payload);
+      socket.off("add_channel");
     }
 
     next(action);

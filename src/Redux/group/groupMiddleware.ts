@@ -2,6 +2,7 @@ import { Middleware } from "@reduxjs/toolkit";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
+import { TGroupChannelEvents } from "@/shared/socket-events/groupChannelTypes";
 import socket from "@/Sockets";
 
 import { groupActions } from "./groupSlice";
@@ -31,8 +32,16 @@ export const groupMiddleware: Middleware = (store) => (next) => {
     }
 
     if (groupActions.addChannel.match(action) && socket.connected) {
-      socket.emit("add_channel", action.payload);
-      socket.off("add_channel");
+      const { setLoading, setSuccess, channel } = action.payload;
+      setLoading(true);
+      socket.emit(TGroupChannelEvents.ADD_CHANNEL.send, channel);
+      socket.on(TGroupChannelEvents.ADD_CHANNEL.broadcast, (data) => {
+        if (data.success) {
+          setSuccess(true);
+        }
+        setLoading(false);
+      });
+      socket.off(TGroupChannelEvents.ADD_CHANNEL.send);
     }
 
     next(action);

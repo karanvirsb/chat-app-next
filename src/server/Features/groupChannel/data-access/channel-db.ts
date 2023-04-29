@@ -21,7 +21,7 @@ export interface IMakeChannelDb {
   returnType: Readonly<{
     createChannel: (
       channelInfo: IGroupChannel
-    ) => Promise<returningChannelData>;
+    ) => Promise<DBAccessReturn<IGroupChannel>>;
     deleteChannel: (channelId: string) => Promise<returningChannelData>;
     updateChannelName: (
       channelId: string,
@@ -46,7 +46,7 @@ export default function makeChannelDb({
   // create channel (channelInfo);
   async function createChannel(
     channelInfo: IGroupChannel
-  ): Promise<returningChannelData> {
+  ): Promise<DBAccessReturn<IGroupChannel>> {
     const db = await makeDb();
 
     try {
@@ -61,11 +61,10 @@ export default function makeChannelDb({
       if (res.rowCount === 1) {
         const channel: IGroupChannel = res.rows[0];
         channel.dateCreated = new Date(channel.dateCreated);
-        return { success: true, data: channel, error: "" };
+        return { success: true, data: channel };
       } else {
         return {
-          success: true,
-          data: undefined,
+          success: false,
           error: "Could not create the channel.",
         };
       }
@@ -76,8 +75,7 @@ export default function makeChannelDb({
       );
       return {
         success: false,
-        data: undefined,
-        error: error + "",
+        error: error,
       };
     } finally {
       db.release();

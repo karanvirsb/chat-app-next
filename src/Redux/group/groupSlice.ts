@@ -35,8 +35,16 @@ const groupSlice = createSlice({
     setChannels(state, action: PayloadAction<IGroupChannel[]>) {
       state.channels = action.payload;
     },
-    addChannel(state, action: PayloadAction<IGroupChannel>) {
-      state.channels.push(action.payload);
+    addChannel(
+      state,
+      action: PayloadAction<{
+        channel: Pick<IGroupChannel, "groupId" | "channelName">;
+        setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+        setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+      }>
+    ) {
+      return;
+      // state.channels.push(action.payload.channel);
     },
   },
 });

@@ -2,6 +2,7 @@ import { Server, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 import { createChannel } from "@/server/Features/groupChannel/use-cases";
+import { TGroupChannelEvents } from "@/shared/socket-events/groupChannelTypes";
 
 import { UpdateChannelsListEvent } from "../types/groupChannel";
 
@@ -11,12 +12,18 @@ type props = {
 };
 
 export function groupChannelEvents({ socket, io }: props) {
-  socket.on("add_channel", async (data: UpdateChannelsListEvent) => {
-    const result = await createChannel(data);
-    if (result.success && result.data) {
-      io.to(data.groupId).emit("add_new_channel", data);
-    } else {
-      socket.emit("add_new_channel_error", result.error);
+  socket.on(
+    TGroupChannelEvents.ADD_CHANNEL.send,
+    async (data: UpdateChannelsListEvent) => {
+      const result = await createChannel(data);
+      if (result.success && result.data) {
+        io.to(data.groupId).emit(TGroupChannelEvents.ADD_CHANNEL.broadcast, {
+          success: true,
+          data,
+        });
+      } else {
+        socket.emit(TGroupChannelEvents.ADD_CHANNEL.error, result.error);
+      }
     }
-  });
+  );
 }

@@ -18,22 +18,26 @@ type returnData = Promise<{
 }>;
 
 export interface ICreateChannelUseCase {
-  createChannel: (channelInfo: IGroupChannel) => Promise<returnData>;
+  createChannel: (
+    channelInfo: IGroupChannel
+  ) => Promise<UseCaseReturn<IGroupChannel>>;
 }
 
 export default function makeCreateChannel({
   handleModeration,
   channelDb,
 }: props): ICreateChannelUseCase["createChannel"] {
-  return async function createChannel(
-    channelInfo: IGroupChannel
-  ): Promise<returnData> {
-    if (!channelInfo.channelName)
-      throw new Error("Channel name needs to be supplied");
-    if (!channelInfo.groupId) throw new Error("Group Id needs to be supplied");
+  return async function createChannel(channelInfo: IGroupChannel) {
+    // if (!channelInfo.channelName)
+    //   throw new Error("Channel name needs to be supplied");
+    // if (!channelInfo.groupId) throw new Error("Group Id needs to be supplied");
 
-    const channel = makeChannel(channelInfo);
+    const result = makeChannel(channelInfo);
 
+    if (!result.success) {
+      return { success: false, error: result.error };
+    }
+    const channel = result.data;
     const moderatedName = await handleModeration(channel.getChannelName());
 
     if (moderatedName) {

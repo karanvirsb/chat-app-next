@@ -7,7 +7,7 @@ import { UpdateChannelsListEvent } from "../types/groupChannelTypes";
 
 type props = { socket: Socket; queryClient: QueryClient };
 export function groupChannelEvents({ socket, queryClient }: props) {
-  socket.on("update_channel_list", (data: UpdateChannelsListEvent) => {
+  socket.on("add_new_channel", (data: UpdateChannelsListEvent) => {
     queryClient.setQueriesData(
       [`group-channels-${data.groupId}`],
       (oldData: unknown) => {

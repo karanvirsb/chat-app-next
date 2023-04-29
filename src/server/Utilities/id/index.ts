@@ -1,11 +1,9 @@
-import cuid from "cuid";
+import { v4 as uuid } from "uuid";
 
 export interface IId {
   makeId: () => string;
 }
 
-const makeId = () => {
-  return cuid();
+export const makeId = () => {
+  return uuid();
 };
-
-export default { makeId };

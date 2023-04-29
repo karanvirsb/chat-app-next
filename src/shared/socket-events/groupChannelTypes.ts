@@ -1,4 +1,4 @@
-export const groupChannelEvents = {
+export const TGroupChannelEvents = {
   ADD_CHANNEL: {
     send: "add_channel",
     broadcast: "add_new_channel",

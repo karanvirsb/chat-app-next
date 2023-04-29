@@ -1,6 +1,9 @@
 import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 
+import { groupActions } from "@/Redux/group/groupSlice";
+import socket from "@/Sockets";
+
 import {
   returnGroupChannel,
   useCreateGroupChannelMutation,
@@ -18,10 +21,12 @@ type props = {
 export default function CreateGroupChannelModal({ groupId }: props) {
   const [channelName, setChannelName] = useState("");
   const [errorMsg, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const dispatch = useAppDispatch();
 
-  const { mutate, isLoading, isSuccess, isError, error } =
-    useCreateGroupChannelMutation();
+  // const { mutate, isLoading, isSuccess, isError, error } =
+  //   useCreateGroupChannelMutation();
 
   useEffect(() => {
     if (!isLoading && isSuccess) {
@@ -29,13 +34,14 @@ export default function CreateGroupChannelModal({ groupId }: props) {
       setChannelName("");
       setErrorMessage("");
     }
-    if (!isLoading && isError) {
-      if (error instanceof AxiosError) {
-        const errorMessage: returnGroupChannel = error.response?.data;
-        setErrorMessage(errorMessage.error);
+    socket.on("add_new_channel_error", (data: unknown) => {
+      if (data instanceof AxiosError) {
+        setErrorMessage(data.response?.data.message);
       }
-    }
-  }, [isLoading, isSuccess, isError, error]);
+    });
+
+    return () => socket.off("add_new_channel_error");
+  }, [isLoading, isSuccess]);
 
   return (
     <Modal modalName="Create Channel" modalClass="flex">
@@ -76,10 +82,18 @@ export default function CreateGroupChannelModal({ groupId }: props) {
     if (!channelName) setErrorMessage("Group name must be provided.");
     if (!isLoading) {
       try {
-        mutate({
-          channelName,
-          groupId,
-        });
+        // mutate({
+        //   channelName,
+        //   groupId,
+        // });
+
+        dispatch(
+          groupActions.addChannel({
+            channel: { channelName, groupId },
+            setLoading: setIsLoading,
+            setSuccess: setIsSuccess,
+          })
+        );
       } catch (err) {
         console.log(err);
       }

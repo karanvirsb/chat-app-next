@@ -38,6 +38,8 @@ export default function CreateGroupChannelModal({ groupId }: props) {
             "An Error Occurred. Try Again!"
         );
       }
+      setIsLoading(false);
+      setIsSuccess(false);
     });
 
     return () => {

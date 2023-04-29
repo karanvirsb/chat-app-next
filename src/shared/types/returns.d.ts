@@ -23,3 +23,10 @@ export type DBAccessReturn<T> =
       success: false;
       error: unknown;
     };
+
+export type EntityReturn<T> =
+  | {
+      success: true;
+      data: T;
+    }
+  | { success: false; error: unknown };

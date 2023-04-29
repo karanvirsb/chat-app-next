@@ -1,13 +1,10 @@
-import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 
 import { groupActions } from "@/Redux/group/groupSlice";
+import { IGroupChannel } from "@/server/Features/groupChannel/groupChannel";
 import socket from "@/Sockets";
+import { isZodError } from "@/utilities/isZodError";
 
-import {
-  returnGroupChannel,
-  useCreateGroupChannelMutation,
-} from "../../Hooks/groupChannelHooks";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { resetModal } from "../../Redux/slices/modalSlice";
 import BtnCallToAction from "../Buttons/BtnCallToAction";
@@ -35,12 +32,17 @@ export default function CreateGroupChannelModal({ groupId }: props) {
       setErrorMessage("");
     }
     socket.on("add_new_channel_error", (data: unknown) => {
-      if (data instanceof AxiosError) {
-        setErrorMessage(data.response?.data.message);
+      if (isZodError<IGroupChannel>(data)) {
+        setErrorMessage(
+          data.flatten().fieldErrors.channelName?.join("and") ??
+            "An Error Occurred. Try Again!"
+        );
       }
     });
 
-    return () => socket.off("add_new_channel_error");
+    return () => {
+      socket.off("add_new_channel_error");
+    };
   }, [isLoading, isSuccess]);
 
   return (

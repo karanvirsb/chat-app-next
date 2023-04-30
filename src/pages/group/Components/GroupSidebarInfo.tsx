@@ -104,7 +104,10 @@ export default function GroupSidebarInfo({ groupId }: props) {
               {channels?.map((channel) => {
                 if (channel.channelId === searchParams.get("channel")) {
                   return (
-                    <li className="opacity-80" key={channel.channelId}>
+                    <li
+                      className="opacity-80"
+                      key={channel.channelName + channel.channelId}
+                    >
                       <span className="mr-2">#</span>
                       {channel.channelName}
                     </li>
@@ -112,7 +115,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
                 } else {
                   return (
                     <li
-                      key={channel.channelId}
+                      key={channel.channelName + channel.channelId}
                       onClick={() => {
                         setActiveChannel(channel.channelId);
                       }}

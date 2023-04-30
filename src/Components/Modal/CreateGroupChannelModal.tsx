@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupChannel } from "@/server/Features/groupChannel/groupChannel";
+import { TGroupChannelEvents } from "@/shared/socket-events/groupChannelTypes";
 import socket from "@/Sockets";
 import { isZodError } from "@/utilities/isZodError";
 
@@ -31,7 +32,7 @@ export default function CreateGroupChannelModal({ groupId }: props) {
       setChannelName("");
       setErrorMessage("");
     }
-    socket.on("add_new_channel_error", (data: unknown) => {
+    socket.on(TGroupChannelEvents.ADD_CHANNEL.error, (data: unknown) => {
       if (isZodError<IGroupChannel>(data)) {
         setErrorMessage(
           data.flatten().fieldErrors.channelName?.join("and") ??
@@ -42,8 +43,15 @@ export default function CreateGroupChannelModal({ groupId }: props) {
       setIsSuccess(false);
     });
 
+    socket.on(TGroupChannelEvents.ADD_CHANNEL.broadcast, (data) => {
+      if (data.success) {
+        setIsSuccess(true);
+      }
+      setIsLoading(false);
+    });
+
     return () => {
-      socket.off("add_new_channel_error");
+      socket.removeAllListeners();
     };
   }, [isLoading, isSuccess]);
 
@@ -62,7 +70,10 @@ export default function CreateGroupChannelModal({ groupId }: props) {
         <div className="flex gap-4 mt-2">
           <BtnCallToAction
             text="Create"
-            onClick={handleSubmit}
+            onClick={() => {
+              handleSubmit;
+              setIsLoading(true);
+            }}
             isLoading={isLoading}
           ></BtnCallToAction>
           <BtnCancelAction text="Cancel" onClick={closeModal}></BtnCancelAction>
@@ -90,12 +101,9 @@ export default function CreateGroupChannelModal({ groupId }: props) {
         //   channelName,
         //   groupId,
         // });
-
         dispatch(
           groupActions.addChannel({
             channel: { channelName, groupId },
-            setLoading: setIsLoading,
-            setSuccess: setIsSuccess,
           })
         );
       } catch (err) {

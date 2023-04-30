@@ -5,6 +5,7 @@ import { IGroup } from "@/server/Features/group/group";
 import { IUser } from "@/server/Features/user/user";
 import {
   DeleteEvent,
+  GroupEventsNames,
   LeaveGroupEvent,
   UpdateGroupUsersEvent,
 } from "@/shared/socket-events/groupEventTypes";
@@ -23,7 +24,7 @@ export function groupEvents({ socket, queryClient }: props) {
     });
   });
 
-  socket.on("delete_group", (data: DeleteEvent) => {
+  socket.on(GroupEventsNames.DELETE_GROUP.broadcast, (data: DeleteEvent) => {
     queryClient.setQueriesData(["groups"], (oldData: unknown) => {
       const deleteGroup = (group: IGroup) => group.groupId !== data.groupId;
       return Array.isArray(oldData) ? oldData.filter(deleteGroup) : oldData;

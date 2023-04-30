@@ -2,8 +2,10 @@ import { Server, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 import { updateGroupUC } from "@/server/Features/group/updateGroup";
+import { deleteGroup } from "@/server/Features/group/use-cases";
 import {
   DeleteEvent,
+  GroupEventsNames,
   LeaveGroupEvent,
   UpdateEvent,
   UpdateGroupUsersEvent,
@@ -24,9 +26,20 @@ export function groupEvents({ socket, io }: props) {
     io.to(data.groupId).emit("updates_for_group", updatedGroup);
   });
 
-  socket.on("delete_the_group", (groupData: DeleteEvent) => {
-    io.to(groupData.groupId).emit("delete_group", groupData);
-  });
+  socket.on(
+    GroupEventsNames.DELETE_GROUP.send,
+    async (groupData: DeleteEvent) => {
+      const deletedGroup = await deleteGroup(groupData.groupId);
+      if (!deletedGroup.success) {
+        socket.emit(GroupEventsNames.DELETE_GROUP.error, deletedGroup.error);
+        return;
+      }
+      io.to(groupData.groupId).emit(
+        GroupEventsNames.DELETE_GROUP.broadcast,
+        groupData
+      );
+    }
+  );
 
   socket.on(
     "update_the_group_users",

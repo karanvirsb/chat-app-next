@@ -3,7 +3,7 @@ import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
 import { TGroupChannelEvents } from "@/shared/socket-events/groupChannelTypes";
-import { TGroupEventsNames } from "@/shared/socket-events/groupEventTypes";
+import { GroupEventsNames } from "@/shared/socket-events/groupEventTypes";
 import socket from "@/Sockets";
 
 import { groupActions } from "./groupSlice";
@@ -41,7 +41,7 @@ export const groupMiddleware: Middleware = (store) => (next) => {
     }
 
     if (groupActions.deleteGroup.match(action) && socket.connected) {
-      socket.emit(TGroupEventsNames.DELETE_GROUP.send, action.payload);
+      socket.emit(GroupEventsNames.DELETE_GROUP.send, action.payload);
     }
 
     next(action);

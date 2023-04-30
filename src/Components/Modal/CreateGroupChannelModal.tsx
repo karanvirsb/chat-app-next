@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+import { useSocketLoading } from "@/Hooks/useSocketLoading";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupChannel } from "@/server/Features/groupChannel/groupChannel";
 import { TGroupChannelEvents } from "@/shared/socket-events/groupChannelTypes";
-import socket from "@/Sockets";
 import { isZodError } from "@/utilities/isZodError";
 import { isZodIssues } from "@/utilities/isZodIssues";
 
@@ -20,43 +20,44 @@ type props = {
 export default function CreateGroupChannelModal({ groupId }: props) {
   const [channelName, setChannelName] = useState("");
   const [errorMsg, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+
+  const { loading, setLoading, error } = useSocketLoading({
+    errorEvent: TGroupChannelEvents.ADD_CHANNEL.error,
+    socketEvent: TGroupChannelEvents.ADD_CHANNEL.broadcast,
+    successCB: () => {
+      setChannelName("");
+      setErrorMessage("");
+      closeModal();
+    },
+  });
   const dispatch = useAppDispatch();
 
   // const { mutate, isLoading, isSuccess, isError, error } =
   //   useCreateGroupChannelMutation();
 
   useEffect(() => {
-    socket.on(TGroupChannelEvents.ADD_CHANNEL.error, (data: unknown) => {
-      if (isZodError<IGroupChannel>(data)) {
+    if (error) {
+      if (isZodError<IGroupChannel>(error)) {
         setErrorMessage(
-          data.flatten().fieldErrors.channelName?.join("and") ??
+          error.flatten().fieldErrors.channelName?.join("and") ??
             "An Error Occurred. Try Again!"
         );
       }
-      if (isZodIssues(data)) {
+      if (isZodIssues(error)) {
         setErrorMessage(
-          data.issues
+          error.issues
             .map((issue) => {
               return issue.message;
             })
             .join("and")
         );
       }
-      setIsLoading(false);
-      setIsSuccess(false);
-    });
 
-    socket.on(TGroupChannelEvents.ADD_CHANNEL.broadcast, (data) => {
-      console.log(data);
-      setIsSuccess(true);
-      setIsLoading(false);
-      setChannelName("");
-      setErrorMessage("");
-      closeModal();
-    });
-  }, [isLoading, isSuccess]);
+      if (typeof error === "string") {
+        setErrorMessage(error);
+      }
+    }
+  }, [error]);
 
   return (
     <Modal modalName="Create Channel" modalClass="flex">
@@ -75,9 +76,9 @@ export default function CreateGroupChannelModal({ groupId }: props) {
             text="Create"
             onClick={() => {
               handleSubmit();
-              setIsLoading(true);
+              setLoading(true);
             }}
-            isLoading={isLoading}
+            isLoading={loading}
           ></BtnCallToAction>
           <BtnCancelAction text="Cancel" onClick={closeModal}></BtnCancelAction>
         </div>
@@ -98,7 +99,7 @@ export default function CreateGroupChannelModal({ groupId }: props) {
 
   function handleSubmit() {
     if (!channelName) setErrorMessage("Group name must be provided.");
-    if (!isLoading) {
+    if (!loading) {
       try {
         // mutate({
         //   channelName,

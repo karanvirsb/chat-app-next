@@ -1,5 +1,9 @@
 import React, { useEffect } from "react";
 
+import { useSocketLoading } from "@/Hooks/useSocketLoading";
+import { groupActions } from "@/Redux/group/groupSlice";
+import { GroupEventsNames } from "@/shared/socket-events/groupEventTypes";
+
 import { useDeleteGroupMutation } from "../../Hooks/groupHooks";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { resetModal } from "../../Redux/slices/modalSlice";
@@ -11,17 +15,19 @@ type props = {
 
 export default function DeleteGroupModal({ groupId }: props) {
   const dispatch = useAppDispatch();
-  const {
-    mutate: deleteGroup,
-    isLoading,
-    isSuccess,
-  } = useDeleteGroupMutation();
+  const { loading, error, setLoading, success } = useSocketLoading({
+    socketEvent: GroupEventsNames.DELETE_GROUP.broadcast,
+    errorEvent: GroupEventsNames.DELETE_GROUP.error,
+    successCB: () => {
+      handleCancel();
+    },
+  });
 
   useEffect(() => {
-    if (!isLoading && isSuccess) {
-      handleCancel();
+    if (error) {
+      //TODO HANDLE ERROR
     }
-  }, [isLoading, isSuccess]);
+  }, [error]);
 
   return (
     <MutationModal
@@ -29,14 +35,18 @@ export default function DeleteGroupModal({ groupId }: props) {
       btnCancelName="No"
       modalName="Delete Group"
       text="Are you sure you want to delete the group?"
-      loading={isLoading}
+      loading={loading}
       handleCancel={handleCancel}
-      handleSubmit={handleSubmit}
+      handleSubmit={() => {
+        setLoading(true);
+        handleSubmit();
+      }}
     ></MutationModal>
   );
 
   function handleSubmit() {
-    deleteGroup({ groupId });
+    // deleteGroup({ groupId });
+    dispatch(groupActions.deleteGroup({ groupId }));
   }
 
   function handleCancel() {

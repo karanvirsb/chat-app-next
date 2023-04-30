@@ -27,11 +27,6 @@ export default function CreateGroupChannelModal({ groupId }: props) {
   //   useCreateGroupChannelMutation();
 
   useEffect(() => {
-    if (!isLoading && isSuccess) {
-      closeModal();
-      setChannelName("");
-      setErrorMessage("");
-    }
     socket.on(TGroupChannelEvents.ADD_CHANNEL.error, (data: unknown) => {
       if (isZodError<IGroupChannel>(data)) {
         setErrorMessage(
@@ -44,14 +39,18 @@ export default function CreateGroupChannelModal({ groupId }: props) {
     });
 
     socket.on(TGroupChannelEvents.ADD_CHANNEL.broadcast, (data) => {
-      if (data.success) {
-        setIsSuccess(true);
-      }
+      console.log(data);
+      setIsSuccess(true);
       setIsLoading(false);
+      setChannelName("");
+      setErrorMessage("");
+      closeModal();
     });
 
     return () => {
-      socket.removeAllListeners();
+      socket
+        .off(TGroupChannelEvents.ADD_CHANNEL.error)
+        .off(TGroupChannelEvents.ADD_CHANNEL.broadcast);
     };
   }, [isLoading, isSuccess]);
 
@@ -71,7 +70,7 @@ export default function CreateGroupChannelModal({ groupId }: props) {
           <BtnCallToAction
             text="Create"
             onClick={() => {
-              handleSubmit;
+              handleSubmit();
               setIsLoading(true);
             }}
             isLoading={isLoading}

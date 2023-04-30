@@ -4,7 +4,6 @@ import { useSocketLoading } from "@/Hooks/useSocketLoading";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { GroupEventsNames } from "@/shared/socket-events/groupEventTypes";
 
-import { useDeleteGroupMutation } from "../../Hooks/groupHooks";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { resetModal } from "../../Redux/slices/modalSlice";
 import MutationModal from "./MutationModal";
@@ -15,7 +14,7 @@ type props = {
 
 export default function DeleteGroupModal({ groupId }: props) {
   const dispatch = useAppDispatch();
-  const { loading, error, setLoading, success } = useSocketLoading({
+  const { loading, error, setLoading } = useSocketLoading({
     socketEvent: GroupEventsNames.DELETE_GROUP.broadcast,
     errorEvent: GroupEventsNames.DELETE_GROUP.error,
     successCB: () => {

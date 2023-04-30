@@ -19,7 +19,8 @@ export default function makeDeleteGroup({ groupDb }: props) {
   return async function deleteGroup(
     groupId: string
   ): Promise<UseCaseReturn<IGroup>> {
-    if (!groupId) throw new Error("Group Id needs to be supplied");
+    if (!groupId)
+      return { success: false, error: "Group Id needs to be supplied" };
 
     return await groupDb.removeGroup(groupId);
   };

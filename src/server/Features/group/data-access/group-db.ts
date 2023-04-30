@@ -62,7 +62,7 @@ export interface IMakeGroupDb {
       groupId: string,
       groupName: string
     ) => Promise<returningGroupData>;
-    removeGroup: (groupId: string) => Promise<returningGroupData>;
+    removeGroup: (groupId: string) => Promise<DBAccessReturn<IGroup>>;
     updateInviteCode: (
       groupId: string,
       newCode: string
@@ -198,18 +198,17 @@ export default function makeGroupDb({
 
   // delete group
 
-  async function removeGroup(groupId: string): Promise<returningGroupData> {
+  async function removeGroup(groupId: string): Promise<DBAccessReturn<IGroup>> {
     const db = await makeDb();
     try {
       const query = `DELETE FROM groupt WHERE "groupId" = '${groupId}' RETURNING *`;
       const res = await db.query(query);
       if (res.rows.length > 0) {
         const deletedGroup: IGroup = res.rows[0];
-        return { success: true, data: deletedGroup, error: "" };
+        return { success: true, data: deletedGroup };
       } else {
         return {
-          success: true,
-          data: undefined,
+          success: false,
           error: "Could not update group name",
         };
       }
@@ -220,8 +219,7 @@ export default function makeGroupDb({
       );
       return {
         success: false,
-        data: undefined,
-        error: error + "",
+        error: error,
       };
     } finally {
       db.release();

@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 import { useSocketLoading } from "@/Hooks/useSocketLoading";
@@ -13,12 +14,14 @@ type props = {
 };
 
 export default function DeleteGroupModal({ groupId }: props) {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { loading, error, setLoading } = useSocketLoading({
     socketEvent: GroupEventsNames.DELETE_GROUP.broadcast,
     errorEvent: GroupEventsNames.DELETE_GROUP.error,
     successCB: () => {
       handleCancel();
+      router.replace("/me");
     },
   });
 

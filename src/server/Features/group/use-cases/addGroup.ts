@@ -22,20 +22,24 @@ export default function makeAddGroup({ groupDb, handleModeration }: props) {
   return async function addGroup(
     groupInfo: IGroup,
     userId: string
-  ): Promise<returnData> {
+  ): Promise<UseCaseReturn<IGroup>> {
     if (!userId) throw new Error("User id needs to be supplied");
-    const group = makeGroup(groupInfo);
+    const result = makeGroup(groupInfo);
+    if (!result.success) {
+      return { success: false, error: result.error };
+    }
+
+    const group = result.data;
     const foundGroup = await groupDb.findById(group.getGroupId());
 
     if (foundGroup.success && foundGroup.data !== undefined) {
       return {
-        success: true,
-        data: undefined,
+        success: false,
         error: "Group already exists",
       };
     }
 
-    const moderatedName = await handleModeration(group.getGroupName());
+    const moderatedName = await handleModeration(group?.getGroupName());
 
     if (moderatedName) {
       throw Error("Group name contains profanity");

@@ -5,6 +5,7 @@ import { IGroupChannel } from "@/server/Features/groupChannel/groupChannel";
 import { TGroupChannelEvents } from "@/shared/socket-events/groupChannelTypes";
 import socket from "@/Sockets";
 import { isZodError } from "@/utilities/isZodError";
+import { isZodIssues } from "@/utilities/isZodIssues";
 
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { resetModal } from "../../Redux/slices/modalSlice";
@@ -34,6 +35,15 @@ export default function CreateGroupChannelModal({ groupId }: props) {
             "An Error Occurred. Try Again!"
         );
       }
+      if (isZodIssues(data)) {
+        setErrorMessage(
+          data.issues
+            .map((issue) => {
+              return issue.message;
+            })
+            .join("and")
+        );
+      }
       setIsLoading(false);
       setIsSuccess(false);
     });
@@ -46,12 +56,6 @@ export default function CreateGroupChannelModal({ groupId }: props) {
       setErrorMessage("");
       closeModal();
     });
-
-    return () => {
-      socket
-        .off(TGroupChannelEvents.ADD_CHANNEL.error)
-        .off(TGroupChannelEvents.ADD_CHANNEL.broadcast);
-    };
   }, [isLoading, isSuccess]);
 
   return (

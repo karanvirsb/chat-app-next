@@ -21,12 +21,14 @@ type props = {
 export default function GroupSidebarInfo({ groupId }: props) {
   const [activeChannel, setActiveChannel] = useState("");
   const [openContextMenu, setOpenContextMenu] = useState(false);
+
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const dispatch = useAppDispatch();
   const groups = useAppSelector((state) => state.groupReducer.groups);
   const channels = useAppSelector((state) => state.groupReducer.channels);
-  // TODO use cached data
+
   // filtering out groups to only get one
   const group = useFilterGroups({ groups, groupId });
 
@@ -102,7 +104,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
             title="Text Channels"
             clickEvent={displayCreateChannelModal}
           >
-            <ul className="flex flex-col mt-4 gap-1 justify-center w-full capitalize">
+            <ul className="relative flex flex-col mt-4 gap-1 justify-center w-full capitalize">
               {channels?.map((channel) => {
                 if (channel.channelId === searchParams.get("channel")) {
                   return (
@@ -118,8 +120,11 @@ export default function GroupSidebarInfo({ groupId }: props) {
                       {channel.channelName}
                       {openContextMenu ? (
                         <ContextMenu
-                          channelId={channel.channelId}
-                        ></ContextMenu>
+                          isOpen={openContextMenu}
+                          setIsOpen={setOpenContextMenu}
+                        >
+                          <></>
+                        </ContextMenu>
                       ) : null}
                     </li>
                   );

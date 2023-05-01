@@ -1,6 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+import { ContextMenu } from "@/Components/ContextMenu";
 import useFilterGroups from "@/Hooks/useFilterGroups";
 import { groupActions } from "@/Redux/group/groupSlice";
 
@@ -18,9 +19,10 @@ type props = {
 
 // TODO create channel components and set selected channel id
 export default function GroupSidebarInfo({ groupId }: props) {
+  const [activeChannel, setActiveChannel] = useState("");
+  const [openContextMenu, setOpenContextMenu] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [activeChannel, setActiveChannel] = useState("");
   const dispatch = useAppDispatch();
   const groups = useAppSelector((state) => state.groupReducer.groups);
   const channels = useAppSelector((state) => state.groupReducer.channels);
@@ -105,11 +107,20 @@ export default function GroupSidebarInfo({ groupId }: props) {
                 if (channel.channelId === searchParams.get("channel")) {
                   return (
                     <li
-                      className="opacity-80"
+                      className="cursor-pointer opacity-80 relative"
                       key={channel.channelName + channel.channelId}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        setOpenContextMenu(true);
+                      }}
                     >
                       <span className="mr-2">#</span>
                       {channel.channelName}
+                      {openContextMenu ? (
+                        <ContextMenu
+                          channelId={channel.channelId}
+                        ></ContextMenu>
+                      ) : null}
                     </li>
                   );
                 } else {
@@ -119,7 +130,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
                       onClick={() => {
                         setActiveChannel(channel.channelId);
                       }}
-                      className="cursor-pointer opacity-80"
+                      className="cursor-pointer opacity-80 relative"
                     >
                       {channel.channelName}
                     </li>

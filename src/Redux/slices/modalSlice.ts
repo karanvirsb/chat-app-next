@@ -33,6 +33,13 @@ export type ModalState =
         messageIndex: number;
       };
       modalName: "deleteGroupMessage";
+    }
+  | {
+      open: boolean;
+      options: {
+        channelId: string;
+      };
+      modalName: "deleteGroupChannel";
     };
 
 // Define the initial state using that type

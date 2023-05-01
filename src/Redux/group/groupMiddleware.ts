@@ -44,6 +44,10 @@ export const groupMiddleware: Middleware = (store) => (next) => {
       socket.emit(GroupEventsNames.DELETE_GROUP.send, action.payload);
     }
 
+    // CHANNEL EVENTS
+    if (groupActions.deleteChannel.match(action) && socket.connected) {
+      socket.emit(TGroupChannelEvents.DELETE_CHANNEL.send, action.payload);
+    }
     next(action);
   };
 };

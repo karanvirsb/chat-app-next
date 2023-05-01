@@ -11,7 +11,7 @@ export default function SidebarInfo({ children }: props) {
 
   return (
     <div
-      className={`flex flex-col min-w-[250px] md:fixed md:top-0 md:left-[72px] md:bottom-0 md:z-[5] ${
+      className={`flex flex-col z-10 min-w-[250px] md:fixed md:top-0 md:left-[72px] md:bottom-0 md:z-[5] ${
         isSideBarOpen ? "md:translate-x-0" : "md:-translate-x-[100%]"
       } `}
     >

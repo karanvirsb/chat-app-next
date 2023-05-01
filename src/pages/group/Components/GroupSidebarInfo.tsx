@@ -237,8 +237,9 @@ export default function GroupSidebarInfo({ groupId }: props) {
       setModal({
         modalName: "deleteGroupChannel",
         open: true,
-        options: { channelId },
+        options: { channelId, groupId },
       })
     );
+    setOpenContextMenu(false);
   }
 }

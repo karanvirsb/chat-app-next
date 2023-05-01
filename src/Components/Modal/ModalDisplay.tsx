@@ -92,6 +92,7 @@ export default function ModalDisplay() {
       {modalState.open && modalState.modalName === "deleteGroupChannel" && (
         <DeleteGroupChannelModal
           channelId={modalState.options.channelId}
+          groupId={modalState.options.groupId}
         ></DeleteGroupChannelModal>
       )}
     </>

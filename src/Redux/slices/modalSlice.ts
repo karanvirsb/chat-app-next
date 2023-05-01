@@ -38,6 +38,7 @@ export type ModalState =
       open: boolean;
       options: {
         channelId: string;
+        groupId: string;
       };
       modalName: "deleteGroupChannel";
     };

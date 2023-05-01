@@ -47,7 +47,10 @@ const groupSlice = createSlice({
       return;
       // state.channels.push(action.payload.channel);
     },
-    deleteChannel(state, action: PayloadAction<{ channelId: string }>) {
+    deleteChannel(
+      state,
+      action: PayloadAction<{ channelId: string; groupId: string }>
+    ) {
       return;
     },
   },

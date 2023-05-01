@@ -11,9 +11,10 @@ import MutationModal from "../MutationModal";
 
 type props = {
   channelId: string;
+  groupId: string;
 };
 
-export function DeleteGroupChannelModal({ channelId }: props) {
+export function DeleteGroupChannelModal({ channelId, groupId }: props) {
   const router = useRouter();
   const useParams = useSearchParams();
   const dispatch = useAppDispatch();
@@ -48,7 +49,7 @@ export function DeleteGroupChannelModal({ channelId }: props) {
   );
 
   function handleSubmit() {
-    dispatch(groupActions.deleteChannel({ channelId }));
+    dispatch(groupActions.deleteChannel({ channelId, groupId }));
   }
 
   function handleCancel() {

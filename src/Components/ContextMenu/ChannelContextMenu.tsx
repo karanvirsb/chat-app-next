@@ -6,13 +6,14 @@ type props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   channelId: string;
+  deleteCb: () => void;
 };
 
-export function ChannelContextMenu({ isOpen, setIsOpen }: props) {
+export function ChannelContextMenu({ isOpen, setIsOpen, deleteCb }: props) {
   return (
     <ContextMenu isOpen={isOpen} setIsOpen={setIsOpen}>
       <li>
-        <p className="px-2 py-1">
+        <p className="px-2 py-1" onClick={() => deleteCb()}>
           {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -8,7 +8,7 @@ type props = {
   channelId: string;
 };
 
-export function GroupChannelContextMenu({ isOpen, setIsOpen }: props) {
+export function ChannelContextMenu({ isOpen, setIsOpen }: props) {
   return (
     <ContextMenu isOpen={isOpen} setIsOpen={setIsOpen}>
       <li>

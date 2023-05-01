@@ -20,25 +20,15 @@ export default function GroupChannel({ groupId }: props) {
 
   return (
     <>
-      {isSideBarOpen && (
-        <GroupSidebarInfo
-          groupId={groupId}
-          setSelectedChannel={setSelectedChannel}
-        ></GroupSidebarInfo>
-      )}
+      {isSideBarOpen && <GroupSidebarInfo groupId={groupId}></GroupSidebarInfo>}
       <ChannelContainer>
         <>
           <GroupTopBar
             isUserMenuOpen={isUserMenuOpen}
             toggleUserMenu={toggleUserMenu}
-            selectedChannel={selectedChannel}
-            groupId={groupId}
           ></GroupTopBar>
           <ScrollWrapper>
-            <GroupChat
-              channelId={selectedChannel}
-              groupId={groupId}
-            ></GroupChat>
+            <GroupChat groupId={groupId}></GroupChat>
             <>
               {isUserMenuOpen ? (
                 <GroupUsers

@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { ContextMenu } from "@/Components/ContextMenu";
+import { GroupChannelContextMenu } from "@/Components/ContextMenu/GroupChannelContextMenu";
 import useFilterGroups from "@/Hooks/useFilterGroups";
 import { groupActions } from "@/Redux/group/groupSlice";
 
@@ -119,12 +119,11 @@ export default function GroupSidebarInfo({ groupId }: props) {
                       <span className="mr-2">#</span>
                       {channel.channelName}
                       {openContextMenu ? (
-                        <ContextMenu
+                        <GroupChannelContextMenu
                           isOpen={openContextMenu}
                           setIsOpen={setOpenContextMenu}
-                        >
-                          <></>
-                        </ContextMenu>
+                          channelId={channel.channelId}
+                        />
                       ) : null}
                     </li>
                   );
@@ -138,6 +137,13 @@ export default function GroupSidebarInfo({ groupId }: props) {
                       className="cursor-pointer opacity-80 relative"
                     >
                       {channel.channelName}
+                      {openContextMenu ? (
+                        <GroupChannelContextMenu
+                          isOpen={openContextMenu}
+                          setIsOpen={setOpenContextMenu}
+                          channelId={channel.channelId}
+                        />
+                      ) : null}
                     </li>
                   );
                 }

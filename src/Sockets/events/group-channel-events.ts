@@ -25,4 +25,19 @@ export function groupChannelEvents({ socket, queryClient }: props) {
       }
     }
   );
+  socket.on(
+    TGroupChannelEvents.DELETE_CHANNEL.broadcast,
+    (data: { groupId: string; channelId: string }) => {
+      queryClient.setQueriesData(
+        [`group-channels-${data.groupId}`],
+        (oldData: unknown) => {
+          const deleteChannel = (channel: IGroupChannel) =>
+            channel.channelId !== data.channelId;
+          return Array.isArray(oldData)
+            ? oldData.filter(deleteChannel)
+            : oldData;
+        }
+      );
+    }
+  );
 }

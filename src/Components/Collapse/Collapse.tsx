@@ -1,7 +1,7 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, { useState } from "react";
 
 type props = {
-  children: any;
+  children: React.ReactNode;
   title: string;
   clickEvent?: () => void;
 };

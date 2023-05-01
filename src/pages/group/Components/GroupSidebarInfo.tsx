@@ -44,7 +44,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
   }, [data, dispatch, isChannelsLoading, isChannelsSuccess]);
 
   useEffect(() => {
-    if (activeChannel.length > 0) {
+    if (activeChannel && activeChannel.length > 0) {
       router.push(`/group/${groupId}?channel=${activeChannel}`);
     }
   }, [activeChannel, groupId, router]);

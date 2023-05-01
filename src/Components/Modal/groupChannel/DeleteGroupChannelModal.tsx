@@ -13,7 +13,7 @@ type props = {
   channelId: string;
 };
 
-export default function DeleteGroupModal({ channelId }: props) {
+export function DeleteChannelModal({ channelId }: props) {
   const router = useRouter();
   const useParams = useSearchParams();
   const dispatch = useAppDispatch();

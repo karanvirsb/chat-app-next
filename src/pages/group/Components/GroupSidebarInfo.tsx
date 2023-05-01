@@ -130,11 +130,15 @@ export default function GroupSidebarInfo({ groupId }: props) {
                 } else {
                   return (
                     <li
+                      className="cursor-pointer opacity-80 relative"
                       key={channel.channelName + channel.channelId}
                       onClick={() => {
                         setActiveChannel(channel.channelId);
                       }}
-                      className="cursor-pointer opacity-80 relative"
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        setOpenContextMenu(true);
+                      }}
                     >
                       {channel.channelName}
                       {openContextMenu ? (

@@ -12,6 +12,7 @@ import DeleteGroupModal from "./DeleteGroupModal";
 import EditEmailModal from "./EditEmailModal";
 import EditPasswordModal from "./EditPasswordModal";
 import EditUsernameModal from "./EditUsernameModal";
+import { DeleteGroupChannelModal } from "./groupChannel/DeleteGroupChannelModal";
 import InviteUserModal from "./InviteUserModal";
 import JoinGroupModal from "./JoinGroupModal";
 import LeaveGroupModal from "./LeaveGroupModal";
@@ -87,6 +88,11 @@ export default function ModalDisplay() {
           messageIndex={modalState.options.messageIndex}
           pageIndex={modalState.options.pageIndex}
         ></DeleteMessageModal>
+      )}
+      {modalState.open && modalState.modalName === "deleteGroupChannel" && (
+        <DeleteGroupChannelModal
+          channelId={modalState.options.channelId}
+        ></DeleteGroupChannelModal>
       )}
     </>
   );

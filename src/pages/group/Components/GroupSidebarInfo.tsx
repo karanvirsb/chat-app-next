@@ -123,6 +123,11 @@ export default function GroupSidebarInfo({ groupId }: props) {
                           isOpen={openContextMenu}
                           setIsOpen={setOpenContextMenu}
                           channelId={channel.channelId}
+                          deleteCb={() =>
+                            displayDeleteChannelModal({
+                              channelId: channel.channelId,
+                            })
+                          }
                         />
                       ) : null}
                     </li>
@@ -146,6 +151,11 @@ export default function GroupSidebarInfo({ groupId }: props) {
                           isOpen={openContextMenu}
                           setIsOpen={setOpenContextMenu}
                           channelId={channel.channelId}
+                          deleteCb={() =>
+                            displayDeleteChannelModal({
+                              channelId: channel.channelId,
+                            })
+                          }
                         />
                       ) : null}
                     </li>
@@ -218,6 +228,16 @@ export default function GroupSidebarInfo({ groupId }: props) {
         modalName: "createGroupChannel",
         open: true,
         options: { groupId },
+      })
+    );
+  }
+
+  function displayDeleteChannelModal({ channelId }: { channelId: string }) {
+    dispatch(
+      setModal({
+        modalName: "deleteGroupChannel",
+        open: true,
+        options: { channelId },
       })
     );
   }

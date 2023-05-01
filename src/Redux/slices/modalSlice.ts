@@ -12,12 +12,12 @@ export type ModalState =
   | { open: boolean; options: { inviteCode: string }; modalName: "inviteUser" }
   | { open: boolean; options: { groupId: string }; modalName: "deleteGroup" }
   | { open: boolean; options: { groupId: string }; modalName: "leaveGroup" }
-  | { open: boolean; options: {}; modalName: "createGroup" }
-  | { open: boolean; options: {}; modalName: "addFriend" }
-  | { open: boolean; options: {}; modalName: "deleteAccount" }
-  | { open: boolean; options: {}; modalName: "editUsername" }
-  | { open: boolean; options: {}; modalName: "editEmail" }
-  | { open: boolean; options: {}; modalName: "editPassword" }
+  | { open: boolean; options: object; modalName: "createGroup" }
+  | { open: boolean; options: object; modalName: "addFriend" }
+  | { open: boolean; options: object; modalName: "deleteAccount" }
+  | { open: boolean; options: object; modalName: "editUsername" }
+  | { open: boolean; options: object; modalName: "editEmail" }
+  | { open: boolean; options: object; modalName: "editPassword" }
   | { open: boolean; options: { inviteCode: string }; modalName: "joinGroup" }
   | {
       open: boolean;

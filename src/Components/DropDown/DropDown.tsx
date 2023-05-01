@@ -27,7 +27,7 @@ export default function DropDown({
 }: props) {
   const [clicked, setClicked] = useState(false);
   const { ref, isComponentVisible, setIsComponentVisible } =
-    useComponentVisible();
+    useComponentVisible({});
   const symbolClass = symbol && "flex justify-between w-full";
 
   useEffect(() => {

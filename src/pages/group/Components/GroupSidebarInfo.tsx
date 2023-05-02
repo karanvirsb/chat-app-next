@@ -1,7 +1,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { ChannelContextMenu } from "@/Components/ContextMenu/ChannelContextMenu";
 import useFilterGroups from "@/Hooks/useFilterGroups";
 import { groupActions } from "@/Redux/group/groupSlice";
 
@@ -113,6 +112,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
                       channelName={channel.channelName}
                       channelId={channel.channelId}
                       active={true}
+                      setActive={setActiveChannel}
                       displayDeleteChannelModal={displayDeleteChannelModal}
                     />
                   );
@@ -122,6 +122,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
                       key={channel.channelId}
                       channelName={channel.channelName}
                       channelId={channel.channelId}
+                      setActive={setActiveChannel}
                       displayDeleteChannelModal={displayDeleteChannelModal}
                     />
                   );

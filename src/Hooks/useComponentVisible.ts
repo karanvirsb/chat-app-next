@@ -10,14 +10,8 @@ type IUseComponentVisible = {
   setIsComponentVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function useComponentVisible({
-  initialIsVisible,
-}: {
-  initialIsVisible?: boolean;
-}): IUseComponentVisible {
-  const [isComponentVisible, setIsComponentVisible] = useState(
-    initialIsVisible ?? false
-  );
+export default function useComponentVisible(): IUseComponentVisible {
+  const [isComponentVisible, setIsComponentVisible] = useState(false);
   const ref: React.RefObject<HTMLElement> = useRef(null);
 
   const handleClickOutside = (event: Event): void => {

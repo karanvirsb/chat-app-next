@@ -6,6 +6,7 @@ type props = {
   channelName: string;
   channelId: string;
   active?: boolean;
+  setActive: React.Dispatch<React.SetStateAction<string>>;
   displayDeleteChannelModal: ({ channelId }: { channelId: string }) => void;
 };
 
@@ -14,10 +15,14 @@ export function Channel({
   channelId,
   active,
   displayDeleteChannelModal,
+  setActive,
 }: props) {
   const [openContextMenu, setOpenContextMenu] = useState(false);
   return (
     <li
+      onClick={() => {
+        !active && setActive(channelId);
+      }}
       className="cursor-pointer opacity-80 relative"
       key={channelName + channelId}
       onContextMenu={(e) => {

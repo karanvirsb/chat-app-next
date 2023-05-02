@@ -10,10 +10,15 @@ type props = {
 };
 
 export function ChannelContextMenu({ isOpen, setIsOpen, deleteCb }: props) {
+  if(!isOpen) return null;
+  
   return (
     <ContextMenu isOpen={isOpen} setIsOpen={setIsOpen}>
       <li>
-        <p className="px-2 py-1" onClick={() => deleteCb()}>
+        <p className="px-2 py-1" onClick={(e) => {
+          e.stopPropagation();
+          deleteCb()
+          }}>
           {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"

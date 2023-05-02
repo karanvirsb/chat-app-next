@@ -11,13 +11,21 @@ type props = {
 
 export function ContextMenu({ children, setIsOpen, isOpen }: props) {
   const { isComponentVisible, ref, setIsComponentVisible } =
-    useComponentVisible({ initialIsVisible: isOpen });
+    useComponentVisible();
 
   useEffect(() => {
-    if (!isComponentVisible) {
-      setIsOpen(false);
-    }
-  }, [isComponentVisible, setIsOpen]);
+    setIsComponentVisible(isOpen)
+  }, [])
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    timer = setTimeout(() => {
+      if (!isComponentVisible && isOpen) {
+        setIsOpen(false);
+      }
+    }, 100)
+    return () => clearTimeout(timer);
+  }, [isComponentVisible, setIsOpen, isOpen]);
 
   useEffect(() => {
     const handleEscPress = (event: KeyboardEvent) => {

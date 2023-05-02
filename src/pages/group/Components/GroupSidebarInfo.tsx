@@ -12,6 +12,7 @@ import SidebarInfo from "../../../Components/SidebarInfo/SidebarInfo";
 import { useGetGroupChannelsQuery } from "../../../Hooks/groupChannelHooks";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
+import { Channel } from "./Channel";
 
 type props = {
   groupId: string;
@@ -20,7 +21,6 @@ type props = {
 // TODO create channel components and set selected channel id
 export default function GroupSidebarInfo({ groupId }: props) {
   const [activeChannel, setActiveChannel] = useState("");
-  const [openContextMenu, setOpenContextMenu] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -108,54 +108,22 @@ export default function GroupSidebarInfo({ groupId }: props) {
               {channels?.map((channel) => {
                 if (channel.channelId === searchParams.get("channel")) {
                   return (
-                    <li
-                      className="cursor-pointer opacity-80 relative"
-                      key={channel.channelName + channel.channelId}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        setOpenContextMenu(true);
-                      }}
-                    >
-                      <span className="mr-2">#</span>
-                      {channel.channelName}
-
-                      <ChannelContextMenu
-                        isOpen={openContextMenu}
-                        setIsOpen={setOpenContextMenu}
-                        channelId={channel.channelId}
-                        deleteCb={() =>
-                          displayDeleteChannelModal({
-                            channelId: channel.channelId,
-                          })
-                        }
-                      />
-                    </li>
+                    <Channel
+                      key={channel.channelId}
+                      channelName={channel.channelName}
+                      channelId={channel.channelId}
+                      active={true}
+                      displayDeleteChannelModal={displayDeleteChannelModal}
+                    />
                   );
                 } else {
                   return (
-                    <li
-                      className="cursor-pointer opacity-80 relative"
-                      key={channel.channelName + channel.channelId}
-                      onClick={() => {
-                        setActiveChannel(channel.channelId);
-                      }}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        setOpenContextMenu(true);
-                      }}
-                    >
-                      {channel.channelName}
-                      <ChannelContextMenu
-                        isOpen={openContextMenu}
-                        setIsOpen={setOpenContextMenu}
-                        channelId={channel.channelId}
-                        deleteCb={() =>
-                          displayDeleteChannelModal({
-                            channelId: channel.channelId,
-                          })
-                        }
-                      />
-                    </li>
+                    <Channel
+                      key={channel.channelId}
+                      channelName={channel.channelName}
+                      channelId={channel.channelId}
+                      displayDeleteChannelModal={displayDeleteChannelModal}
+                    />
                   );
                 }
               })}
@@ -230,7 +198,6 @@ export default function GroupSidebarInfo({ groupId }: props) {
   }
 
   function displayDeleteChannelModal({ channelId }: { channelId: string }) {
-    console.log({ channelId, groupId });
     dispatch(
       setModal({
         modalName: "deleteGroupChannel",

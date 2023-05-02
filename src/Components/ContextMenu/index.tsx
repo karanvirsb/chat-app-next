@@ -18,8 +18,7 @@ export function ContextMenu({ children, setIsOpen, isOpen }: props) {
   }, [])
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    timer = setTimeout(() => {
+    const timer: NodeJS.Timeout = setTimeout(() => {
       if (!isComponentVisible && isOpen) {
         setIsOpen(false);
       }

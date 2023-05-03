@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import socket from "@/Sockets";
 interface ISocketLoading {
@@ -32,6 +32,11 @@ export function useSocketLoading({
       setError(err);
       if (errorCB) errorCB();
     });
+
+    return () => {
+      socket.off(socketEvent);
+      socket.off(errorEvent);
+    };
   }, [errorCB, errorEvent, socketEvent, successCB]);
 
   return { loading, error, success, setLoading };

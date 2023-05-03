@@ -25,7 +25,15 @@ export function groupChatEvents({ socket, queryClient }: props) {
         ) => {
           if (data.payload !== undefined) {
             const updatedData = produce(infiniteData, (draft) => {
-              draft.pages[FIRST_PAGE].data.push(data.payload.messageInfo);
+              if (draft?.pages[FIRST_PAGE] && draft.pages[FIRST_PAGE].data) {
+                draft.pages[FIRST_PAGE]?.data?.push(data.payload.messageInfo);
+              } else {
+                draft.pages[FIRST_PAGE] = {
+                  data: [data.payload.messageInfo],
+                  hasNextPage: false,
+                  nextPage: null,
+                };
+              }
             });
             return updatedData;
           }

@@ -25,7 +25,7 @@ export function groupChannelEvents({ socket, io }: props) {
       }
       io.to(data.groupId).emit(TGroupChannelEvents.ADD_CHANNEL.broadcast, {
         success: true,
-        data,
+        data: result.data,
       });
     }
   );

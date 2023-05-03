@@ -48,7 +48,8 @@ export default function GroupSidebarInfo({ groupId }: props) {
     if (activeChannel && activeChannel.length > 0) {
       router.push(`/group/${groupId}?channel=${activeChannel}`);
     }
-  }, [activeChannel, groupId, router]);
+    // removed router dependency causes rerender loop
+  }, [activeChannel, groupId]);
 
   return (
     <SidebarInfo>

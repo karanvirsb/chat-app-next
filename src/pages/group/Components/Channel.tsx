@@ -24,7 +24,7 @@ export function Channel({
         !active && setActive(channelId);
       }}
       className="cursor-pointer opacity-80 relative"
-      key={channelName + channelId}
+      key={"li-" + channelId}
       onContextMenu={(e) => {
         e.preventDefault();
         setOpenContextMenu(true);
@@ -34,6 +34,7 @@ export function Channel({
       {channelName}
 
       <ChannelContextMenu
+        key={channelId + "-context"}
         isOpen={openContextMenu}
         setIsOpen={setOpenContextMenu}
         channelId={channelId}

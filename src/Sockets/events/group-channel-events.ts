@@ -16,7 +16,9 @@ export function groupChannelEvents({ socket, queryClient }: props) {
             // get the old data and push new result
             // need to assign it a new reference so it refreshes
             const pushNewChannel = (arr: IGroupChannel[]) => {
-              return [...arr, data?.data];
+              const newData = [...arr];
+              if (data.data) newData.push(data.data);
+              return newData;
             };
             // if the oldData is an array then add the push new channel
             return Array.isArray(oldData) ? pushNewChannel(oldData) : oldData;

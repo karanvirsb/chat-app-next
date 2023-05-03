@@ -31,7 +31,7 @@ export default function Sidebar() {
         <Link
           href="/me"
           className={`btn btn-circle z-10 ${
-            pathname.includes("/me") ? "bg-gray-400" : ""
+            pathname?.includes("/me") ? "bg-gray-400" : ""
           }`}
         >
           <Image

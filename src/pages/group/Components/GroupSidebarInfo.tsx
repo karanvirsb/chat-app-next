@@ -20,7 +20,6 @@ type props = {
 // TODO create channel components and set selected channel id
 export default function GroupSidebarInfo({ groupId }: props) {
   const [activeChannel, setActiveChannel] = useState("");
-
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -40,7 +39,7 @@ export default function GroupSidebarInfo({ groupId }: props) {
 
   useEffect(() => {
     if (!isChannelsLoading && isChannelsSuccess) {
-      dispatch(groupActions.setChannels(data));
+      dispatch(groupActions.setChannels(data ?? []));
     }
   }, [data, dispatch, isChannelsLoading, isChannelsSuccess]);
 

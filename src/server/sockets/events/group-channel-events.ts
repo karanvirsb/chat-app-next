@@ -38,10 +38,10 @@ export function groupChannelEvents({ socket, io }: props) {
         socket.emit(TGroupChannelEvents.DELETE_CHANNEL.error, result.error);
         return;
       }
-      io.to(data.groupId).emit(TGroupChannelEvents.ADD_CHANNEL.broadcast, {
-        success: true,
-        data,
-      });
+      io.to(data.groupId).emit(
+        TGroupChannelEvents.DELETE_CHANNEL.broadcast,
+        data
+      );
     }
   );
 }

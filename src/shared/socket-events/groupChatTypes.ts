@@ -30,4 +30,23 @@ export type groupChatEventDataTypes = {
     };
     error: unknown;
   };
+  UPDATE_MESSAGE: {
+    send: {
+      groupId: string;
+      payload: {
+        messageInfo: IGroupMessage;
+        pageIndex: number;
+        messageIndex: number;
+      };
+    };
+    broadcast: {
+      groupId: string;
+      payload: {
+        messageInfo: IGroupMessage;
+        pageIndex: number;
+        messageIndex: number;
+      };
+    };
+    error: unknown;
+  };
 };

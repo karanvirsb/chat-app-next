@@ -3,21 +3,18 @@ import produce from "immer";
 import { Socket } from "socket.io-client";
 
 import { IMessage } from "@/Hooks/groupChatHooks";
-import { groupChatEventsTypes } from "@/shared/socket-events/groupChatTypes";
-import { PaginatedGroupMessages } from "@/utilities/types/pagination";
-
 import {
-  ICreateGroupMessageEvent,
-  IDeleteGroupMessageEvent,
-  IUpdateGroupMessageEvent,
-} from "../types/groupChatTypes";
+  groupChatEventDataTypes,
+  groupChatEventsTypes,
+} from "@/shared/socket-events/groupChatTypes";
+import { PaginatedGroupMessages } from "@/utilities/types/pagination";
 
 type props = { socket: Socket; queryClient: QueryClient };
 
 export function groupChatEvents({ socket, queryClient }: props) {
   socket.on(
     groupChatEventsTypes.NEW_MESSAGE.broadcast,
-    (data: ICreateGroupMessageEvent) => {
+    (data: groupChatEventDataTypes["NEW_MESSAGE"]["broadcast"]) => {
       const newMessage = data.payload.messageInfo;
       const FIRST_PAGE = 0;
       queryClient.setQueryData(
@@ -50,7 +47,7 @@ export function groupChatEvents({ socket, queryClient }: props) {
 
   socket.on(
     groupChatEventsTypes.UPDATE_MESSAGE.broadcast,
-    (data: IUpdateGroupMessageEvent) => {
+    (data: groupChatEventDataTypes["UPDATE_MESSAGE"]["broadcast"]) => {
       const updatedMessage = data.payload.messageInfo;
       queryClient.setQueriesData(
         [`group-messages-${updatedMessage.channelId}`],
@@ -77,7 +74,7 @@ export function groupChatEvents({ socket, queryClient }: props) {
 
   socket.on(
     groupChatEventsTypes.DELETE_MESSAGE.broadcast,
-    (data: IDeleteGroupMessageEvent) => {
+    (data: groupChatEventDataTypes["DELETE_MESSAGE"]["broadcast"]) => {
       const payload = data.payload;
       queryClient.setQueriesData(
         [`group-messages-${payload.channelId}`],

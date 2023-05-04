@@ -9,4 +9,9 @@ export const groupChatEventsTypes = {
     broadcast: "update_group_chat_message",
     error: "update_group_chat_message_error",
   },
+  DELETE_MESSAGE: {
+    send: "delete_group_message",
+    broadcast: "delete_group_chat_message",
+    error: "delete_group_chat_message_error",
+  },
 };

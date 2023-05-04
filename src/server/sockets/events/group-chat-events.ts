@@ -1,13 +1,10 @@
 import { Server, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
-import { groupChatEventsTypes } from "@/shared/socket-events/groupChatTypes";
-
 import {
-  ICreateGroupMessageEvent,
-  IDeleteGroupMessageEvent,
-  IUpdateGroupMessageEvent,
-} from "../types/groupChat";
+  groupChatEventDataTypes,
+  groupChatEventsTypes,
+} from "@/shared/socket-events/groupChatTypes";
 
 type props = {
   socket: Socket;
@@ -17,7 +14,7 @@ type props = {
 export function groupChatEvents({ socket, io }: props) {
   socket.on(
     groupChatEventsTypes.NEW_MESSAGE.send,
-    (data: ICreateGroupMessageEvent) => {
+    (data: groupChatEventDataTypes["NEW_MESSAGE"]["send"]) => {
       io.to(data.groupId).emit(
         groupChatEventsTypes.NEW_MESSAGE.broadcast,
         data
@@ -27,7 +24,7 @@ export function groupChatEvents({ socket, io }: props) {
 
   socket.on(
     groupChatEventsTypes.UPDATE_MESSAGE.send,
-    (data: IUpdateGroupMessageEvent) => {
+    (data: groupChatEventDataTypes["UPDATE_MESSAGE"]["send"]) => {
       io.to(data.groupId).emit(
         groupChatEventsTypes.UPDATE_MESSAGE.broadcast,
         data
@@ -37,7 +34,7 @@ export function groupChatEvents({ socket, io }: props) {
 
   socket.on(
     groupChatEventsTypes.DELETE_MESSAGE.send,
-    (data: IDeleteGroupMessageEvent) => {
+    (data: groupChatEventDataTypes["DELETE_MESSAGE"]["send"]) => {
       io.to(data.groupId).emit(
         groupChatEventsTypes.DELETE_MESSAGE.broadcast,
         data

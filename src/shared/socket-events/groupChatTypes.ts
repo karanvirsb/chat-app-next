@@ -49,4 +49,26 @@ export type groupChatEventDataTypes = {
     };
     error: unknown;
   };
+
+  DELETE_MESSAGE: {
+    send: {
+      groupId: string;
+      payload: {
+        messageId: string;
+        channelId: string;
+        pageIndex: number;
+        messageIndex: number;
+      };
+    };
+    broadcast: {
+      groupId: string;
+      payload: {
+        messageId: string;
+        channelId: string;
+        pageIndex: number;
+        messageIndex: number;
+      };
+    };
+    error: unknown;
+  };
 };

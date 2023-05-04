@@ -1,3 +1,5 @@
+import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
+
 export const groupChatEventsTypes = {
   NEW_MESSAGE: {
     send: "create_group_message",
@@ -14,4 +16,18 @@ export const groupChatEventsTypes = {
     broadcast: "delete_group_chat_message",
     error: "delete_group_chat_message_error",
   },
+};
+
+export type groupChatEventDataTypes = {
+  NEW_MESSAGE: {
+    send: {
+      groupId: string;
+      payload: { messageInfo: Partial<IGroupMessage> };
+    };
+    broadcast: {
+      groupId: string;
+      payload: { messageInfo: IGroupMessage };
+    };
+    error: unknown;
+  };
 };

@@ -22,7 +22,7 @@ export type groupChatEventDataTypes = {
   NEW_MESSAGE: {
     send: {
       groupId: string;
-      payload: { messageInfo: Partial<IGroupMessage> };
+      payload: { messageInfo: IGroupMessage };
     };
     broadcast: {
       groupId: string;

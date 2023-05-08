@@ -169,6 +169,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           groupId,
           pageIndex,
           messageIndex,
+          channelId,
         },
       })
     );

@@ -17,17 +17,21 @@ export interface ICreateMessageUseCase {
 }
 
 export default function makeCreateMessage({ messageDb }: props) {
-  return async function createMessage(messageInfo: IGroupMessage): returnData {
+  return async function createMessage(
+    messageInfo: IGroupMessage
+  ): Promise<UseCaseReturn<IGroupMessage>> {
     const message = makeMessage(messageInfo);
 
-    return messageDb.createMessage({
-      channelId: message.getChannelId(),
-      dateCreated: message.getDateCreated(),
-      messageId: message.getMessageId(),
-      text: message.getText(),
-      userId: message.getUserId(),
-      dateModified: message.getDateModified(),
-      replyTo: message.getReplyTo(),
+    if (!message.success) return message;
+
+    return await messageDb.createMessage({
+      channelId: message.data.getChannelId(),
+      dateCreated: message.data.getDateCreated(),
+      messageId: message.data.getMessageId(),
+      text: message.data.getText(),
+      userId: message.data.getUserId(),
+      dateModified: message.data.getDateModified(),
+      replyTo: message.data.getReplyTo(),
     });
   };
 }

@@ -6,8 +6,8 @@ export const GroupMessageSchema = z.object({
   userId: z.string().min(20),
   dateCreated: z.date(),
   messageId: z.string().min(20),
-  dateModified: z.date(),
-  replyTo: z.string().min(20),
+  dateModified: z.date().optional(),
+  replyTo: z.string().min(20).optional(),
   text: z.string().min(1),
   channelId: z.string().min(20),
 });

@@ -2,6 +2,8 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useRef } from "react";
 
+import { groupActions } from "@/Redux/group/groupSlice";
+
 // import useGetSession from "../../../Hooks/useGetSession";
 import Messages from "../../../Components/Messages/Messages";
 import {
@@ -28,7 +30,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
       dateCreated: new Date(),
       limit: 10,
     });
-  const { mutate: createMessage } = useCreateGroupMessageMutation({ groupId });
+  // const { mutate: createMessage } = useCreateGroupMessageMutation({ groupId });
   const { mutate: updateText } = useEditMessageTextMutation({ groupId });
 
   const dispatch = useAppDispatch();
@@ -130,12 +132,15 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   function handleMessageSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     if (messageRef.current !== null && sessionInfo !== null) {
-      createMessage({
-        channelId,
-        dateCreated: new Date(),
-        text: messageRef.current.value,
-        userId: sessionInfo.user?.id,
-      });
+      dispatch(
+        groupActions.createMessage({
+          channelId,
+          dateCreated: new Date(),
+          text: messageRef.current.value,
+          userId: sessionInfo.user?.id,
+        })
+      );
+      // TODO reset only after success
       messageRef.current.value = ""; // resetting value
     }
   }

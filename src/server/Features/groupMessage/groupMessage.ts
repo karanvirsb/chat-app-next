@@ -54,10 +54,14 @@ export default function buildMessage({ Id, sanitizeText }: props) {
     channelId,
   }: IGroupMessage): EntityReturn<returnEntity> {
     const sanitizedText = sanitizeText(text);
-
+    const dateCreatedTernary = !dateCreated
+      ? new Date()
+      : typeof dateCreated === "string"
+      ? new Date(dateCreated)
+      : dateCreated;
     const message: IGroupMessage = {
       messageId: messageId.length <= 128 ? Id.makeId() : messageId,
-      dateCreated: !dateCreated ? new Date() : dateCreated,
+      dateCreated: dateCreatedTernary,
       dateModified,
       replyTo,
       text: sanitizedText,

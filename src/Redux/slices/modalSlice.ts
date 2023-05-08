@@ -31,6 +31,7 @@ export type ModalState =
         groupId: string;
         pageIndex: number;
         messageIndex: number;
+        channelId: string;
       };
       modalName: "deleteGroupMessage";
     }

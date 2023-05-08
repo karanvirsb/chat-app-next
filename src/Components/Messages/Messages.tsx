@@ -7,6 +7,8 @@ import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import React, { useEffect, useRef } from "react";
 
+import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
+
 import { IMessage } from "../../Hooks/groupChatHooks";
 import { IUser } from "../../Hooks/groupHooks";
 import useIntersectionObserver from "../../Hooks/useIntersectionObserver";
@@ -19,13 +21,11 @@ type props = {
   groupId: string;
   lastPage?: boolean;
   editCallback: ({
-    messageId,
-    updateValue,
+    messageInfo,
     pageIndex,
     messageIndex,
   }: {
-    messageId: string;
-    updateValue: string;
+    messageInfo: IGroupMessage;
     pageIndex: number;
     messageIndex: number;
   }) => void;

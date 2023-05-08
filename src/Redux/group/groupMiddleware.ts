@@ -53,6 +53,10 @@ export const groupMiddleware: Middleware = (store) => (next) => {
     if (groupActions.createMessage.match(action) && socket.connected) {
       socket.emit(groupChatEventsTypes.NEW_MESSAGE.send, action.payload);
     }
+
+    if (groupActions.deleteMessage.match(action) && socket.connected) {
+      socket.emit(groupChatEventsTypes.DELETE_MESSAGE.send, action.payload);
+    }
     next(action);
   };
 };

@@ -54,7 +54,7 @@ const groupSlice = createSlice({
     ) {
       return;
     },
-    createMessage(_state, _action: PayloadAction<{ message: IGroupMessage }>) {
+    createMessage(_state, _action: PayloadAction<Partial<IGroupMessage>>) {
       return;
     },
   },

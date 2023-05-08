@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import { groupActions } from "@/Redux/group/groupSlice";
+
 import { useDeleteGroupMessageMutation } from "../../Hooks/groupChatHooks";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { resetModal } from "../../Redux/slices/modalSlice";
@@ -10,6 +12,7 @@ type props = {
   groupId: string;
   pageIndex: number;
   messageIndex: number;
+  channelId: string;
 };
 
 export default function DeleteMessageModal({
@@ -17,6 +20,7 @@ export default function DeleteMessageModal({
   groupId,
   messageIndex,
   pageIndex,
+  channelId,
 }: props) {
   const dispatch = useAppDispatch();
   const {
@@ -48,6 +52,12 @@ export default function DeleteMessageModal({
   }
 
   function handleSubmit() {
-    deleteMessage({ messageId, pageIndex, messageIndex: messageIndex });
+    dispatch(
+      groupActions.deleteMessage({
+        groupId,
+        payload: { channelId, messageId, pageIndex, messageIndex },
+      })
+    );
+    // deleteMessage({ messageId, pageIndex, messageIndex: messageIndex });
   }
 }

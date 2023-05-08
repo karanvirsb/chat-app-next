@@ -125,7 +125,11 @@ const Message = forwardRef(function (
       editCallback({
         pageIndex,
         messageIndex,
-        messageInfo: message,
+        messageInfo: {
+          ...message,
+          text: messageRef.current.value,
+          dateModified: new Date(),
+        },
       });
 
       messageRef.current.blur();

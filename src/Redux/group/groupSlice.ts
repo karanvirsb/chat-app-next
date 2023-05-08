@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGroup } from "@/server/Features/group/group";
 import { IGroupChannel } from "@/server/Features/groupChannel/groupChannel";
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
+import { groupChatEventDataTypes } from "@/shared/socket-events/groupChatTypes";
 
 export interface IGroupState {
   groups: IGroup[];
@@ -54,7 +55,10 @@ const groupSlice = createSlice({
     ) {
       return;
     },
-    createMessage(_state, _action: PayloadAction<Partial<IGroupMessage>>) {
+    createMessage(
+      _state,
+      _action: PayloadAction<groupChatEventDataTypes["NEW_MESSAGE"]["send"]>
+    ) {
       return;
     },
   },

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 
+import { useSocketLoading } from "@/Hooks/useSocketLoading";
 import { groupActions } from "@/Redux/group/groupSlice";
+import { groupChatEventsTypes } from "@/shared/socket-events/groupChatTypes";
 
 import { useDeleteGroupMessageMutation } from "../../Hooks/groupChatHooks";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
@@ -23,17 +25,25 @@ export default function DeleteMessageModal({
   channelId,
 }: props) {
   const dispatch = useAppDispatch();
-  const {
-    mutate: deleteMessage,
-    isLoading,
-    isSuccess,
-  } = useDeleteGroupMessageMutation({ groupId });
-
-  useEffect(() => {
-    if (!isLoading && isSuccess) {
+  // TODO error handling socket
+  const { error, loading, setLoading, success } = useSocketLoading({
+    socketEvent: groupChatEventsTypes.DELETE_MESSAGE.broadcast,
+    errorEvent: groupChatEventsTypes.DELETE_MESSAGE.error,
+    successCB: () => {
       handleCancel();
-    }
-  }, [isLoading, isSuccess]);
+    },
+  });
+  // const {
+  //   mutate: deleteMessage,
+  //   isLoading,
+  //   isSuccess,
+  // } = useDeleteGroupMessageMutation({ groupId });
+
+  // useEffect(() => {
+  //   if (!isLoading && isSuccess) {
+  //     handleCancel();
+  //   }
+  // }, [isLoading, isSuccess]);
 
   return (
     <MutationModal
@@ -41,7 +51,7 @@ export default function DeleteMessageModal({
       btnCancelName="No"
       modalName="Delete Message"
       text="Are you sure you want to delete the message?"
-      loading={isLoading}
+      loading={loading}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
     ></MutationModal>
@@ -52,6 +62,7 @@ export default function DeleteMessageModal({
   }
 
   function handleSubmit() {
+    setLoading(true);
     dispatch(
       groupActions.deleteMessage({
         groupId,

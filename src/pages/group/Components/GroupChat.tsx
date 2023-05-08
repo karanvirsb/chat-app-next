@@ -138,6 +138,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           payload: {
             messageInfo: {
               channelId,
+              messageId: "",
               dateCreated: new Date(),
               text: messageRef.current.value,
               userId: sessionInfo.user?.id,

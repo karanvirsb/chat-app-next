@@ -1,19 +1,19 @@
 import dayjs from "dayjs";
 import React, { FormEvent, forwardRef, useRef, useState } from "react";
 
+import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
+
 import { IMessage } from "../../Hooks/groupChatHooks";
 
 type props = {
   message: IMessage;
   username: string | undefined;
   editCallback: ({
-    messageId,
-    updateValue,
+    messageInfo,
     pageIndex,
     messageIndex,
   }: {
-    messageId: string;
-    updateValue: string;
+    messageInfo: IGroupMessage;
     pageIndex: number;
     messageIndex: number;
   }) => void;
@@ -123,13 +123,12 @@ const Message = forwardRef(function (
     // callback
     if (messageRef.current !== null) {
       editCallback({
-        messageId: message.messageId,
-        updateValue: messageRef.current.value,
         pageIndex,
         messageIndex,
+        messageInfo: message,
       });
 
-      messageRef.current.blur;
+      messageRef.current.blur();
       setEditting(false);
     }
   }

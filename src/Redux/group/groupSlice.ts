@@ -67,6 +67,12 @@ const groupSlice = createSlice({
     ) {
       return;
     },
+    updateMessage(
+      _state,
+      _action: PayloadAction<groupChatEventDataTypes["UPDATE_MESSAGE"]["send"]>
+    ) {
+      return;
+    },
   },
 });
 

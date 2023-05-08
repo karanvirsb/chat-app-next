@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useRef } from "react";
 
 import { groupActions } from "@/Redux/group/groupSlice";
+import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 
 // import useGetSession from "../../../Hooks/useGetSession";
 import Messages from "../../../Components/Messages/Messages";
@@ -31,7 +32,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
       limit: 10,
     });
   // const { mutate: createMessage } = useCreateGroupMessageMutation({ groupId });
-  const { mutate: updateText } = useEditMessageTextMutation({ groupId });
+  // const { mutate: updateText } = useEditMessageTextMutation({ groupId });
 
   const dispatch = useAppDispatch();
   const { data: sessionInfo } = useSession();
@@ -87,7 +88,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
             if (index === 0) {
               return (
                 <Messages
-                  editCallback={updateText}
+                  editCallback={handleEditMessage}
                   deleteCallback={handleDeletingMessage}
                   key={`messages-${index}`}
                   groupId={groupId}
@@ -100,7 +101,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
             } else {
               return (
                 <Messages
-                  editCallback={updateText}
+                  editCallback={handleEditMessage}
                   deleteCallback={handleDeletingMessage}
                   key={`messages-${index}`}
                   groupId={groupId}
@@ -171,6 +172,23 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           messageIndex,
           channelId,
         },
+      })
+    );
+  }
+  // TODO create shared types
+  function handleEditMessage({
+    messageInfo,
+    pageIndex,
+    messageIndex,
+  }: {
+    messageInfo: IGroupMessage;
+    pageIndex: number;
+    messageIndex: number;
+  }) {
+    dispatch(
+      groupActions.updateMessage({
+        groupId,
+        payload: { messageIndex, messageInfo, pageIndex },
       })
     );
   }

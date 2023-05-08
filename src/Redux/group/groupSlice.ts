@@ -61,6 +61,12 @@ const groupSlice = createSlice({
     ) {
       return;
     },
+    deleteMessage(
+      _state,
+      _action: PayloadAction<groupChatEventDataTypes["DELETE_MESSAGE"]["send"]>
+    ) {
+      return;
+    },
   },
 });
 

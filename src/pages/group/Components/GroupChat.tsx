@@ -134,10 +134,15 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     if (messageRef.current !== null && sessionInfo !== null) {
       dispatch(
         groupActions.createMessage({
-          channelId,
-          dateCreated: new Date(),
-          text: messageRef.current.value,
-          userId: sessionInfo.user?.id,
+          groupId,
+          payload: {
+            messageInfo: {
+              channelId,
+              dateCreated: new Date(),
+              text: messageRef.current.value,
+              userId: sessionInfo.user?.id,
+            },
+          },
         })
       );
       // TODO reset only after success

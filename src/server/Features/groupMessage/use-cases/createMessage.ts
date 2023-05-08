@@ -26,6 +26,8 @@ export default function makeCreateMessage({ messageDb }: props) {
       messageId: message.getMessageId(),
       text: message.getText(),
       userId: message.getUserId(),
+      dateModified: message.getDateModified(),
+      replyTo: message.getReplyTo(),
     });
   };
 }

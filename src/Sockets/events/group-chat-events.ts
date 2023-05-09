@@ -2,7 +2,7 @@ import { InfiniteData, QueryClient } from "@tanstack/react-query";
 import produce from "immer";
 import { Socket } from "socket.io-client";
 
-import { IMessage } from "@/Hooks/groupChatHooks";
+import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 import {
   groupChatEventDataTypes,
   groupChatEventsTypes,
@@ -21,7 +21,7 @@ export function groupChatEvents({ socket, queryClient }: props) {
         [`group-messages-${newMessage.channelId}`],
         (oldData: unknown) => {
           const pushResult = (
-            infiniteData: InfiniteData<PaginatedGroupMessages<IMessage>>
+            infiniteData: InfiniteData<PaginatedGroupMessages<IGroupMessage>>
           ) => {
             if (data.payload !== undefined) {
               const updatedData = produce(infiniteData, (draft) => {
@@ -53,7 +53,7 @@ export function groupChatEvents({ socket, queryClient }: props) {
         [`group-messages-${updatedMessage.channelId}`],
         (oldData: unknown) => {
           const updateResult = (
-            infiniteData: InfiniteData<PaginatedGroupMessages<IMessage>>
+            infiniteData: InfiniteData<PaginatedGroupMessages<IGroupMessage>>
           ) => {
             if (updatedMessage !== undefined) {
               const updatedData = produce(infiniteData, (draft) => {
@@ -80,7 +80,7 @@ export function groupChatEvents({ socket, queryClient }: props) {
         [`group-messages-${payload.channelId}`],
         (oldData: unknown) => {
           const deleteResult = (
-            infiniteData: InfiniteData<PaginatedGroupMessages<IMessage>>
+            infiniteData: InfiniteData<PaginatedGroupMessages<IGroupMessage>>
           ) => {
             if (payload !== undefined) {
               const updatedData = produce(infiniteData, (draft) => {
@@ -102,12 +102,12 @@ export function groupChatEvents({ socket, queryClient }: props) {
 }
 
 function checkIfPagesExist(
-  arr: unknown | InfiniteData<PaginatedGroupMessages<IMessage>>
-): arr is InfiniteData<PaginatedGroupMessages<IMessage>> {
+  arr: unknown | InfiniteData<PaginatedGroupMessages<IGroupMessage>>
+): arr is InfiniteData<PaginatedGroupMessages<IGroupMessage>> {
   return (
-    (arr as InfiniteData<PaginatedGroupMessages<IMessage>>).pages !==
+    (arr as InfiniteData<PaginatedGroupMessages<IGroupMessage>>).pages !==
       undefined &&
-    (arr as InfiniteData<PaginatedGroupMessages<IMessage>>).pageParams !==
+    (arr as InfiniteData<PaginatedGroupMessages<IGroupMessage>>).pageParams !==
       undefined
   );
 }

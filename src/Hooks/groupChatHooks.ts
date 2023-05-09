@@ -1,35 +1,25 @@
 import {
-  InfiniteData,
   useInfiniteQuery,
   UseInfiniteQueryResult,
   useMutation,
   UseMutationResult,
-  useQueryClient,
 } from "@tanstack/react-query";
+
+import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 
 import axios from "../API/axios";
 import useGroupChatSockets from "../Sockets/Hooks/useGroupChatSockets";
 import { PaginatedGroupMessages } from "../utilities/types/pagination";
 
-export type IMessage = {
-  userId: string;
-  dateCreated: Date;
-  messageId: string;
-  dateModified?: Date;
-  replyTo?: string;
-  text: string;
-  channelId: string;
-};
-
 type ReturnGroupMessages = {
   success: boolean;
-  data: PaginatedGroupMessages<IMessage> | undefined;
+  data: PaginatedGroupMessages<IGroupMessage> | undefined;
   error: string;
 };
 
 type ReturnGroupMessage = {
   success: boolean;
-  data: IMessage | undefined;
+  data: IGroupMessage | undefined;
   error: string;
 };
 
@@ -37,7 +27,7 @@ type ReturnGroupMessage = {
 const baseurl = "http://localhost:3000/api/groupMessage";
 
 type IUserGetGroupMessagesByChannelIdQuery = UseInfiniteQueryResult<
-  PaginatedGroupMessages<IMessage> | undefined,
+  PaginatedGroupMessages<IGroupMessage> | undefined,
   unknown
 >;
 
@@ -47,12 +37,12 @@ function useGetGroupMessagesByChannelIdQuery({
   limit,
 }: {
   channelId: string;
-  dateCreated: Date;
+  dateCreated: number;
   limit: number;
 }): IUserGetGroupMessagesByChannelIdQuery {
   const getMessages = async ({
-    pageParam = `${baseurl}/channel/messages?channelId=${channelId}&limit=${limit}&dateCreated=${dateCreated.toISOString()}`,
-  }): Promise<PaginatedGroupMessages<IMessage> | undefined> => {
+    pageParam = `${baseurl}/channel/messages?channelId=${channelId}&limit=${limit}&dateCreated=${dateCreated}`,
+  }): Promise<PaginatedGroupMessages<IGroupMessage> | undefined> => {
     if (pageParam === null || pageParam.length === 0) return undefined;
     const resp = await axios({
       url: pageParam,
@@ -66,7 +56,7 @@ function useGetGroupMessagesByChannelIdQuery({
   return useInfiniteQuery({
     queryKey: [`group-messages-${channelId}`],
     queryFn: getMessages,
-    enabled: channelId.length > 0 && dateCreated.getDate() !== null,
+    enabled: channelId.length > 0 && dateCreated !== null,
     getNextPageParam: (last, page) => last?.nextPage,
   });
 }

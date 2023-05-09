@@ -6,9 +6,9 @@ import { IId } from "../../Utilities/id";
 
 export const GroupMessageSchema = z.object({
   userId: z.string().uuid(),
-  dateCreated: z.date(),
+  dateCreated: z.number(),
   messageId: z.string().uuid(),
-  dateModified: z.date().optional(),
+  dateModified: z.number().optional(),
   replyTo: z.string().uuid().optional(),
   text: z
     .string()
@@ -55,9 +55,9 @@ export default function buildMessage({ Id, sanitizeText }: props) {
   }: IGroupMessage): EntityReturn<returnEntity> {
     const sanitizedText = sanitizeText(text);
     const dateCreatedTernary = !dateCreated
-      ? new Date()
+      ? new Date().getTime()
       : typeof dateCreated === "string"
-      ? new Date(dateCreated)
+      ? new Date(dateCreated).getTime()
       : dateCreated;
     const message: IGroupMessage = {
       messageId: messageId.length <= 128 ? Id.makeId() : messageId,

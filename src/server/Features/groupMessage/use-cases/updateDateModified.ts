@@ -18,15 +18,12 @@ export interface IUpdateDateModifiedUseCase {
 export default function makeUpdateDateModified({ messageDb }: props) {
   return async function updateDateModified(
     messageId: string,
-    updateValue: Date
+    updateValue: IGroupMessage["dateModified"]
   ): returnData {
     if (!messageId) throw new Error("Message Id needs to be supplied.");
-    if (!updateValue || Number.isNaN(updateValue.getTime()))
+    if (!updateValue || Number.isNaN(updateValue))
       throw new Error("Update Value needs to be a Date.");
 
-    // need to convert date
-    const newUpdateValue = `to_timestamp(${updateValue.getTime() / 1000})`;
-
-    return messageDb.updateMessage("dateCreated", messageId, newUpdateValue);
+    return messageDb.updateMessage("dateCreated", messageId, updateValue);
   };
 }

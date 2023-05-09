@@ -41,6 +41,7 @@ const Message = forwardRef(function (
 ) {
   const [editting, setEditting] = useState(false);
   const messageRef = useRef<HTMLInputElement>(null);
+
   return (
     <div
       key={message.messageId}
@@ -52,7 +53,13 @@ const Message = forwardRef(function (
           {username ?? "Could not find username."}
         </span>
         <span className="text-sm text-[#ABABAB]">
-          {dayjs(message.dateCreated).format("L LTS")}
+          {dayjs(
+            new Date(
+              typeof message.dateCreated === "string"
+                ? parseInt(message.dateCreated)
+                : message.dateCreated
+            )
+          ).format("L LTS")}
         </span>
         <span className="italic">
           {message.dateModified != null ? "Edited" : null}

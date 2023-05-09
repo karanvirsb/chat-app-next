@@ -26,7 +26,7 @@ async function getGroupMessages(
     const limit: string = req.query.limit as any;
     const foundMessages = await getMessagesByChannelId(
       channelId,
-      new Date(dateCreated),
+      parseInt(dateCreated),
       parseInt(limit)
     );
     res.json({

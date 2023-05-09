@@ -3,10 +3,8 @@ import React, { FormEvent, forwardRef, useRef, useState } from "react";
 
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 
-import { IMessage } from "../../Hooks/groupChatHooks";
-
 type props = {
-  message: IMessage;
+  message: IGroupMessage;
   username: string | undefined;
   editCallback: ({
     messageInfo,
@@ -128,7 +126,7 @@ const Message = forwardRef(function (
         messageInfo: {
           ...message,
           text: messageRef.current.value,
-          dateModified: new Date(),
+          dateModified: new Date().getTime(),
         },
       });
 

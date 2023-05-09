@@ -224,7 +224,7 @@ function useCreateGroupMutation(): IUseCreateGroupMutation {
       await queryClient.invalidateQueries(["groups"]);
       if (data.data != null) {
         await axios({
-          url: "http://localhost:3000/groupChannel",
+          url: "http://localhost:3000/api/groupChannel",
           method: "POST",
           data: {
             channelInfo: {

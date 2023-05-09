@@ -41,7 +41,7 @@ export interface IMakeMessageDb {
     getMessageById: (messageId: string) => Promise<returningMessageData>;
     getMessagesByChannelId: (
       channelId: string,
-      dateCreated: Date,
+      dateCreated: number,
       limit: number
     ) => returingPaginatedMessages;
     updateMessage: (
@@ -178,10 +178,11 @@ export default function makeMessageDb({
 
   async function getMessagesByChannelId(
     channelId: string,
-    dateCreated: Date,
+    dateCreated: number,
     limit: number
   ): returingPaginatedMessages {
-    console.log(dateCreated);
+    console.log("🚀 ~ file: message-db.ts:184 ~ dateCreated:", dateCreated);
+
     const db = await makeDb();
     try {
       const query = `
@@ -189,16 +190,12 @@ export default function makeMessageDb({
       (
         SELECT COUNT(*) 
           FROM group_messages
-          WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
-        dateCreated.getTime() / 1000
-      })
+          WHERE "channelId" = '${channelId}' AND "dateCreated" < ${dateCreated}
       ) as count,
       (
         SELECT json_agg(t.*) FROM (
           SELECT * FROM group_messages 
-          WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
-        dateCreated.getTime() / 1000
-      }) 
+          WHERE "channelId" = '${channelId}' AND "dateCreated" < ${dateCreated}
           ORDER BY "dateCreated" DESC
           LIMIT ${limit + 1}
           ) as t

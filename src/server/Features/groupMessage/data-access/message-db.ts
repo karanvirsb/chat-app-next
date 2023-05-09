@@ -71,7 +71,7 @@ export default function makeMessageDb({
     try {
       const query = `INSERT INTO group_messages VALUES (
                 '${messageInfo.messageId}',
-                to_timestamp(${messageInfo.dateCreated.getTime()}/1000),
+                ${messageInfo.dateCreated},
                 null,
                 ${messageInfo.replyTo ? `'${messageInfo.replyTo}'` : null},
                 E'${messageInfo.text}', 
@@ -82,7 +82,6 @@ export default function makeMessageDb({
 
       if (res.rowCount === 1) {
         const message: IGroupMessage = res.rows[0];
-        message.dateCreated = new Date(message.dateCreated);
         return { success: true, data: message, error: "" };
       } else {
         return {
@@ -116,7 +115,7 @@ export default function makeMessageDb({
 
       if (res.rowCount === 1) {
         const message: IGroupMessage = res.rows[0];
-        message.dateCreated = new Date(message.dateCreated);
+
         return { success: true, data: message, error: "" };
       } else {
         return {
@@ -151,7 +150,7 @@ export default function makeMessageDb({
 
       if (res.rowCount === 1) {
         const message: IGroupMessage = res.rows[0];
-        message.dateCreated = new Date(message.dateCreated);
+
         return { success: true, data: message, error: "" };
       } else {
         return {
@@ -264,7 +263,7 @@ export default function makeMessageDb({
 
       if (res.rowCount === 1) {
         const message: IGroupMessage = res.rows[0];
-        message.dateCreated = new Date(message.dateCreated);
+
         return { success: true, data: message, error: "" };
       } else {
         return {

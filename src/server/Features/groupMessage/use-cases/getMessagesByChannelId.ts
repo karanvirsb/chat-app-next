@@ -10,7 +10,7 @@ type props = {
 export interface IGetMessagesByChannelIdUseCase {
   getMessagesByChannelId: (
     channelId: string,
-    dateCreated: Date,
+    dateCreated: number,
     limit: number
   ) => returingPaginatedMessages;
 }
@@ -24,7 +24,7 @@ export default function makeGetMessagesByChannelId({ messageDb }: props) {
     if (!channelId) throw new Error("Message Id needs to be supplied.");
     if (!dateCreated || Number.isNaN(dateCreated))
       throw new Error("Date Created needs to be supplied.");
-
+    console.log(channelId, dateCreated, limit);
     return await messageDb.getMessagesByChannelId(
       channelId,
       dateCreated,

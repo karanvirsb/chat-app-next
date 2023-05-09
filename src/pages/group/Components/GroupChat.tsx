@@ -5,13 +5,8 @@ import React, { useEffect, useRef } from "react";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 
-// import useGetSession from "../../../Hooks/useGetSession";
 import Messages from "../../../Components/Messages/Messages";
-import {
-  useCreateGroupMessageMutation,
-  useEditMessageTextMutation,
-  useGetGroupMessagesByChannelIdQuery,
-} from "../../../Hooks/groupChatHooks";
+import { useGetGroupMessagesByChannelIdQuery } from "../../../Hooks/groupChatHooks";
 import { useAppDispatch } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
 
@@ -28,31 +23,12 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const { data: chatMessages, fetchNextPage } =
     useGetGroupMessagesByChannelIdQuery({
       channelId,
-      dateCreated: new Date(),
+      dateCreated: new Date().getTime(),
       limit: 10,
     });
-  // const { mutate: createMessage } = useCreateGroupMessageMutation({ groupId });
-  // const { mutate: updateText } = useEditMessageTextMutation({ groupId });
 
   const dispatch = useAppDispatch();
   const { data: sessionInfo } = useSession();
-
-  // useEffect(() => {
-  //   // scroll height gives height of element
-  //   // client height gives height of actual element or css height
-  //   // so scroll top is the vertical top and max is scrollHeight
-  //   if (chatMessagesRef.current !== null) {
-  //     const isScrolledToBottom =
-  //       chatMessagesRef.current.scrollHeight -
-  //         chatMessagesRef.current.clientHeight <=
-  //       chatMessagesRef.current.scrollTop + 1;
-
-  //     if (!isScrolledToBottom)
-  //       chatMessagesRef.current.scrollTop =
-  //         chatMessagesRef.current.scrollHeight -
-  //         chatMessagesRef.current.clientHeight;
-  //   }
-  // }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {

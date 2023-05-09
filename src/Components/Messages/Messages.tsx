@@ -9,7 +9,6 @@ import React, { useEffect, useRef } from "react";
 
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 
-import { IMessage } from "../../Hooks/groupChatHooks";
 import { IUser } from "../../Hooks/groupHooks";
 import useIntersectionObserver from "../../Hooks/useIntersectionObserver";
 import { PaginatedGroupMessages } from "../../utilities/types/pagination";
@@ -17,7 +16,7 @@ import Message from "./Message";
 dayjs.extend(localizedFormat);
 
 type props = {
-  messages: IMessage[] | undefined;
+  messages: IGroupMessage[] | undefined;
   groupId: string;
   lastPage?: boolean;
   editCallback: ({
@@ -42,7 +41,7 @@ type props = {
     options?: FetchNextPageOptions | undefined
   ) => Promise<
     InfiniteQueryObserverResult<
-      PaginatedGroupMessages<IMessage> | undefined,
+      PaginatedGroupMessages<IGroupMessage> | undefined,
       unknown
     >
   >;

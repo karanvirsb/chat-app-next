@@ -18,11 +18,11 @@ export interface IGetMessagesByChannelIdUseCase {
 export default function makeGetMessagesByChannelId({ messageDb }: props) {
   return async function getMessagesByChannelId(
     channelId: string,
-    dateCreated: Date,
+    dateCreated: number,
     limit = 15
   ): returingPaginatedMessages {
     if (!channelId) throw new Error("Message Id needs to be supplied.");
-    if (!dateCreated || Number.isNaN(dateCreated.getTime()))
+    if (!dateCreated || Number.isNaN(dateCreated))
       throw new Error("Date Created needs to be supplied.");
 
     return await messageDb.getMessagesByChannelId(

@@ -1,12 +1,12 @@
 type props = {
-  prevDate: Date;
-  nextDate: Date | null;
+  prevDate: number;
+  nextDate: number | null;
   rows: unknown[];
 };
 
 export interface Pagination<T> {
   hasNextPage: boolean;
-  cursor: Date | null;
+  cursor: number | null;
   data: T[];
 }
 

@@ -4,10 +4,11 @@ import {
   useMutation,
   UseMutationResult,
 } from "@tanstack/react-query";
+// import axios from "../API/axios";
+import axios from "axios";
 
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 
-import axios from "../API/axios";
 import useGroupChatSockets from "../Sockets/Hooks/useGroupChatSockets";
 import { PaginatedGroupMessages } from "../utilities/types/pagination";
 

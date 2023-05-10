@@ -27,8 +27,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const bottomElem = useRef<null | HTMLDivElement>(null); // to track the bottom of the chat
   const messageIntoViewRef = useRef<null | HTMLDivElement>(null); // to track the new message
   const firstRenderRef = useRef(false); // to see if the component has already rendered
-  const entry = useIntersectionObserver(observerElem, {});
-  const isVisible = !!(entry?.isIntersecting ?? false);
+
   // TODO after inital load need to set dateCreated to last message.
   const {
     data: chatMessages,
@@ -65,7 +64,11 @@ export default function GroupChat({ groupId }: props): JSX.Element {
       chatMessages.pages.forEach((messages, pageIndex) => {
         messages?.data.forEach((message, index) => {
           const user = foundUser(message.userId);
-          if (pageIndex === chatMessages.pages.length - 1 && index === 0) {
+          if (
+            pageIndex === chatMessages.pages.length - 1 &&
+            chatMessages.pages.length > 1 &&
+            index === 0
+          ) {
             newArr.push(
               <Message
                 deleteCallback={handleDeletingMessage}
@@ -113,18 +116,32 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     isSuccess,
   ]);
 
-  useEffect(() => {
-    if (
-      isVisible &&
-      chatMessages?.pages[chatMessages.pages.length - 1]?.hasNextPage
-    ) {
-      fetchNextPage();
-      console.log("fetching");
-    }
-  }, [isVisible, chatMessages, fetchNextPage]);
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [target] = entries;
+      if (
+        target.isIntersecting &&
+        chatMessages?.pages[chatMessages.pages.length - 1]?.hasNextPage
+      ) {
+        fetchNextPage();
+      }
+    },
+    [chatMessages, fetchNextPage]
+  );
 
   useEffect(() => {
-    if (bottomElem.current && !firstRenderRef.current) {
+    if (observerElem.current) {
+      const element = observerElem.current;
+      const option = { threshold: 0 };
+
+      const observer = new IntersectionObserver(handleObserver, option);
+      observer.observe(element);
+      return () => observer.unobserve(element);
+    }
+  }, [fetchNextPage, handleObserver]);
+
+  useEffect(() => {
+    if (bottomElem.current) {
       bottomElem.current.scrollIntoView({ behavior: "smooth" });
     } else {
       messageIntoViewRef.current?.scrollIntoView();
@@ -160,7 +177,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
             pressure!
           </p>
         ) : (
-          displayMessages.map((message) => message)
+          displayMessages.map((message, index) => message)
 
           // chatMessages?.pages.map((_, index, pages) => {
           //   if (index === 0) {

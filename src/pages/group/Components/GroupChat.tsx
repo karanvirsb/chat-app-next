@@ -97,17 +97,28 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   ]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (chatMessagesRef.current !== null) {
-        chatMessagesRef.current.scrollTop =
-          chatMessagesRef.current.scrollHeight -
-          chatMessagesRef.current.clientHeight;
-      }
-      console.log("timeout");
-    }, 100);
+    if (
+      isVisible &&
+      chatMessages?.pages[chatMessages.pages.length - 1]?.hasNextPage
+    ) {
+      fetchNextPage();
+      console.log("fetching");
+    }
+  }, [isVisible, chatMessages, fetchNextPage]);
 
-    return () => clearTimeout(timer);
-  }, [channelId]);
+  useEffect(() => {});
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (chatMessagesRef.current !== null) {
+  //       chatMessagesRef.current.scrollTop =
+  //         chatMessagesRef.current.scrollHeight -
+  //         chatMessagesRef.current.clientHeight;
+  //     }
+  //     console.log("timeout");
+  //   }, 100);
+
+  //   return () => clearTimeout(timer);
+  // }, [channelId]);
 
   return (
     <div

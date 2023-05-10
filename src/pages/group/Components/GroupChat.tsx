@@ -22,6 +22,8 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const channelId = searchParams.get("channel") ?? "";
   const messageRef = useRef<null | HTMLInputElement>(null);
   const chatMessagesRef = useRef<null | HTMLDivElement>(null);
+  const observerElem = useRef<null | HTMLDivElement>(null);
+  const bottomElem = useRef<null | HTMLDivElement>(null);
   // TODO after inital load need to set dateCreated to last message.
   const {
     data: chatMessages,
@@ -45,7 +47,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
         ])[0][1] as unknown[])
       : []
   ) as IUser[];
-  console.log(groupUsers);
+
   const foundUser = useCallback(
     (id: string) => {
       return groupUsers.find((user: IUser) => user.userId === id);
@@ -71,22 +73,15 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           );
         });
       });
-      // newArr.unshift(
-      //   <div ref={observerElem}>
-      //     <button
-      //       onClick={() => {
-      //         fetchNextPage();
-      //       }}
-      //       disabled={!hasNextPage || isFetchingNextPage}
-      //     >
-      //       {isFetchingNextPage
-      //         ? "Loading more..."
-      //         : hasNextPage
-      //         ? "Load More"
-      //         : "Nothing more to load"}
-      //     </button>
-      //   </div>
-      // );
+      newArr.unshift(
+        <div ref={observerElem}>
+          {isFetchingNextPage
+            ? "Loading more..."
+            : chatMessages.pages[chatMessages.pages.length - 1]?.hasNextPage
+            ? "Load More"
+            : "Nothing more to load"}
+        </div>
+      );
     }
     return newArr;
   }, [chatMessages, isSuccess]);
@@ -122,6 +117,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           </p>
         ) : (
           displayMessages.map((message) => message)
+
           // chatMessages?.pages.map((_, index, pages) => {
           //   if (index === 0) {
           //     return (
@@ -150,6 +146,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           //   }
           // })
         )}
+        <div ref={bottomElem}>end</div>
       </div>
       {channelId.length > 0 ? (
         // made it sticky so it will stay at the bottom

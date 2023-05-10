@@ -3,6 +3,7 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 
+import useIntersectionObserver from "@/Hooks/useIntersectionObserver";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 import { IUser } from "@/server/Features/user/user";
@@ -24,6 +25,8 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const chatMessagesRef = useRef<null | HTMLDivElement>(null);
   const observerElem = useRef<null | HTMLDivElement>(null);
   const bottomElem = useRef<null | HTMLDivElement>(null);
+  const entry = useIntersectionObserver(observerElem, {});
+  const isVisible = !!(entry?.isIntersecting ?? false);
   // TODO after inital load need to set dateCreated to last message.
   const {
     data: chatMessages,
@@ -84,7 +87,14 @@ export default function GroupChat({ groupId }: props): JSX.Element {
       );
     }
     return newArr;
-  }, [chatMessages, isSuccess]);
+  }, [
+    chatMessages,
+    foundUser,
+    handleDeletingMessage,
+    handleEditMessage,
+    isFetchingNextPage,
+    isSuccess,
+  ]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

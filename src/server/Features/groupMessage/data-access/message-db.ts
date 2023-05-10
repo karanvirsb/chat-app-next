@@ -213,11 +213,14 @@ export default function makeMessageDb({
         });
 
         const nextPage = `${process.env.API_DOMAIN}/groupMessage/channel/messages?channelId=${channelId}&limit=${limit}&dateCreated=${paginatedData.cursor}`;
+        const data = paginatedData.data; // need to remove extra date at the end
+        data.shift();
+
         return {
           success: true,
           data: {
             nextPage: paginatedData.hasNextPage ? nextPage : null,
-            data: paginatedData.data,
+            data,
             hasNextPage: paginatedData.hasNextPage,
           },
           error: "",

@@ -25,6 +25,8 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const chatMessagesRef = useRef<null | HTMLDivElement>(null);
   const observerElem = useRef<null | HTMLDivElement>(null);
   const bottomElem = useRef<null | HTMLDivElement>(null);
+  const messageIntoViewRef = useRef<null | HTMLDivElement>(null);
+  const firstRenderRef = useRef(false);
   const entry = useIntersectionObserver(observerElem, {});
   const isVisible = !!(entry?.isIntersecting ?? false);
   // TODO after inital load need to set dateCreated to last message.
@@ -63,17 +65,32 @@ export default function GroupChat({ groupId }: props): JSX.Element {
       chatMessages.pages.forEach((messages, pageIndex) => {
         messages?.data.forEach((message, index) => {
           const user = foundUser(message.userId);
-          newArr.push(
-            <Message
-              deleteCallback={handleDeletingMessage}
-              editCallback={handleEditMessage}
-              message={message}
-              messageIndex={index}
-              pageIndex={pageIndex}
-              username={user?.username ?? "Unknown"}
-              key={message.messageId}
-            ></Message>
-          );
+          if (pageIndex === chatMessages.pages.length - 1 && index === 0) {
+            newArr.push(
+              <Message
+                deleteCallback={handleDeletingMessage}
+                editCallback={handleEditMessage}
+                message={message}
+                messageIndex={index}
+                pageIndex={pageIndex}
+                username={user?.username ?? "Unknown"}
+                key={message.messageId}
+                ref={messageIntoViewRef}
+              ></Message>
+            );
+          } else {
+            newArr.push(
+              <Message
+                deleteCallback={handleDeletingMessage}
+                editCallback={handleEditMessage}
+                message={message}
+                messageIndex={index}
+                pageIndex={pageIndex}
+                username={user?.username ?? "Unknown"}
+                key={message.messageId}
+              ></Message>
+            );
+          }
         });
       });
       newArr.unshift(
@@ -106,7 +123,13 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     }
   }, [isVisible, chatMessages, fetchNextPage]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (bottomElem.current && !firstRenderRef.current) {
+      bottomElem.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      messageIntoViewRef.current?.scrollIntoView();
+    }
+  });
   // useEffect(() => {
   //   const timer = setTimeout(() => {
   //     if (chatMessagesRef.current !== null) {

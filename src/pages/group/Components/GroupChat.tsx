@@ -54,7 +54,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           <p className="text-center text-lg uppercase font-semibold">
             Select a channel to see your chats!
           </p>
-        ) : chatMessages.pages.length === 0 ? (
+        ) : chatMessages.pages[0] === undefined ? (
           <p className="text-center text-lg uppercase font-semibold">
             Seems like this is your first message send something awesome! No
             pressure!

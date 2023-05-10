@@ -21,12 +21,12 @@ type props = {
 export default function GroupChat({ groupId }: props): JSX.Element {
   const searchParams = useSearchParams();
   const channelId = searchParams.get("channel") ?? "";
-  const messageRef = useRef<null | HTMLInputElement>(null);
-  const chatMessagesRef = useRef<null | HTMLDivElement>(null);
-  const observerElem = useRef<null | HTMLDivElement>(null);
-  const bottomElem = useRef<null | HTMLDivElement>(null);
-  const messageIntoViewRef = useRef<null | HTMLDivElement>(null);
-  const firstRenderRef = useRef(false);
+  const messageRef = useRef<null | HTMLInputElement>(null); // to track the message input
+  const chatMessagesRef = useRef<null | HTMLDivElement>(null); // to track the message container
+  const observerElem = useRef<null | HTMLDivElement>(null); // to track the load more
+  const bottomElem = useRef<null | HTMLDivElement>(null); // to track the bottom of the chat
+  const messageIntoViewRef = useRef<null | HTMLDivElement>(null); // to track the new message
+  const firstRenderRef = useRef(false); // to see if the component has already rendered
   const entry = useIntersectionObserver(observerElem, {});
   const isVisible = !!(entry?.isIntersecting ?? false);
   // TODO after inital load need to set dateCreated to last message.

@@ -19,7 +19,7 @@ export default function makeGetMessagesByChannelId({ messageDb }: props) {
   return async function getMessagesByChannelId(
     channelId: string,
     dateCreated: number,
-    limit = 15
+    limit = 10
   ): returingPaginatedMessages {
     if (!channelId) throw new Error("Message Id needs to be supplied.");
     if (!dateCreated || Number.isNaN(dateCreated))

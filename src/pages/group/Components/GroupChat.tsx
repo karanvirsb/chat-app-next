@@ -26,7 +26,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const observerElem = useRef<null | HTMLDivElement>(null); // to track the load more
   const bottomElem = useRef<null | HTMLDivElement>(null); // to track the bottom of the chat
   const messageIntoViewRef = useRef<null | HTMLDivElement>(null); // to track the new message
-  const firstRenderRef = useRef(false); // to see if the component has already rendered
+  const firstElemRef = useRef<null | HTMLDivElement>(null); // to see if the component has already rendered
 
   // TODO after inital load need to set dateCreated to last message.
   const {
@@ -59,69 +59,35 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     [groupUsers]
   );
   const displayMessages = useMemo(() => {
-    const newArr: React.ReactNode[] = [];
+    const newArr: IGroupMessage[] = [];
     if (isSuccess && chatMessages !== undefined) {
       chatMessages.pages.forEach((messages, pageIndex) => {
+        // const newMessages =
+        //   chatMessages.pages[chatMessages.pages.length - 1 - pageIndex];
         messages?.data.forEach((message, index) => {
-          const user = foundUser(message.userId);
-          if (
-            pageIndex === chatMessages.pages.length - 1 &&
-            chatMessages.pages.length > 1 &&
-            index === 0
-          ) {
-            newArr.push(
-              <Message
-                deleteCallback={handleDeletingMessage}
-                editCallback={handleEditMessage}
-                message={message}
-                messageIndex={index}
-                pageIndex={pageIndex}
-                username={user?.username ?? "Unknown"}
-                key={message.messageId}
-                ref={messageIntoViewRef}
-              ></Message>
-            );
-          } else {
-            newArr.push(
-              <Message
-                deleteCallback={handleDeletingMessage}
-                editCallback={handleEditMessage}
-                message={message}
-                messageIndex={index}
-                pageIndex={pageIndex}
-                username={user?.username ?? "Unknown"}
-                key={message.messageId}
-              ></Message>
-            );
-          }
+          newArr.push(message);
         });
       });
-      newArr.unshift(
-        <div ref={observerElem}>
-          {isFetchingNextPage
-            ? "Loading more..."
-            : chatMessages.pages[chatMessages.pages.length - 1]?.hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
-        </div>
-      );
+      // newArr.unshift(
+      //   <div ref={observerElem}>
+      //     {isFetchingNextPage
+      //       ? "Loading more..."
+      //       : chatMessages.pages[chatMessages.pages.length - 1]?.hasNextPage
+      //       ? "Load More"
+      //       : "Nothing more to load"}
+      //   </div>
+      // );
     }
     return newArr;
-  }, [
-    chatMessages,
-    foundUser,
-    handleDeletingMessage,
-    handleEditMessage,
-    isFetchingNextPage,
-    isSuccess,
-  ]);
+  }, [chatMessages, isSuccess]);
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries;
       if (
         target.isIntersecting &&
-        chatMessages?.pages[chatMessages.pages.length - 1]?.hasNextPage
+        chatMessages?.pages[chatMessages.pages.length - 1]?.hasNextPage &&
+        firstElemRef.current !== null
       ) {
         fetchNextPage();
       }
@@ -141,24 +107,12 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   }, [fetchNextPage, handleObserver]);
 
   useEffect(() => {
-    if (bottomElem.current) {
+    if (bottomElem.current && !messageIntoViewRef.current) {
       bottomElem.current.scrollIntoView({ behavior: "smooth" });
     } else {
       messageIntoViewRef.current?.scrollIntoView();
     }
   });
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     if (chatMessagesRef.current !== null) {
-  //       chatMessagesRef.current.scrollTop =
-  //         chatMessagesRef.current.scrollHeight -
-  //         chatMessagesRef.current.clientHeight;
-  //     }
-  //     console.log("timeout");
-  //   }, 100);
-
-  //   return () => clearTimeout(timer);
-  // }, [channelId]);
 
   return (
     <div
@@ -177,7 +131,61 @@ export default function GroupChat({ groupId }: props): JSX.Element {
             pressure!
           </p>
         ) : (
-          displayMessages.map((message, index) => message)
+          <>
+            <div ref={observerElem}>
+              {isFetchingNextPage
+                ? "Loading more..."
+                : chatMessages.pages[chatMessages.pages.length - 1]?.hasNextPage
+                ? "Load More"
+                : "Nothing more to load"}
+            </div>
+            {displayMessages.map((message, index) => {
+              // TODO add page index
+              const user = foundUser(message.userId);
+              if (index === 10) {
+                return (
+                  <Message
+                    deleteCallback={handleDeletingMessage}
+                    editCallback={handleEditMessage}
+                    message={message}
+                    messageIndex={index}
+                    pageIndex={0}
+                    username={user?.username ?? "Unknown"}
+                    key={message.messageId}
+                    ref={messageIntoViewRef}
+                  ></Message>
+                );
+              }
+
+              if (index === displayMessages.length - 1) {
+                console.log("first ref");
+                return (
+                  <Message
+                    deleteCallback={handleDeletingMessage}
+                    editCallback={handleEditMessage}
+                    message={message}
+                    messageIndex={index}
+                    pageIndex={0}
+                    username={user?.username ?? "Unknown"}
+                    key={message.messageId}
+                    ref={firstElemRef}
+                  ></Message>
+                );
+              }
+              return (
+                <Message
+                  deleteCallback={handleDeletingMessage}
+                  editCallback={handleEditMessage}
+                  message={message}
+                  messageIndex={index}
+                  pageIndex={0}
+                  username={user?.username ?? "Unknown"}
+                  key={message.messageId}
+                ></Message>
+              );
+            })}
+            <div ref={bottomElem}>end</div>
+          </>
 
           // chatMessages?.pages.map((_, index, pages) => {
           //   if (index === 0) {
@@ -207,7 +215,6 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           //   }
           // })
         )}
-        <div ref={bottomElem}>end</div>
       </div>
       {channelId.length > 0 ? (
         // made it sticky so it will stay at the bottom

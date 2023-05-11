@@ -17,7 +17,7 @@ export default async function handler(
 
 async function getGroupMessages(
   req: NextApiRequest,
-  res: NextApiResponse<any>,
+  res: NextApiResponse,
   headers: { [key: string]: string }
 ) {
   try {
@@ -34,14 +34,14 @@ async function getGroupMessages(
       statusCode: 200,
       body: foundMessages,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error: error,
       },
     });
   }

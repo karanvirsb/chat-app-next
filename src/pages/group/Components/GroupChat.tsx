@@ -4,13 +4,11 @@ import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 
-import useIntersectionObserver from "@/Hooks/useIntersectionObserver";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 import { IUser } from "@/server/Features/user/user";
 
 import Message from "../../../Components/Messages/Message";
-import Messages from "../../../Components/Messages/Messages";
 import { useGetGroupMessagesByChannelIdQuery } from "../../../Hooks/groupChatHooks";
 import { useAppDispatch } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
@@ -35,7 +33,6 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     data: chatMessages,
     fetchNextPage,
     isSuccess,
-    isFetchingNextPage,
   } = useGetGroupMessagesByChannelIdQuery({
     channelId,
     dateCreated: new Date().getTime(),
@@ -46,19 +43,19 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const { data: sessionInfo } = useSession();
 
   const queryClient = useQueryClient();
-  const groupUsers = (
-    queryClient.getQueriesData([`group-users-${groupId}`])[0]
-      ? (queryClient.getQueriesData([
-          `group-users-${groupId}`,
-        ])[0][1] as unknown[])
-      : []
-  ) as IUser[];
 
   const foundUser = useCallback(
     (id: string) => {
+      const groupUsers = (
+        queryClient.getQueriesData([`group-users-${groupId}`])[0]
+          ? (queryClient.getQueriesData([
+              `group-users-${groupId}`,
+            ])[0][1] as unknown[])
+          : []
+      ) as IUser[];
       return groupUsers.find((user: IUser) => user.userId === id);
     },
-    [groupUsers]
+    [queryClient, groupId]
   );
   const displayMessages = useMemo(() => {
     const newArr: GroupMessage[] = [];

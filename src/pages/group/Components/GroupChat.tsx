@@ -65,7 +65,11 @@ export default function GroupChat({ groupId }: props): JSX.Element {
         const newMessages =
           chatMessages.pages[chatMessages.pages.length - 1 - pageIndex];
         newMessages?.data.forEach((message, messageIndex) => {
-          newArr.push({ ...message, pageIndex, messageIndex });
+          newArr.push({
+            ...message,
+            pageIndex: chatMessages.pages.length - 1 - pageIndex,
+            messageIndex,
+          });
         });
       });
     }
@@ -95,6 +99,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           </p>
         ) : (
           <Virtuoso
+            alignToBottom={true}
             ref={virtuosoRef}
             data={displayMessages}
             style={{ height: 400 }}

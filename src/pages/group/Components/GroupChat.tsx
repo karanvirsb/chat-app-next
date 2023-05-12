@@ -138,8 +138,40 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           </p>
         ) : (
           <>
-            <Virtuoso ref={virtuosoRef} data={displayMessages} />
-            {displayMessages.map((message, index) => {
+            <Virtuoso
+              ref={virtuosoRef}
+              data={displayMessages}
+              style={{ height: 400 }}
+              // useWindowScroll
+              firstItemIndex={Math.max(0, displayMessages.length - 10)}
+              initialTopMostItemIndex={Math.max(9, displayMessages.length - 1)}
+              followOutput="smooth"
+              startReached={() => {
+                const hasNext =
+                  chatMessages.pages &&
+                  (
+                    chatMessages.pages[chatMessages?.pages.length - 1] ?? {
+                      hasNextPage: false,
+                    }
+                  ).hasNextPage;
+                return hasNext ? fetchNextPage() : "No more pages";
+              }}
+              itemContent={(index, message) => {
+                const user = foundUser(message.userId);
+                return (
+                  <Message
+                    deleteCallback={handleDeletingMessage}
+                    editCallback={handleEditMessage}
+                    message={message}
+                    messageIndex={message.messageIndex}
+                    pageIndex={message.pageIndex}
+                    username={user?.username ?? "Unknown"}
+                    key={message.messageId}
+                  ></Message>
+                );
+              }}
+            />
+            {/* {displayMessages.map((message, index) => {
               // TODO add page index
               const user = foundUser(message.userId);
               if (index === 10) {
@@ -181,7 +213,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
                   key={message.messageId}
                 ></Message>
               );
-            })}
+            })} */}
             {/* <div ref={bottomElem}>end</div> */}
           </>
 

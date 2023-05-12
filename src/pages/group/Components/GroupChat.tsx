@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 
 import useIntersectionObserver from "@/Hooks/useIntersectionObserver";
 import { groupActions } from "@/Redux/group/groupSlice";
@@ -26,6 +27,7 @@ interface GroupMessage extends IGroupMessage {
 export default function GroupChat({ groupId }: props): JSX.Element {
   const searchParams = useSearchParams();
   const channelId = searchParams.get("channel") ?? "";
+  const virtuosoRef = useRef<VirtuosoHandle | null>(null);
   const messageRef = useRef<null | HTMLInputElement>(null); // to track the message input
   const chatMessagesRef = useRef<null | HTMLDivElement>(null); // to track the message container
   // const observerElem = useRef<null | HTMLDivElement>(null); // to track the load more
@@ -110,6 +112,14 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   //   }
   // });
 
+  useEffect(() => {
+    if (displayMessages.length <= 10) {
+      virtuosoRef.current?.scrollToIndex(displayMessages.length - 1);
+    } else {
+      virtuosoRef.current?.scrollToIndex(10);
+    }
+  }, [displayMessages]);
+
   return (
     <div
       className="flex relative flex-col flex-grow overflow-auto bg-chat-bg"
@@ -128,6 +138,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           </p>
         ) : (
           <>
+            <Virtuoso ref={virtuosoRef} data={displayMessages} />
             {displayMessages.map((message, index) => {
               // TODO add page index
               const user = foundUser(message.userId);

@@ -28,10 +28,10 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const channelId = searchParams.get("channel") ?? "";
   const messageRef = useRef<null | HTMLInputElement>(null); // to track the message input
   const chatMessagesRef = useRef<null | HTMLDivElement>(null); // to track the message container
-  const observerElem = useRef<null | HTMLDivElement>(null); // to track the load more
-  const bottomElem = useRef<null | HTMLDivElement>(null); // to track the bottom of the chat
-  const messageIntoViewRef = useRef<null | HTMLDivElement>(null); // to track the new message
-  const firstElemRef = useRef<null | HTMLDivElement>(null); // to see if the component has already rendered
+  // const observerElem = useRef<null | HTMLDivElement>(null); // to track the load more
+  // const bottomElem = useRef<null | HTMLDivElement>(null); // to track the bottom of the chat
+  // const messageIntoViewRef = useRef<null | HTMLDivElement>(null); // to track the new message
+  // const firstElemRef = useRef<null | HTMLDivElement>(null); // to see if the component has already rendered
 
   // TODO after inital load need to set dateCreated to last message.
   const {
@@ -73,51 +73,42 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           newArr.push({ ...message, pageIndex, messageIndex });
         });
       });
-      // newArr.unshift(
-      //   <div ref={observerElem}>
-      //     {isFetchingNextPage
-      //       ? "Loading more..."
-      //       : chatMessages.pages[chatMessages.pages.length - 1]?.hasNextPage
-      //       ? "Load More"
-      //       : "Nothing more to load"}
-      //   </div>
-      // );
     }
     return newArr;
   }, [chatMessages, isSuccess]);
 
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const [target] = entries;
-      if (
-        target.isIntersecting &&
-        chatMessages?.pages[chatMessages.pages.length - 1]?.hasNextPage &&
-        firstElemRef.current !== null
-      ) {
-        fetchNextPage();
-      }
-    },
-    [chatMessages, fetchNextPage]
-  );
+  // const handleObserver = useCallback(
+  //   (entries: IntersectionObserverEntry[]) => {
+  //     const [target] = entries;
+  //     if (
+  //       target.isIntersecting &&
+  //       chatMessages?.pages[chatMessages.pages.length - 1]?.hasNextPage &&
+  //       firstElemRef.current !== null
+  //     ) {
+  //       fetchNextPage();
+  //     }
+  //   },
+  //   [chatMessages, fetchNextPage]
+  // );
 
-  useEffect(() => {
-    if (observerElem.current) {
-      const element = observerElem.current;
-      const option = { threshold: 0 };
+  // useEffect(() => {
+  //   if (observerElem.current) {
+  //     const element = observerElem.current;
+  //     const option = { threshold: 0 };
 
-      const observer = new IntersectionObserver(handleObserver, option);
-      observer.observe(element);
-      return () => observer.unobserve(element);
-    }
-  }, [fetchNextPage, handleObserver]);
+  //     const observer = new IntersectionObserver(handleObserver, option);
+  //     observer.observe(element);
+  //     return () => observer.unobserve(element);
+  //   }
+  // }, [fetchNextPage, handleObserver]);
 
-  useEffect(() => {
-    if (bottomElem.current && !messageIntoViewRef.current) {
-      bottomElem.current.scrollIntoView({ behavior: "smooth" });
-    } else {
-      messageIntoViewRef.current?.scrollIntoView();
-    }
-  });
+  // useEffect(() => {
+  //   if (bottomElem.current && !messageIntoViewRef.current) {
+  //     bottomElem.current.scrollIntoView({ behavior: "smooth" });
+  //   } else {
+  //     messageIntoViewRef.current?.scrollIntoView();
+  //   }
+  // });
 
   return (
     <div
@@ -137,13 +128,6 @@ export default function GroupChat({ groupId }: props): JSX.Element {
           </p>
         ) : (
           <>
-            <div ref={observerElem}>
-              {isFetchingNextPage
-                ? "Loading more..."
-                : chatMessages.pages[chatMessages.pages.length - 1]?.hasNextPage
-                ? "Load More"
-                : "Nothing more to load"}
-            </div>
             {displayMessages.map((message, index) => {
               // TODO add page index
               const user = foundUser(message.userId);
@@ -157,7 +141,6 @@ export default function GroupChat({ groupId }: props): JSX.Element {
                     pageIndex={message.pageIndex}
                     username={user?.username ?? "Unknown"}
                     key={message.messageId}
-                    ref={messageIntoViewRef}
                   ></Message>
                 );
               }
@@ -173,7 +156,6 @@ export default function GroupChat({ groupId }: props): JSX.Element {
                     pageIndex={message.pageIndex}
                     username={user?.username ?? "Unknown"}
                     key={message.messageId}
-                    ref={firstElemRef}
                   ></Message>
                 );
               }
@@ -189,7 +171,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
                 ></Message>
               );
             })}
-            <div ref={bottomElem}>end</div>
+            {/* <div ref={bottomElem}>end</div> */}
           </>
 
           // chatMessages?.pages.map((_, index, pages) => {

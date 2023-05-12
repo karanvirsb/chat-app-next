@@ -18,6 +18,11 @@ type props = {
   groupId: string;
 };
 
+interface GroupMessage extends IGroupMessage {
+  pageIndex: number;
+  messageIndex: number;
+}
+
 export default function GroupChat({ groupId }: props): JSX.Element {
   const searchParams = useSearchParams();
   const channelId = searchParams.get("channel") ?? "";
@@ -59,13 +64,13 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     [groupUsers]
   );
   const displayMessages = useMemo(() => {
-    const newArr: IGroupMessage[] = [];
+    const newArr: GroupMessage[] = [];
     if (isSuccess && chatMessages !== undefined) {
       chatMessages.pages.forEach((messages, pageIndex) => {
         // const newMessages =
         //   chatMessages.pages[chatMessages.pages.length - 1 - pageIndex];
-        messages?.data.forEach((message, index) => {
-          newArr.push(message);
+        messages?.data.forEach((message, messageIndex) => {
+          newArr.push({ ...message, pageIndex, messageIndex });
         });
       });
       // newArr.unshift(
@@ -148,8 +153,8 @@ export default function GroupChat({ groupId }: props): JSX.Element {
                     deleteCallback={handleDeletingMessage}
                     editCallback={handleEditMessage}
                     message={message}
-                    messageIndex={index}
-                    pageIndex={0}
+                    messageIndex={message.messageIndex}
+                    pageIndex={message.pageIndex}
                     username={user?.username ?? "Unknown"}
                     key={message.messageId}
                     ref={messageIntoViewRef}
@@ -164,8 +169,8 @@ export default function GroupChat({ groupId }: props): JSX.Element {
                     deleteCallback={handleDeletingMessage}
                     editCallback={handleEditMessage}
                     message={message}
-                    messageIndex={index}
-                    pageIndex={0}
+                    messageIndex={message.messageIndex}
+                    pageIndex={message.pageIndex}
                     username={user?.username ?? "Unknown"}
                     key={message.messageId}
                     ref={firstElemRef}

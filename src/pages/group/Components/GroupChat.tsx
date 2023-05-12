@@ -33,6 +33,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     data: chatMessages,
     fetchNextPage,
     isSuccess,
+    hasNextPage,
   } = useGetGroupMessagesByChannelIdQuery({
     channelId,
     dateCreated: new Date().getTime(),
@@ -61,7 +62,9 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     const newArr: GroupMessage[] = [];
     if (isSuccess && chatMessages !== undefined) {
       chatMessages.pages.forEach((messages, pageIndex) => {
-        messages?.data.forEach((message, messageIndex) => {
+        const newMessages =
+          chatMessages.pages[chatMessages.pages.length - 1 - pageIndex];
+        newMessages?.data.forEach((message, messageIndex) => {
           newArr.push({ ...message, pageIndex, messageIndex });
         });
       });
@@ -91,41 +94,31 @@ export default function GroupChat({ groupId }: props): JSX.Element {
             pressure!
           </p>
         ) : (
-          <>
-            <Virtuoso
-              ref={virtuosoRef}
-              data={displayMessages}
-              // style={{ height: 400 }}
-              // useWindowScroll
-              firstItemIndex={Math.max(0, displayMessages.length - 10)}
-              initialTopMostItemIndex={Math.max(9, displayMessages.length - 1)}
-              followOutput="smooth"
-              startReached={() => {
-                const hasNext =
-                  chatMessages.pages &&
-                  (
-                    chatMessages.pages[chatMessages?.pages.length - 1] ?? {
-                      hasNextPage: false,
-                    }
-                  ).hasNextPage;
-                return hasNext ? fetchNextPage() : "No more pages";
-              }}
-              itemContent={(index, message) => {
-                const user = foundUser(message.userId);
-                return (
-                  <Message
-                    deleteCallback={handleDeletingMessage}
-                    editCallback={handleEditMessage}
-                    message={message}
-                    messageIndex={message.messageIndex}
-                    pageIndex={message.pageIndex}
-                    username={user?.username ?? "Unknown"}
-                    key={message.messageId}
-                  ></Message>
-                );
-              }}
-            />
-          </>
+          <Virtuoso
+            ref={virtuosoRef}
+            data={displayMessages}
+            style={{ height: 400 }}
+            // useWindowScroll
+            firstItemIndex={Math.max(0, displayMessages.length - 10)}
+            initialTopMostItemIndex={displayMessages.length - 1}
+            startReached={() => {
+              return hasNextPage ? fetchNextPage() : "No more pages";
+            }}
+            itemContent={(index, message) => {
+              const user = foundUser(message.userId);
+              return (
+                <Message
+                  deleteCallback={handleDeletingMessage}
+                  editCallback={handleEditMessage}
+                  message={message}
+                  messageIndex={message.messageIndex}
+                  pageIndex={message.pageIndex}
+                  username={user?.username ?? "Unknown"}
+                  key={message.messageId}
+                ></Message>
+              );
+            }}
+          />
         )}
       </div>
       {channelId.length > 0 ? (

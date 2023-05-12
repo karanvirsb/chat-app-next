@@ -29,11 +29,6 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   const channelId = searchParams.get("channel") ?? "";
   const virtuosoRef = useRef<VirtuosoHandle | null>(null);
   const messageRef = useRef<null | HTMLInputElement>(null); // to track the message input
-  const chatMessagesRef = useRef<null | HTMLDivElement>(null); // to track the message container
-  // const observerElem = useRef<null | HTMLDivElement>(null); // to track the load more
-  // const bottomElem = useRef<null | HTMLDivElement>(null); // to track the bottom of the chat
-  // const messageIntoViewRef = useRef<null | HTMLDivElement>(null); // to track the new message
-  // const firstElemRef = useRef<null | HTMLDivElement>(null); // to see if the component has already rendered
 
   // TODO after inital load need to set dateCreated to last message.
   const {
@@ -69,8 +64,6 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     const newArr: GroupMessage[] = [];
     if (isSuccess && chatMessages !== undefined) {
       chatMessages.pages.forEach((messages, pageIndex) => {
-        // const newMessages =
-        //   chatMessages.pages[chatMessages.pages.length - 1 - pageIndex];
         messages?.data.forEach((message, messageIndex) => {
           newArr.push({ ...message, pageIndex, messageIndex });
         });
@@ -78,39 +71,6 @@ export default function GroupChat({ groupId }: props): JSX.Element {
     }
     return newArr;
   }, [chatMessages, isSuccess]);
-
-  // const handleObserver = useCallback(
-  //   (entries: IntersectionObserverEntry[]) => {
-  //     const [target] = entries;
-  //     if (
-  //       target.isIntersecting &&
-  //       chatMessages?.pages[chatMessages.pages.length - 1]?.hasNextPage &&
-  //       firstElemRef.current !== null
-  //     ) {
-  //       fetchNextPage();
-  //     }
-  //   },
-  //   [chatMessages, fetchNextPage]
-  // );
-
-  // useEffect(() => {
-  //   if (observerElem.current) {
-  //     const element = observerElem.current;
-  //     const option = { threshold: 0 };
-
-  //     const observer = new IntersectionObserver(handleObserver, option);
-  //     observer.observe(element);
-  //     return () => observer.unobserve(element);
-  //   }
-  // }, [fetchNextPage, handleObserver]);
-
-  // useEffect(() => {
-  //   if (bottomElem.current && !messageIntoViewRef.current) {
-  //     bottomElem.current.scrollIntoView({ behavior: "smooth" });
-  //   } else {
-  //     messageIntoViewRef.current?.scrollIntoView();
-  //   }
-  // });
 
   useEffect(() => {
     if (displayMessages.length <= 10) {
@@ -121,10 +81,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
   }, [displayMessages]);
 
   return (
-    <div
-      className="flex relative flex-col flex-grow overflow-auto bg-chat-bg"
-      ref={chatMessagesRef}
-    >
+    <div className="flex relative flex-col flex-grow overflow-auto bg-chat-bg">
       <div className="flex flex-grow flex-col w-full gap-6 p-4 ">
         {/* TODO Create chat component */}
         {chatMessages === undefined ? (
@@ -141,7 +98,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
             <Virtuoso
               ref={virtuosoRef}
               data={displayMessages}
-              style={{ height: 400 }}
+              // style={{ height: 400 }}
               // useWindowScroll
               firstItemIndex={Math.max(0, displayMessages.length - 10)}
               initialTopMostItemIndex={Math.max(9, displayMessages.length - 1)}
@@ -171,79 +128,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
                 );
               }}
             />
-            {/* {displayMessages.map((message, index) => {
-              // TODO add page index
-              const user = foundUser(message.userId);
-              if (index === 10) {
-                return (
-                  <Message
-                    deleteCallback={handleDeletingMessage}
-                    editCallback={handleEditMessage}
-                    message={message}
-                    messageIndex={message.messageIndex}
-                    pageIndex={message.pageIndex}
-                    username={user?.username ?? "Unknown"}
-                    key={message.messageId}
-                  ></Message>
-                );
-              }
-
-              if (index === displayMessages.length - 1) {
-                console.log("first ref");
-                return (
-                  <Message
-                    deleteCallback={handleDeletingMessage}
-                    editCallback={handleEditMessage}
-                    message={message}
-                    messageIndex={message.messageIndex}
-                    pageIndex={message.pageIndex}
-                    username={user?.username ?? "Unknown"}
-                    key={message.messageId}
-                  ></Message>
-                );
-              }
-              return (
-                <Message
-                  deleteCallback={handleDeletingMessage}
-                  editCallback={handleEditMessage}
-                  message={message}
-                  messageIndex={index}
-                  pageIndex={0}
-                  username={user?.username ?? "Unknown"}
-                  key={message.messageId}
-                ></Message>
-              );
-            })} */}
-            {/* <div ref={bottomElem}>end</div> */}
           </>
-
-          // chatMessages?.pages.map((_, index, pages) => {
-          //   if (index === 0) {
-          //     return (
-          //       <Messages
-          //         editCallback={handleEditMessage}
-          //         deleteCallback={handleDeletingMessage}
-          //         key={`messages-${index}`}
-          //         groupId={groupId}
-          //         messages={pages[pages.length - 1 - index]?.data}
-          //         lastPage={true}
-          //         fetchNextPage={fetchNextPage}
-          //         pageIndex={pages.length - 1 - index}
-          //       ></Messages>
-          //     );
-          //   } else {
-          //     return (
-          //       <Messages
-          //         editCallback={handleEditMessage}
-          //         deleteCallback={handleDeletingMessage}
-          //         key={`messages-${index}`}
-          //         groupId={groupId}
-          //         messages={pages[pages.length - 1 - index]?.data}
-          //         pageIndex={pages.length - 1 - index}
-          //       ></Messages>
-          //     );
-          //   }
-          // })
         )}
       </div>
       {channelId.length > 0 ? (

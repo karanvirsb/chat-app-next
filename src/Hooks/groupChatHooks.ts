@@ -54,11 +54,9 @@ function useGetGroupMessagesByChannelIdQuery({
     return data.data;
   };
 
-  return useInfiniteQuery({
-    queryKey: [`group-messages-${channelId}`],
-    queryFn: getMessages,
+  return useInfiniteQuery([`group-messages-${channelId}`], getMessages, {
     enabled: channelId.length > 0 && dateCreated !== null,
-    getNextPageParam: (last, page) => last?.nextPage,
+    getNextPageParam: (last) => last?.nextPage || null,
   });
 }
 

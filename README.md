@@ -20,34 +20,34 @@ Go to the project directory
 
 ### Install dependencies
 
-- NPM -
+**NPM** 
 ```bash
 npm install
 ```
 
-- PNPM -
+**PNPM**
 ```bash
 pnpm install
 ```
 
-- YARN -
+**YARN**
 ```bash
 yarn install
 ```
 
 ### Start the server 
 
-- NPM -
+**NPM**
 ```bash
 npm run dev
 ```
 
-- PNPM -
+**PNPM**
 ```bash
  pnpm run dev
 ```
 
-- YARN -
+**YARN**
 ```bash
 yarn run dev
 ```

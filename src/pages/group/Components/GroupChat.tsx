@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 
+import { useGetBoundingClientRect } from "@/Hooks/useGetBoundingClientRect";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 import { IUser } from "@/server/Features/user/user";
@@ -15,6 +16,7 @@ import { setModal } from "../../../Redux/slices/modalSlice";
 
 type props = {
   groupId: string;
+  topBarRef: React.MutableRefObject<HTMLDivElement | null>;
 };
 
 interface GroupMessage extends IGroupMessage {
@@ -22,11 +24,14 @@ interface GroupMessage extends IGroupMessage {
   messageIndex: number;
 }
 
-export default function GroupChat({ groupId }: props): JSX.Element {
+export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   const searchParams = useSearchParams();
   const channelId = searchParams.get("channel") ?? "";
   const virtuosoRef = useRef<VirtuosoHandle | null>(null);
   const messageRef = useRef<null | HTMLInputElement>(null); // to track the message input
+  const messageFormRef = useRef<null | HTMLFormElement>(null);
+
+  const topBarPosition = useGetBoundingClientRect({ ref: topBarRef });
 
   // TODO after inital load need to set dateCreated to last message.
   const {
@@ -130,6 +135,7 @@ export default function GroupChat({ groupId }: props): JSX.Element {
         // made it sticky so it will stay at the bottom
         <form
           className="p-4 input-group sticky bottom-0 bg-chat-bg"
+          ref={messageFormRef}
           onSubmit={handleMessageSubmit}
         >
           <input

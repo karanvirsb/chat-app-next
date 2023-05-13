@@ -92,7 +92,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
 
   return (
     <div className="flex relative flex-col flex-grow overflow-auto bg-chat-bg">
-      <div className="flex flex-grow flex-col w-full gap-6 p-4 ">
+      <div className="flex flex-col flex-grow w-full gap-6 p-4 ">
         {/* TODO Create chat component */}
         {chatMessages === undefined ? (
           <p className="text-center text-lg uppercase font-semibold">
@@ -108,8 +108,9 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
             alignToBottom={true}
             ref={virtuosoRef}
             data={displayMessages}
-            style={{ height: 400 }}
-            // useWindowScroll
+            style={{
+              height: Math.abs(topBarPosition.bottom - formPosition.top + 50),
+            }}
             firstItemIndex={Math.max(0, displayMessages.length - 10)}
             initialTopMostItemIndex={displayMessages.length - 1}
             startReached={() => {
@@ -132,21 +133,21 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
           />
         )}
       </div>
-      {channelId.length > 0 ? (
-        // made it sticky so it will stay at the bottom
-        <form
-          className="p-4 input-group sticky bottom-0 bg-chat-bg"
-          ref={messageFormRef}
-          onSubmit={handleMessageSubmit}
-        >
+      <form
+        className="p-4 input-group sticky bottom-0 bg-chat-bg"
+        ref={messageFormRef}
+        onSubmit={handleMessageSubmit}
+      >
+        {channelId.length > 0 ? (
+          // made it sticky so it will stay at the bottom
           <input
             type="text"
             placeholder="Send a message"
             className="input input-bordered !rounded-full bg-[#2a303c] w-full focus:outline-none"
             ref={messageRef}
           />
-        </form>
-      ) : null}
+        ) : null}
+      </form>
     </div>
   );
 

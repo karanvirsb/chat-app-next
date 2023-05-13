@@ -1,17 +1,13 @@
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
-
-import { useAppSelector } from "@/Hooks/reduxHooks";
-import GroupSidebarInfo from "@/pages/group/Components/GroupSidebarInfo";
+import React from "react";
 
 import Sidebar from "./Sidebar";
 import Spinner from "./Spinner/Spinner";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
+
   const { status } = useSession({
     required: true,
     onUnauthenticated() {

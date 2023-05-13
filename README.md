@@ -15,10 +15,10 @@ To begin cloning
 Go to the project directory
 
 ``` bash
-  cd chat_app_client
+  cd chat_app_next
 ```
 
-Install dependencies
+### Install dependencies
 
 - NPM -
 ```bash
@@ -35,7 +35,7 @@ pnpm install
 yarn install
 ```
 
-## Start the server 
+### Start the server 
 
 - NPM -
 ```bash
@@ -52,7 +52,7 @@ npm run dev
 yarn run dev
 ```
 
-Go to http://localhost:3000 in your browser and create an account and then start chating <br/>
+Go to http://localhost:3000 in your browser -> create an account -> happy chatting <br/>
 
 # How To
 

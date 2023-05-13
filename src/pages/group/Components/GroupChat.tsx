@@ -43,7 +43,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   } = useGetGroupMessagesByChannelIdQuery({
     channelId,
     dateCreated: new Date().getTime(),
-    limit: 10,
+    limit: 15,
   });
 
   const dispatch = useAppDispatch();
@@ -83,8 +83,8 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   }, [chatMessages, isSuccess]);
 
   useEffect(() => {
-    if (displayMessages.length <= 10) {
-      virtuosoRef.current?.autoscrollToBottom();
+    if (displayMessages.length <= 15) {
+      virtuosoRef.current?.scrollToIndex(displayMessages.length - 1);
     } else {
       virtuosoRef.current?.scrollToIndex(9);
     }
@@ -92,7 +92,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
 
   return (
     <div className="flex relative flex-col flex-grow overflow-auto bg-chat-bg">
-      <div className="flex flex-col flex-grow w-full gap-6 p-4 ">
+      <div className="flex flex-col flex-grow w-full gap-6">
         {/* TODO Create chat component */}
         {chatMessages === undefined ? (
           <p className="text-center text-lg uppercase font-semibold">
@@ -109,9 +109,10 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
             ref={virtuosoRef}
             data={displayMessages}
             style={{
-              height: Math.abs(topBarPosition.bottom - formPosition.top + 50),
+              height: Math.abs(topBarPosition.bottom - formPosition.top),
+              paddingBottom: "100px",
             }}
-            firstItemIndex={Math.max(0, displayMessages.length - 10)}
+            firstItemIndex={Math.max(0, displayMessages.length - 15)}
             initialTopMostItemIndex={displayMessages.length - 1}
             startReached={() => {
               return hasNextPage ? fetchNextPage() : "No more pages";
@@ -134,7 +135,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
         )}
       </div>
       <form
-        className="p-4 input-group sticky bottom-0 bg-chat-bg"
+        className="p-4 sm:input-group-sm md:input-group-md sticky bottom-0 bg-chat-bg"
         ref={messageFormRef}
         onSubmit={handleMessageSubmit}
       >

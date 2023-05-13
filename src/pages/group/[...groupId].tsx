@@ -1,5 +1,5 @@
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import ChannelContainer from "@/Components/ChannelContainer/ChannelContainer";
 import { Layout } from "@/Components/Layout";
@@ -8,13 +8,14 @@ import { useAppSelector } from "@/Hooks/reduxHooks";
 
 import GroupChat from "./Components/GroupChat";
 import GroupSidebarInfo from "./Components/GroupSidebarInfo";
-import GroupTopBar from "./Components/GroupTopBar";
+import { GroupTopBar } from "./Components/GroupTopBar";
 import GroupUsers from "./Components/GroupUsers";
 
 export default function GroupChannel() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(true);
   const searchParams = useSearchParams();
   const groupId = searchParams.get("groupId") ?? "";
+  const topBarRef = useRef<HTMLDivElement | null>(null);
   const isSideBarOpen = useAppSelector((state) => state.sideBarReducer.open);
   return (
     <Layout>
@@ -28,9 +29,10 @@ export default function GroupChannel() {
           <GroupTopBar
             isUserMenuOpen={isUserMenuOpen}
             toggleUserMenu={toggleUserMenu}
+            ref={topBarRef}
           ></GroupTopBar>
           <ScrollWrapper>
-            <GroupChat groupId={groupId}></GroupChat>
+            <GroupChat groupId={groupId} topBarRef={topBarRef}></GroupChat>
             <>
               {isUserMenuOpen ? (
                 <GroupUsers

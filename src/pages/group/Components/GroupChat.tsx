@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 
 import { useGetBoundingClientRect } from "@/Hooks/useGetBoundingClientRect";
+import { useGetElementSize } from "@/Hooks/useGetElementSize";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 import { IUser } from "@/server/Features/user/user";
@@ -30,9 +31,11 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   const virtuosoRef = useRef<VirtuosoHandle | null>(null);
   const messageRef = useRef<null | HTMLInputElement>(null); // to track the message input
   const messageFormRef = useRef<null | HTMLFormElement>(null);
+  const groupChatDivRef = useRef<null | HTMLDivElement>(null);
 
   const topBarPosition = useGetBoundingClientRect({ ref: topBarRef });
   const formPosition = useGetBoundingClientRect({ ref: messageFormRef });
+  const groupChatDivSize = useGetElementSize({ ref: groupChatDivRef });
 
   // TODO after inital load need to set dateCreated to last message.
   const {
@@ -91,8 +94,11 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   }, [displayMessages]);
 
   return (
-    <div className="flex relative flex-col flex-grow overflow-auto bg-chat-bg">
-      <div className="flex flex-col flex-grow w-full gap-6">
+    <div
+      ref={groupChatDivRef}
+      className="flex relative flex-col flex-grow overflow-auto bg-chat-bg"
+    >
+      <div className="flex relative flex-col flex-grow gap-6">
         {/* TODO Create chat component */}
         {chatMessages === undefined ? (
           <p className="text-center text-lg uppercase font-semibold">
@@ -110,7 +116,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
             data={displayMessages}
             style={{
               height: Math.abs(topBarPosition.bottom - formPosition.top),
-              paddingBottom: "100px",
+              marginBottom: "100px",
             }}
             firstItemIndex={Math.max(0, displayMessages.length - 15)}
             initialTopMostItemIndex={displayMessages.length - 1}
@@ -135,8 +141,9 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
         )}
       </div>
       <form
-        className="p-4 sm:input-group-sm md:input-group-md sticky bottom-0 bg-chat-bg"
+        className="p-4 sm:input-group-sm md:input-group-md fixed bottom-0 bg-chat-bg"
         ref={messageFormRef}
+        style={{ width: groupChatDivSize?.width }}
         onSubmit={handleMessageSubmit}
       >
         {channelId.length > 0 ? (

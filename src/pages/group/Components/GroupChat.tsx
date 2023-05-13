@@ -32,6 +32,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   const messageFormRef = useRef<null | HTMLFormElement>(null);
 
   const topBarPosition = useGetBoundingClientRect({ ref: topBarRef });
+  const formPosition = useGetBoundingClientRect({ ref: messageFormRef });
 
   // TODO after inital load need to set dateCreated to last message.
   const {

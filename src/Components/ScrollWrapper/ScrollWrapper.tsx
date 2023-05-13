@@ -6,7 +6,7 @@ type props = {
 
 // this will wrap around flex containers to allow overflow scroll
 function ScrollWrapper({ children }: props) {
-  return <div className="flex flex-grow min-h-0">{children}</div>;
+  return <div className="flex flex-grow">{children}</div>;
 }
 
 export default ScrollWrapper;

@@ -86,12 +86,15 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   }, [chatMessages, isSuccess]);
 
   useEffect(() => {
-    if (displayMessages.length <= 15) {
-      virtuosoRef.current?.scrollToIndex(displayMessages.length - 1);
+    if (displayMessages.length > 15) {
+      virtuosoRef.current?.scrollToIndex(
+        (chatMessages?.pages[chatMessages?.pages.length - 1]?.data?.length ??
+          1) - 1
+      );
     } else {
-      virtuosoRef.current?.scrollToIndex(9);
+      virtuosoRef.current?.scrollToIndex(displayMessages.length - 1);
     }
-  }, [displayMessages]);
+  }, [chatMessages, displayMessages]);
 
   return (
     <div

@@ -84,9 +84,9 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
 
   useEffect(() => {
     if (displayMessages.length <= 10) {
-      virtuosoRef.current?.scrollToIndex(displayMessages.length - 1);
+      virtuosoRef.current?.autoscrollToBottom();
     } else {
-      virtuosoRef.current?.scrollToIndex(10);
+      virtuosoRef.current?.scrollToIndex(9);
     }
   }, [displayMessages]);
 

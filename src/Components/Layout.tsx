@@ -23,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     );
   }
   return (
-    <div className="flex h-[100dvh] max-h-[100dvh]">
+    <div className="flex h-[100dvh] max-h-[100dvh] overflow-hidden">
       <Sidebar></Sidebar>
       {/* <div className="min-w-[314px]"></div> */}
       {children}

@@ -1,38 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Chatter
 
-## Getting Started
+A chat app that allows users to create groups and channels within those groups in order to send messages to one another.
 
-First, run the development server:
+## Run Locally 
+
+Clone the project <br/>
+
+To begin cloning
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+  git clone https://github.com/karanvirsb/chat_app_next.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+``` bash
+  cd chat_app_client
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Install dependencies
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- NPM -
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- PNPM -
+```bash
+pnpm install
+```
 
-## Learn More
+- YARN -
+```bash
+yarn install
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Start the server 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- NPM -
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- PNPM -
+```bash
+ pnpm run dev
+```
 
-## Deploy on Vercel
+- YARN -
+```bash
+yarn run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Go to http://localhost:3000 in your browser and create an account and then start chating <br/>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# How To
+
+## Create A Group
+- Go to the + button 
+- Type in the group name 
+
+## How to message
+- Click on the send message
+- Type in a message you would like to send.  
+- Then press enter to send the message.
+
+## Invite users
+- Go to the drop down with the group name to invite users
+
+## User Stories
+
+## Tech Stack
+**Front-End:**  <br/>
+**Back-End:**
+
+## Features
+
+## Features being worked on 
+[x] <br/>
+
+
+# How it looks

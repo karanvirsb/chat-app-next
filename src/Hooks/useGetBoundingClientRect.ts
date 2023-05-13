@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export function useGetBoundingClientRect({
   ref,
 }: {
-  ref: React.MutableRefObject<HTMLDivElement | null>;
+  ref: React.MutableRefObject<HTMLDivElement | HTMLFormElement | null>;
 }) {
   const [position, setPosition] = useState({
     top: 0,

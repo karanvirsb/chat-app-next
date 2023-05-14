@@ -20,17 +20,15 @@ Go to the project directory
 
 ### Install dependencies
 
-**NPM** 
 ```bash
 npm install
 ```
-
-**PNPM**
+or
 ```bash
 pnpm install
 ```
 
-**YARN**
+or
 ```bash
 yarn install
 ```

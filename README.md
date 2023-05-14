@@ -47,7 +47,7 @@ or
 yarn run dev
 ```
 
-Go to http://localhost:3000 in your browser -> create an account -> happy chatting <br/>
+Go to http://localhost:3000 in your browser -> Create an Account -> Happy Chatting! <br/>
 
 # How To
 

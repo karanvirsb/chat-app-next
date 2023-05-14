@@ -35,17 +35,14 @@ yarn install
 
 ### Start the server 
 
-**NPM**
 ```bash
 npm run dev
 ```
-
-**PNPM**
+or
 ```bash
  pnpm run dev
 ```
-
-**YARN**
+or
 ```bash
 yarn run dev
 ```

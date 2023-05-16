@@ -6,9 +6,11 @@ import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 
 import { useGetBoundingClientRect } from "@/Hooks/useGetBoundingClientRect";
 import { useGetElementSize } from "@/Hooks/useGetElementSize";
+import { useSocketLoading } from "@/Hooks/useSocketLoading";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 import { IUser } from "@/server/Features/user/user";
+import { groupChatEventsTypes } from "@/shared/socket-events/groupChatTypes";
 
 import Message from "../../../Components/Messages/Message";
 import { useGetGroupMessagesByChannelIdQuery } from "../../../Hooks/groupChatHooks";
@@ -36,6 +38,12 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   const topBarPosition = useGetBoundingClientRect({ ref: topBarRef });
   const formPosition = useGetBoundingClientRect({ ref: messageFormRef });
   const groupChatDivSize = useGetElementSize({ ref: groupChatDivRef });
+
+  const { success: messageSentSuccess, loading: messageSentLoading } =
+    useSocketLoading({
+      socketEvent: groupChatEventsTypes.NEW_MESSAGE.broadcast,
+      errorEvent: groupChatEventsTypes.NEW_MESSAGE.error,
+    });
 
   // TODO after inital load need to set dateCreated to last message.
   const {
@@ -86,15 +94,25 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   }, [chatMessages, isSuccess]);
 
   useEffect(() => {
-    if (displayMessages.length > 15) {
+    if (!messageSentLoading && messageSentSuccess) {
+      virtuosoRef.current?.scrollToIndex({
+        index: displayMessages.length - 1,
+        behavior: "smooth",
+      });
+    } else if (displayMessages.length > 15) {
       virtuosoRef.current?.scrollToIndex(
         (chatMessages?.pages[chatMessages?.pages.length - 1]?.data?.length ??
-          1) - 1
+          15) - 1
       );
     } else {
       virtuosoRef.current?.scrollToIndex(displayMessages.length - 1);
     }
-  });
+  }, [
+    chatMessages?.pages,
+    displayMessages,
+    messageSentLoading,
+    messageSentSuccess,
+  ]);
 
   return (
     <div

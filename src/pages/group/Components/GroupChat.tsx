@@ -10,7 +10,10 @@ import { useSocketLoading } from "@/Hooks/useSocketLoading";
 import { groupActions } from "@/Redux/group/groupSlice";
 import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 import { IUser } from "@/server/Features/user/user";
-import { groupChatEventsTypes } from "@/shared/socket-events/groupChatTypes";
+import {
+  groupChatEventDataTypes,
+  groupChatEventsTypes,
+} from "@/shared/socket-events/groupChatTypes";
 
 import Message from "../../../Components/Messages/Message";
 import { useGetGroupMessagesByChannelIdQuery } from "../../../Hooks/groupChatHooks";
@@ -44,6 +47,15 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
       socketEvent: groupChatEventsTypes.NEW_MESSAGE.broadcast,
       errorEvent: groupChatEventsTypes.NEW_MESSAGE.error,
     });
+
+  const {
+    success: messageEditSuccess,
+    loading: messageEditLoading,
+    data,
+  } = useSocketLoading<groupChatEventDataTypes["UPDATE_MESSAGE"]["broadcast"]>({
+    socketEvent: groupChatEventsTypes.UPDATE_MESSAGE.broadcast,
+    errorEvent: groupChatEventsTypes.UPDATE_MESSAGE.error,
+  });
 
   // TODO after inital load need to set dateCreated to last message.
   const {
@@ -99,6 +111,15 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
         index: displayMessages.length - 1,
         behavior: "smooth",
       });
+    } else if (!messageEditLoading && messageEditSuccess && data) {
+      virtuosoRef.current?.scrollIntoView({
+        index: data.payload.messageIndex * (data.payload.pageIndex + 1),
+        behavior: "smooth",
+        align: "center",
+        calculateViewLocation: () => {
+          return null;
+        },
+      });
     } else if (displayMessages.length > 15) {
       virtuosoRef.current?.scrollToIndex(
         (chatMessages?.pages[chatMessages?.pages.length - 1]?.data?.length ??
@@ -109,7 +130,10 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
     }
   }, [
     chatMessages?.pages,
+    data,
     displayMessages,
+    messageEditLoading,
+    messageEditSuccess,
     messageSentLoading,
     messageSentSuccess,
   ]);
@@ -141,6 +165,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
             }}
             firstItemIndex={Math.max(0, displayMessages.length - 15)}
             initialTopMostItemIndex={displayMessages.length - 1}
+            totalCount={displayMessages.length}
             startReached={() => {
               return hasNextPage ? fetchNextPage() : "No more pages";
             }}

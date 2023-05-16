@@ -1,38 +1,39 @@
 import { useEffect, useState } from "react";
 
 import socket from "@/Sockets";
-interface ISocketLoading {
+interface ISocketLoading<T> {
   socketEvent: string;
   errorEvent: string;
-  successCB?: () => void;
-  errorCB?: () => void;
+  successCB?: (data: T) => void;
+  errorCB?: (err: unknown) => void;
 }
 
-export function useSocketLoading({
+export function useSocketLoading<T>({
   socketEvent,
   errorEvent,
   successCB,
   errorCB,
-}: ISocketLoading) {
+}: ISocketLoading<T>) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
   const [success, setSuccess] = useState(false);
-
+  const [data, setData] = useState<T | null>(null);
   useEffect(() => {
-    socket.on(socketEvent, () => {
+    socket.on(socketEvent, (data: T) => {
       setLoading(false);
       setSuccess(true);
       setError(null);
-      if (successCB) successCB();
+      setData(data);
+      if (successCB) successCB(data);
     });
 
     socket.on(errorEvent, (err: unknown) => {
       setLoading(false);
       setSuccess(false);
       setError(err);
-      if (errorCB) errorCB();
+      if (errorCB) errorCB(err);
     });
   }, [errorCB, errorEvent, socketEvent, successCB]);
 
-  return { loading, error, success, setLoading };
+  return { loading, error, success, setLoading, data };
 }

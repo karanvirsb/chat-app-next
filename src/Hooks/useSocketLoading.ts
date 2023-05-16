@@ -4,7 +4,7 @@ import socket from "@/Sockets";
 interface ISocketLoading {
   socketEvent: string;
   errorEvent: string;
-  successCB: () => void;
+  successCB?: () => void;
   errorCB?: () => void;
 }
 
@@ -23,7 +23,7 @@ export function useSocketLoading({
       setLoading(false);
       setSuccess(true);
       setError(null);
-      successCB();
+      if (successCB) successCB();
     });
 
     socket.on(errorEvent, (err: unknown) => {

@@ -94,7 +94,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
     } else {
       virtuosoRef.current?.scrollToIndex(displayMessages.length - 1);
     }
-  }, [chatMessages, displayMessages]);
+  });
 
   return (
     <div
@@ -119,7 +119,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
             data={displayMessages}
             style={{
               height: Math.abs(topBarPosition.bottom - formPosition.top),
-              marginBottom: "100px",
+              paddingBottom: "100px",
             }}
             firstItemIndex={Math.max(0, displayMessages.length - 15)}
             initialTopMostItemIndex={displayMessages.length - 1}

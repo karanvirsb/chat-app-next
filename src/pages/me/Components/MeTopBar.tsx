@@ -1,7 +1,7 @@
 import React from "react";
 
 import ToggleSidebarBtn from "../../../Components/ToggleSidebarBtn/ToggleSidebarBtn";
-import TopBarContainer from "../../../Components/TopBarContainer/TopBarContainer";
+import { TopBarContainer } from "../../../Components/TopBarContainer/TopBarContainer";
 import { useAppDispatch } from "../../../Hooks/reduxHooks";
 import { setModal } from "../../../Redux/slices/modalSlice";
 

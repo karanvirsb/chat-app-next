@@ -140,5 +140,7 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+### Group Page
+
+![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/3e1618ec-a239-4497-92cd-00e1015b74b8)
 

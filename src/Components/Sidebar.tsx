@@ -37,9 +37,9 @@ export default function Sidebar() {
           <Image
             src="/images/logo-nobg.png"
             alt="Chatter"
-            width={20}
-            height={20}
             className="rounded-full"
+            width={50}
+            height={50}
           ></Image>
         </Link>
         <div className="divider"></div>

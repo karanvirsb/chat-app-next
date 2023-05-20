@@ -152,7 +152,7 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 
 ![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/3e1618ec-a239-4497-92cd-00e1015b74b8)
 
-![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/84d84c02-bab1-4b8f-a4c4-f7d70617aa8e)
+![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/c3e2ac87-b7cb-4647-be87-66a9cc3dccba)
 
 ### Add Group Modal
 

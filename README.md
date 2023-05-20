@@ -1,78 +1,144 @@
+
 # Chatter
 
-A chat app that allows users to create groups and channels within those groups in order to send messages to one another.
+Chatter is a chat tool that allows you to quickly and easily connect with your friends, family, and coworkers. You can create and join channels for various themes, as well as send and receive messages. 
 
-## Run Locally 
 
-Clone the project <br/>
+## Demo
 
-To begin cloning
+Insert gif or link to demo
+
+
+## Run Locally
+
+Clone the project
 
 ```bash
-  git clone https://github.com/karanvirsb/chat_app_next.git
+  git clone https://github.com/karanvirsb/chat-app-next.git
 ```
 
 Go to the project directory
 
-``` bash
-  cd chat_app_next
+```bash
+  cd chat-app-next
 ```
 
-### Install dependencies
+Install dependencies
 
 ```bash
-npm install
-```
-or
-```bash
-pnpm install
+  pnpm install
 ```
 
-or
-```bash
-yarn install
-```
-
-### Start the server 
+Start the server
 
 ```bash
-npm run dev
-```
-or
-```bash
- pnpm run dev
-```
-or
-```bash
-yarn run dev
+  pnpm run dev
 ```
 
-Go to http://localhost:3000 in your browser -> Create an Account -> Happy Chatting! <br/>
 
-# How To
+## Docker
+```yaml
+version: "3.8"
 
-## Create A Group
-- Go to the + button 
-- Type in the group name 
+services:
+    container_name: chatApp_postgres_container
+    image: "postgres:14.5"
+    environment:
+        POSTGRES_USER: chatAppUser
+        POSTGRES_PASSWORD: [Your Password]
+        POSTGRES_DB: chat_app_test
+        PGDATA: /var/lib/postgresql/data
+    ports:
+        - 5432:5432
+    networks:
+        - chat_app_network
+    restart: unless-stopped
+    healthcheck:
+        test: ["CMD", "pg_isready -U chatAppUser"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+    volumes:
+        - db-data:/var/lib/postgresql/data
+    pgadmin:
+        container_name: pgadmin4_container
+        image: dpage/pgadmin4
+        restart: always
+        networks:
+            - chat_app_network
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@admin.com
+            PGADMIN_DEFAULT_PASSWORD: [YOUR PASSWORD]
+            PGADMIN_LISTEN_PORT: 80
+        ports:
+            - "8080:80"
+        volumes:
+            - pgadmin-data:/var/lib/pgadmin
+volumes:
+    db-data:
+    pgadmin-data:
+networks:
+    chat_app_network:
+        driver: bridge
+```
+## Environment Variables
 
-## How to message
-- Click on the send message
-- Type in a message you would like to send.  
-- Then press enter to send the message.
+To run this project, you will need to add the following environment variables to your .env file
 
-## Invite users
-- Go to the drop down with the group name to invite users
+ These environment variables are given by https://sightengine.com  <br />
+`SANITIZE_API_USER` <br />
+`SANITIZE_API_SECRET`  <br />
 
-## User Stories
+`PGUSER` - Should match dockers `POSTGRES_USER`  <br />
+`PGHOST` - The host name such as 'localhost'  <br />
+`PGPASSWORD` - Should match dockers `POSTGRES_PASSWORD`  <br />
+`PGDATABASE` - Should match dockers - `POSTGRES_DB`  <br />
+`PGPORT` - Should match dockers `ports`  <br />
+`TEST_DATABASE` - Name of test data should match `POSTGRES_DB`  <br />
+
+`API_DOMAIN`=http://examples:port/api  <br /> 
+`WEBSITE_DOMAIN`=http://examples:port <br /> 
+
+`NEXTAUTH_SECRET` - You need to generate this!  <br />
+`NEXTAUTH_URL`=http://examples:port  <br />
 
 ## Tech Stack
-**Front-End:**  <br/>
-**Back-End:**
 
-## Features
+**Client:** React, Redux, TailwindCSS
 
-## Features being worked on 
-[x] <br/>
+**Server:** Node, Express
 
 
-# How it looks
+## Roadmap
+- [x] Add Users to Group
+- [x] Add Group Channels
+- [x] Add Group Messages
+- [ ] Add Notifications
+- [ ] Add Custom Status
+- [ ] Add Private Messages 
+- [ ] Add Updating Email and Password
+
+
+
+## How To
+
+### Create A Group
+- Go to the + button
+- Type in the group name
+
+### How to message
+- Click on the send message
+- Type in a message you would like to send.
+- Then press enter to send the message.
+
+### Invite users
+- Go to the drop down with the group name to invite users
+## Optimizations
+
+What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
+
+
+## Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+

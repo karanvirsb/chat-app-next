@@ -158,4 +158,6 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 
 ![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/9354d26a-1e3c-4c78-b7e7-b5a116ffe4fd)
 
+### Settings
+![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/33e387f4-40f3-4cda-9f82-149751327470)
 

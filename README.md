@@ -85,23 +85,22 @@ networks:
 
 To run this project, you will need to add the following environment variables to your .env file
 
- These environment variables are given by https://sightengine.com
-`SANITIZE_API_USER`
-`SANITIZE_API_SECRET`
+ These environment variables are given by https://sightengine.com  <br />
+`SANITIZE_API_USER` <br />
+`SANITIZE_API_SECRET`  <br />
 
-`PGUSER` - Should match dockers `POSTGRES_USER`
-`PGHOST` - The host name such as 'localhost'
-`PGPASSWORD` - Should match dockers `POSTGRES_PASSWORD`
-`PGDATABASE` - Should match dockers - `POSTGRES_DB`
-`PGPORT` - Should match dockers `ports`
-`TEST_DATABASE` - Name of test data should match `POSTGRES_DB`
+`PGUSER` - Should match dockers `POSTGRES_USER`  <br />
+`PGHOST` - The host name such as 'localhost'  <br />
+`PGPASSWORD` - Should match dockers `POSTGRES_PASSWORD`  <br />
+`PGDATABASE` - Should match dockers - `POSTGRES_DB`  <br />
+`PGPORT` - Should match dockers `ports`  <br />
+`TEST_DATABASE` - Name of test data should match `POSTGRES_DB`  <br />
 
+`API_DOMAIN`=http://examples:port/api  <br /> 
+`WEBSITE_DOMAIN`=http://examples:port <br /> 
 
-`API_DOMAIN`=http://examples:port/api
-`WEBSITE_DOMAIN`=http://examples:port
-
-`NEXTAUTH_SECRET` - You need to generate this!
-`NEXTAUTH_URL`=http://examples:port
+`NEXTAUTH_SECRET` - You need to generate this!  <br />
+`NEXTAUTH_URL`=http://examples:port  <br />
 
 ## Tech Stack
 

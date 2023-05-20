@@ -161,6 +161,10 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 ### Settings
 ![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/33e387f4-40f3-4cda-9f82-149751327470)
 
+### Me Page
+![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/f9315f8c-2337-4701-b61a-a9666acb7848)
+
+
 ### Mobile Sidebar
 ![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/c401a2cd-4f9a-4e2f-925f-755fc4086042)
 

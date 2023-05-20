@@ -106,6 +106,7 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
   }, [chatMessages, isSuccess]);
 
   useEffect(() => {
+    // TODO message is sent to the right visible chat otherwise add notification
     if (!messageSentLoading && messageSentSuccess) {
       virtuosoRef.current?.scrollToIndex({
         index: displayMessages.length - 1,

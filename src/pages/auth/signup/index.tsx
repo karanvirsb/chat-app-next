@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { getCsrfToken } from "next-auth/react";
@@ -22,8 +23,8 @@ export default function Signup({
         <div className="flex justify-center mx-auto">
           <Image
             className=""
-            width={50}
-            height={50}
+            width={100}
+            height={100}
             src="/images/logo-nobg.svg"
             alt="Chatter"
           />
@@ -83,12 +84,12 @@ export default function Signup({
             )
         )}
         <p className="mt-8 text-xs font-light text-center text-gray-400">
-          <a
+          <Link
             href="/auth/signin"
             className="font-medium text-gray-700 dark:text-gray-200 hover:underline"
           >
             Already have an account?
-          </a>
+          </Link>
         </p>
       </div>
     </main>

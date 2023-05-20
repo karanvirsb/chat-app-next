@@ -121,9 +121,9 @@ To run this project, you will need to add the following environment variables to
 
 ## Tech Stack
 
-**Client:** React, Redux, TailwindCSS
+**Client:** React.js, Next.js, Redux Toolkit, TailwindCSS, DaisyUI, Socket.io
 
-**Server:** Node, Express
+**Server:** PostgreSQL, Docker, Socket.IO, NextAuth.js, Jest
 
 
 ## Roadmap
@@ -134,6 +134,7 @@ To run this project, you will need to add the following environment variables to
 - [ ] Add Custom Status
 - [ ] Add Private Messages 
 - [ ] Add Updating Email and Password
+- [ ] User Group Roles
 
 
 
@@ -150,10 +151,6 @@ To run this project, you will need to add the following environment variables to
 
 ### Invite users
 - Go to the drop down with the group name to invite users
-## Optimizations
-
-What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
-
 
 ## Screenshots
 

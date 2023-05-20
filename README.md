@@ -110,10 +110,13 @@ To run this project, you will need to add the following environment variables to
 
 
 ## Roadmap
-
-[ ] Add Notifications
-[ ] Add Custom Status
-[ ] Add Private Messages 
+- [x] Add Users to Group
+- [x] Add Group Channels
+- [x] Add Group Messages
+- [ ] Add Notifications
+- [ ] Add Custom Status
+- [ ] Add Private Messages 
+- [ ] Add Updating Email and Password
 
 
 

@@ -3,6 +3,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { getCsrfToken } from "next-auth/react";
 
 export default function SignIn({
@@ -14,8 +15,8 @@ export default function SignIn({
         <div className="flex justify-center mx-auto">
           <Image
             className=""
-            width={50}
-            height={50}
+            width={100}
+            height={100}
             src="/images/logo-nobg.svg"
             alt="Chatter"
           />
@@ -68,12 +69,12 @@ export default function SignIn({
         <p className="mt-8 text-xs font-light text-center text-gray-400">
           {" "}
           Don't have an account?{" "}
-          <a
+          <Link
             href="/auth/signup"
             className="font-medium text-gray-700 dark:text-gray-200 hover:underline"
           >
             Create One
-          </a>
+          </Link>
         </p>
       </div>
     </main>

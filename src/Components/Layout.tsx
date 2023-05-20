@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React from "react";
 
+import BottomBar from "./BottomBar/BottomBar";
 import Sidebar from "./Sidebar";
 import Spinner from "./Spinner/Spinner";
 
@@ -24,7 +25,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }
   return (
     <div className="flex h-[100dvh] max-h-[100dvh] overflow-hidden">
-      <Sidebar></Sidebar>
+      <Sidebar />
+      <BottomBar />
       {/* <div className="min-w-[314px]"></div> */}
       {children}
     </div>

@@ -21,6 +21,7 @@ export default function Sidebar() {
   const dispatch = useAppDispatch();
   const { data: sessionInfo } = useSession();
   const queryClient = useQueryClient();
+  const send = useLoginAndLogoutSockets();
   return (
     <>
       <nav
@@ -118,7 +119,6 @@ export default function Sidebar() {
   async function logout() {
     if (sessionInfo?.user) {
       console.log("logging out");
-      const send = useLoginAndLogoutSockets();
       const groupIds: IGroup[] = queryClient.getQueryData(["groups"]) ?? [];
 
       if (groupIds.length > 0)

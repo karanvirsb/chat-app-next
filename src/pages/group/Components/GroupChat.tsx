@@ -157,7 +157,6 @@ export default function GroupChat({ groupId, topBarRef }: props): JSX.Element {
           </p>
         ) : (
           <Virtuoso
-            alignToBottom={true}
             ref={virtuosoRef}
             data={displayMessages}
             style={{

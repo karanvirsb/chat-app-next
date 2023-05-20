@@ -6,8 +6,25 @@ Chatter is a chat tool that allows you to quickly and easily connect with your f
 
 ## Demo
 
-Insert gif or link to demo
+### Creating Group
 
+https://github.com/karanvirsb/chat-app-next/assets/71354242/86483529-0922-4752-b866-196cba13c9a0
+
+### Sending Message
+
+https://github.com/karanvirsb/chat-app-next/assets/71354242/8fb9697b-7311-4eef-9d48-4478c7f6e555
+
+### Editing Message
+
+https://github.com/karanvirsb/chat-app-next/assets/71354242/273a6dcc-3748-4e29-92fb-2c3bed36f0d1
+
+### Deleting Message
+
+https://github.com/karanvirsb/chat-app-next/assets/71354242/4b3efa9a-be30-49ed-bd11-e88a70f1d431
+
+### Deleting Group
+
+https://github.com/karanvirsb/chat-app-next/assets/71354242/9d2e67db-e774-4fc3-b117-79cfbcc011b3
 
 ## Run Locally
 

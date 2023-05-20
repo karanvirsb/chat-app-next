@@ -140,10 +140,22 @@ What optimizations did you make in your code? E.g. refactors, performance improv
 
 ## Screenshots
 
+### SignIn
+
+![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/2a2e2c1f-9314-43ac-ab8b-2d158eca2eee)
+
+### SignUp
+
+![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/50db056f-f22e-40db-8fdf-d8d5a560be8d)
+
 ### Group Page
 
 ![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/3e1618ec-a239-4497-92cd-00e1015b74b8)
 
 ![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/84d84c02-bab1-4b8f-a4c4-f7d70617aa8e)
+
+### Add Group Modal
+
+![image](https://github.com/karanvirsb/chat-app-next/assets/71354242/9354d26a-1e3c-4c78-b7e7-b5a116ffe4fd)
 
 

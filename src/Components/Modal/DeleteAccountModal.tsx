@@ -18,7 +18,9 @@ export default function DeleteAccountModal() {
   );
 
   // TODO handle deleting account
-  function handleSubmit() {}
+  function handleSubmit() {
+    alert("implement this delete account modal");
+  }
 
   function handleCancel() {
     dispatch(resetModal());

@@ -72,7 +72,9 @@ export default function EditPasswordModal() {
     setConfirmPassword(() => e.target.value);
   }
 
-  function handleSubmit() {}
+  function handleSubmit() {
+    alert("implement this edit password modal");
+  }
 
   function handleCancel() {
     dispatch(resetModal());

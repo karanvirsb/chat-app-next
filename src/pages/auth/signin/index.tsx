@@ -68,7 +68,7 @@ export default function SignIn({
 
         <p className="mt-8 text-xs font-light text-center text-gray-400">
           {" "}
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link
             href="/auth/signup"
             className="font-medium text-gray-700 dark:text-gray-200 hover:underline"

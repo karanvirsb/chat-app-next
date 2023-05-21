@@ -13,7 +13,7 @@ export type UpdateEvent = {
 
 export type DeleteEvent = {
   groupId: string;
-  payload: {};
+  payload: Record<>;
 };
 
 export type JoinRoomEvent = {

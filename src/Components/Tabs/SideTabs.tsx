@@ -14,6 +14,7 @@ export default function SideTabs({ components, tabs }: props) {
           if (index === activeIndex) {
             return (
               <button
+                key={tab}
                 className="btn flex-grow rounded-none"
                 onClick={() => {
                   setTab(index);
@@ -25,6 +26,7 @@ export default function SideTabs({ components, tabs }: props) {
           } else {
             return (
               <button
+                key={tab}
                 className="btn flex-grow rounded-none"
                 onClick={() => {
                   setTab(index);

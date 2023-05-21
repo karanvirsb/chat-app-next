@@ -58,7 +58,9 @@ export default function EditEmailModal() {
   }
 
   // TODO
-  function handleSubmit() {}
+  function handleSubmit() {
+    alert("implement this edit email modal");
+  }
 
   function handleCancel() {
     dispatch(resetModal());

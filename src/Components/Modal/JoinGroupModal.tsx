@@ -50,7 +50,7 @@ export default function JoinGroupModal({ inviteCode }: props) {
     if (!addToGroupLoading && addToGroupSucceeded) {
       closeModal();
     }
-  }, [addToGroupLoading, addToGroupSucceeded]);
+  }, [addToGroupLoading, addToGroupSucceeded, closeModal]);
 
   if (areUsersLoading || isLoading || isGroupsLoading) {
     return (
@@ -77,8 +77,8 @@ export default function JoinGroupModal({ inviteCode }: props) {
       <Modal modalName="Join A Group" modalClass="flex">
         <div className="flex flex-col flex-grow w-full gap-4 mt-6">
           <p className="mt-auto mb-auto text-center text-lg">
-            Hey, it seems like you are already apart of "
-            <strong>{group.groupName}</strong>"!
+            Hey, it seems like you are already apart of &quot;
+            <strong>{group.groupName}</strong>&quot;!
           </p>
           <div className="">
             <BtnCallToAction text="Ok" onClick={closeModal}></BtnCallToAction>

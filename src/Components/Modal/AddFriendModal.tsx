@@ -38,5 +38,7 @@ export default function AddFriendModal() {
     setFriendsName(() => e.target.value);
   }
 
-  function handleSubmit() {}
+  function handleSubmit() {
+    alert("implement this add friend modal");
+  }
 }

@@ -56,7 +56,9 @@ export default function EditUsernameModal() {
     setCurrPassword(() => e.target.value);
   }
   // TODO
-  function handleSubmit() {}
+  function handleSubmit() {
+    alert("implement this edit username modal");
+  }
 
   function handleCancel() {
     dispatch(resetModal());

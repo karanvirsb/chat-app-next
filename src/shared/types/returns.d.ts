@@ -24,9 +24,15 @@ export type DBAccessReturn<T> =
       error: unknown;
     };
 
+type Getters<Type> = {
+  [Property in keyof Type as `get${Capitalize<
+    string & Property
+  >}`]: () => Type[Property];
+};
+
 export type EntityReturn<T> =
   | {
       success: true;
-      data: T;
+      data: Getters<T>;
     }
   | { success: false; error: unknown };

@@ -9,6 +9,8 @@ import {
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
+import { IUser } from "@/server/Features/user/user";
+
 import axios from "../API/axios";
 import useGroupSockets from "../Sockets/Hooks/useGroupSockets";
 import { useAppSelector } from "./reduxHooks";
@@ -22,16 +24,6 @@ export type IGroup = {
   groupId: string;
   inviteCode: string;
   dateCreated: Date;
-};
-
-export type IUser = {
-  userId: string;
-  username: string;
-  email: string;
-  status: string;
-  time_joined: Date;
-  roles: string[];
-  groupId: string;
 };
 
 export type IGroupUsers = {
@@ -281,7 +273,8 @@ function useUpdateGroupNameMutation(): IUseUpdateGroupNameMutation {
     mutationFn: updateGroupName,
     onSuccess: (data) => {
       // queryClient.invalidateQueries(["groups"]);
-      if (data.data != null) {
+
+      if (data.success && data.data) {
         send("updated_group_name", {
           groupId: data.data?.groupId,
           payload: { groupName: data.data.groupName },

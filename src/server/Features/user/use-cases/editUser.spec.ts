@@ -1,4 +1,4 @@
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeUser from "@/server/__test__/fixures/user";
 import userTests from "@/server/__test__/functions/user";
 
@@ -16,21 +16,18 @@ describe("Edit Users use case", () => {
 
   jest.setTimeout(30000);
   beforeAll(async () => {
-    const createdUser = await userTests.addTestUserToDB({
-      userId: "12345678910",
-    });
     usersDb = makeUsersDb({ makeDb });
   });
 
   afterEach(async () => {
-    const deletedUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "12345678910",
     });
   });
 
   jest.setTimeout(50000);
   afterAll(async () => {
-    const deletedUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "12345678910",
     });
     await closeDb();
@@ -50,7 +47,7 @@ describe("Edit Users use case", () => {
 
   it("Edit user successfully", async () => {
     const user = await makeFakeUser({ userId: "12345678910" });
-    const insertedUser = await usersDb.insert({ data: user });
+    await usersDb.insert({ data: user });
 
     const updatedUser = await editUser({
       userId: user.userId,

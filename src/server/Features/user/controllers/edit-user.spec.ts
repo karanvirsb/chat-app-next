@@ -1,14 +1,16 @@
-import { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeUser from "@/server/__test__/fixures/user";
 import userTests from "@/server/__test__/functions/user";
 
 import { addUserUC } from "../AddUser";
+import { IUser } from "../user";
 import { editAnUser } from ".";
 
 describe("Edit user controller", () => {
   jest.setTimeout(30000);
+  let user: IUser;
   beforeAll(async () => {
-    const createdUser = userTests.addTestUserToDB({
+    user = await makeFakeUser({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
   });
@@ -28,10 +30,7 @@ describe("Edit user controller", () => {
   });
 
   it("edit user ", async () => {
-    const user = await makeFakeUser({
-      userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
-    });
-    const resp = await addUserUC(user);
+    await addUserUC(user);
     const edittedUser = await editAnUser({
       body: {
         id: "312c0878-04c3-4585-835e-c66900ccc7a1",

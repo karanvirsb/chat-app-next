@@ -12,21 +12,18 @@ describe("Get use case", () => {
 
   jest.setTimeout(30000);
   beforeAll(async () => {
-    const createdUser = await userTests.addTestUserToDB({
-      userId: "12345678910",
-    });
     usersDb = makeUsersDb({ makeDb });
   });
 
   afterEach(async () => {
-    const deletedUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "12345678910",
     });
   });
 
   jest.setTimeout(3000);
   afterAll(async () => {
-    const deletedUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "12345678910",
     });
     await closeDb();

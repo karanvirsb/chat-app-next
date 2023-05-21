@@ -28,16 +28,6 @@ export type IGroupMessage = z.infer<typeof GroupMessageSchema>;
 //   channelId: string;
 // }
 
-type returnEntity = Readonly<{
-  getUserId: () => IGroupMessage["userId"];
-  getDateCreated: () => IGroupMessage["dateCreated"];
-  getMessageId: () => IGroupMessage["messageId"];
-  getDateModified: () => IGroupMessage["dateModified"];
-  getReplyTo: () => IGroupMessage["replyTo"];
-  getText: () => IGroupMessage["text"];
-  getChannelId: () => IGroupMessage["channelId"];
-}>;
-
 type props = {
   Id: IId;
   sanitizeText: (text: string) => string;
@@ -52,7 +42,7 @@ export default function buildMessage({ Id, sanitizeText }: props) {
     text,
     userId,
     channelId,
-  }: IGroupMessage): EntityReturn<returnEntity> {
+  }: IGroupMessage): EntityReturn<IGroupMessage> {
     const sanitizedText = sanitizeText(text);
     const dateCreatedTernary = !dateCreated
       ? new Date().getTime()

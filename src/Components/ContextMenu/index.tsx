@@ -14,15 +14,15 @@ export function ContextMenu({ children, setIsOpen, isOpen }: props) {
     useComponentVisible();
 
   useEffect(() => {
-    setIsComponentVisible(isOpen)
-  }, [])
+    setIsComponentVisible(isOpen);
+  }, []);
 
   useEffect(() => {
     const timer: NodeJS.Timeout = setTimeout(() => {
       if (!isComponentVisible && isOpen) {
         setIsOpen(false);
       }
-    }, 100)
+    }, 100);
     return () => clearTimeout(timer);
   }, [isComponentVisible, setIsOpen, isOpen]);
 

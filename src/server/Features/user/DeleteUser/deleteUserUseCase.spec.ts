@@ -1,8 +1,7 @@
-import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakeUser from "../../../../__test__/fixures/user";
-import makeSupertokenDb, {
-  IMakeSupertokensDb,
-} from "../../../../supertokens/data-access/supertokens-db";
+import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeFakeUser from "@/server/__test__/fixures/user";
+import userTests from "@/server/__test__/functions/user";
+
 import makeUsersDb from "../data-access/users-db";
 import makeDeleteUser from "./deleteUserUseCase";
 
@@ -10,30 +9,23 @@ describe("Delete use case", () => {
   let usersDb = makeUsersDb({ makeDb });
   const deleteUser = makeDeleteUser({ usersDb });
 
-  const SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
-    makeDb,
-  });
   jest.setTimeout(30000);
   beforeAll(async () => {
-    const createdUser = await SupertokensDb.addUser({
-      user: {
-        user_id: "12345678910",
-        email: "randoms@gmai.com",
-        password: "123",
-        time_joined: Date.now(),
-      },
+    const createdUser = await userTests.addTestUserToDB({
+      userId: "12345678910",
     });
     usersDb = makeUsersDb({ makeDb });
-    await clearDb("usert");
   });
 
   afterEach(async () => {
-    await clearDb("usert");
+    const deletedUser = await userTests.deleteTestUser({
+      userId: "12345678910",
+    });
   });
 
   jest.setTimeout(30000);
   afterAll(async () => {
-    const deletedUser = await SupertokensDb.deleteUser({
+    const deletedUser = await userTests.deleteTestUser({
       userId: "12345678910",
     });
     await closeDb();

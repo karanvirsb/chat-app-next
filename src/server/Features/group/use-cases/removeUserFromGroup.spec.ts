@@ -1,9 +1,8 @@
-import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakeGroup from "../../../../__test__/fixures/group";
-import supertokens from "../../../../supertokens";
-import makeSupertokenDb from "../../../../supertokens/data-access/supertokens-db";
+import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeFakeGroup from "@/server/__test__/fixures/group";
+import userTests from "@/server/__test__/functions/user";
+
 import { moderateName } from "../../../Utilities/moderateText";
-import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb from "../data-access/group-db";
 import makeAddGroup from "./addGroup";
 import makeRemoveUserFromGroup from "./removeUserFromGroup";
@@ -18,40 +17,19 @@ describe("Removing user from a group use case", () => {
   const addGroup = makeAddGroup({ groupDb, handleModeration });
   const removeUserFromGroup = makeRemoveUserFromGroup({ groupDb });
 
-  const SupertokensDb = makeSupertokenDb({ makeDb });
   beforeAll(async () => {
     // creating user if it does not exist
-    const userDb = makeUsersDb({ makeDb });
-    const foundUser = await userDb.findById({
-      id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    const addedUser = userTests.addTestUserToDB({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
-
-    // if user does not exist create
-    if (!foundUser.success || !foundUser.data) {
-      const addedUser = await SupertokensDb.addUser({
-        user: {
-          user_id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
-          email: "anTest@gmai.com",
-          password: "123",
-          time_joined: Date.now(),
-        },
-      });
-      if (addedUser.success && addedUser.data) {
-        const addUser = await userDb.insert({
-          data: {
-            userId: addedUser.data.user_id,
-            status: "online",
-            username: "testering",
-          },
-        });
-      }
-    }
+    // if user does not exist creat
   });
 
   afterAll(async () => {
-    await clearDb("groupt");
-    await clearDb('"groupUsers"');
-    await SupertokensDb.deleteUser({
+    // TODO
+    // await clearDb("groupt");
+    // await clearDb('"groupUsers"');
+    await userTests.deleteTestUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();

@@ -1,3 +1,5 @@
+import { EntityReturn } from "@/shared/types/returns";
+
 import { IId } from "../../Utilities/id";
 
 export interface IPrivateMessage {
@@ -24,7 +26,7 @@ export default function buildPrivateMessage({ Id, sanitizeText }: props) {
     text,
     userId,
     privateChannelId,
-  }: IPrivateMessage) {
+  }: IPrivateMessage): EntityReturn<IPrivateMessage> {
     if (!text) throw new Error("Text needs to be supplied.");
     const sanitizedText = sanitizeText(text);
 
@@ -42,14 +44,17 @@ export default function buildPrivateMessage({ Id, sanitizeText }: props) {
     // replace any ' with a '' to escape
     const newMessage = sanitizedText.replace(/'/g, "\\'");
 
-    return Object.freeze({
-      getUserId: () => userId,
-      getDateCreated: () => dateCreated,
-      getMessageId: () => messageId,
-      getDateModified: () => dateModified,
-      getReplyTo: () => replyTo,
-      getText: () => newMessage,
-      getPrivateChannelId: () => privateChannelId,
-    });
+    return {
+      success: true,
+      data: Object.freeze({
+        getUserId: () => userId,
+        getDateCreated: () => dateCreated,
+        getMessageId: () => messageId,
+        getDateModified: () => dateModified,
+        getReplyTo: () => replyTo,
+        getText: () => newMessage,
+        getPrivateChannelId: () => privateChannelId,
+      }),
+    };
   };
 }

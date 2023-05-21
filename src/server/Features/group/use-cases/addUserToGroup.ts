@@ -1,3 +1,4 @@
+import { IGroupUser } from "../../groupUsers/groupUsers";
 import { IMakeGroupDb, user } from "../data-access/group-db";
 import { IGroup } from "../group";
 
@@ -22,7 +23,7 @@ export default function makeAddUserToGroup({ groupDb }: props) {
   return async function addUserToGroup(
     groupId: string,
     userId: string
-  ): Promise<UseCaseReturn<IGroup>> {
+  ): Promise<UseCaseReturn<IGroupUser>> {
     if (!groupId) throw new Error("Group Id needs to be supplied");
     if (!userId) throw new Error("User Id needs to be supplied");
 

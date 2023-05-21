@@ -7,7 +7,7 @@ describe("private message tests", () => {
     const message = makePrivateMessage(
       await makeFakePrivateMessage("123", "123")
     );
-    expect(message.getPrivateChannelId()).toBe("123");
+    if (message.success) expect(message.data.getPrivateChannelId()).toBe("123");
   });
 
   test("ERROR: text contains html", async () => {

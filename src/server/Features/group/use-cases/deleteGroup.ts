@@ -12,7 +12,7 @@ type returnData = Promise<{
 }>;
 
 export interface IDeleteGroup {
-  deleteGroup: (groupId: string) => Promise<returnData>;
+  deleteGroup: (groupId: string) => Promise<UseCaseReturn<IGroup>>;
 }
 
 export default function makeDeleteGroup({ groupDb }: props) {

@@ -1,5 +1,3 @@
-import { deleteUser } from "supertokens-node";
-
 import { IUser } from "../user";
 import { IUserDb } from ".";
 
@@ -170,9 +168,9 @@ export default function makeUsersDb({ makeDb }: props) {
     const db = await makeDb();
     try {
       const query = `DELETE FROM userT WHERE "userId" = '${userId}' RETURNING *`;
-      const deletedUser = await deleteUser(userId);
+
       const res = await db.query(query);
-      if (res.rows.length > 0 && deletedUser.status === "OK") {
+      if (res.rows.length > 0) {
         return { success: true, data: res.rows[0], error: "" };
       } else {
         return {

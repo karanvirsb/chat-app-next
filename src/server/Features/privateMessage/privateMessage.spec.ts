@@ -1,5 +1,7 @@
-import makeFakePrivateMessage from "../../../__test__/fixures/privateMessage";
+import makeFakePrivateMessage from "@/server/__test__/fixures/privateMessage";
+
 import makePrivateMessage from ".";
+
 describe("private message tests", () => {
   test("SUCCESS: message created", async () => {
     const message = makePrivateMessage(

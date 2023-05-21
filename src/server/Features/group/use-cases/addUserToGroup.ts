@@ -22,7 +22,7 @@ export default function makeAddUserToGroup({ groupDb }: props) {
   return async function addUserToGroup(
     groupId: string,
     userId: string
-  ): Promise<returnData> {
+  ): Promise<UseCaseReturn<IGroup>> {
     if (!groupId) throw new Error("Group Id needs to be supplied");
     if (!userId) throw new Error("User Id needs to be supplied");
 

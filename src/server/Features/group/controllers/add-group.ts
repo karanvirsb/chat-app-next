@@ -1,17 +1,8 @@
-import {
-  httpResponseType,
-  IHttpRequest,
-} from "../../../express-callback/index";
+import { IHttpRequest } from "../../../express-callback/index";
 import { IGroup } from "../group";
 import { IAddGroup } from "../use-cases/addGroup";
 
-interface IAddGroupResponse extends httpResponseType {
-  body: {
-    success: boolean;
-    data: IGroup | undefined;
-    error: string;
-  };
-}
+type IAddGroupResponse = ControllerReturn<IGroup>;
 
 export default function makeAddGroupController({ addGroup }: IAddGroup) {
   return async function addGroupController(
@@ -30,15 +21,18 @@ export default function makeAddGroupController({ addGroup }: IAddGroup) {
         statusCode: 200,
         body: addedGroup,
       };
-    } catch (error: any) {
-      console.log(error);
+    } catch (error: unknown) {
+      console.log(
+        "🚀 ~ file: add-group.ts:25 ~ makeAddGroupController ~ error:",
+        error
+      );
+
       return {
         headers,
         statusCode: 400,
         body: {
           success: false,
-          data: undefined,
-          error: error.message,
+          error: error,
         },
       };
     }

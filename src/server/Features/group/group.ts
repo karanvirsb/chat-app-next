@@ -33,14 +33,7 @@ export default function buildGroup({
     groupId = Id.makeId(),
     inviteCode = inviteCodeGenerator.makeInviteCode(),
     dateCreated = new Date(),
-  }: IGroup): EntityReturn<
-    Readonly<{
-      getGroupName: () => string;
-      getGroupId: () => string;
-      getInviteCode: () => string;
-      getDateCreated: () => Date;
-    }>
-  > {
+  }: IGroup): EntityReturn<IGroup> {
     const regex = /'/g;
     const sanitizedGroupName = sanitizeText(groupName);
     const result = GroupSchema.safeParse({

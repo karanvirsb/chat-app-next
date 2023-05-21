@@ -1,4 +1,4 @@
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeUser from "@/server/__test__/fixures/user";
 import userTests from "@/server/__test__/functions/user";
 

@@ -1,11 +1,13 @@
 import Id from "../../Utilities/id";
 import buildUser from ".";
+import { IUser } from "./user";
 
 describe("user", () => {
-  const tempUser = {
+  const tempUser: IUser = {
     userId: Id.makeId(),
     username: "John123",
     status: "offline",
+    password: Id.makeId(),
   };
   it("User id has to be valid", () => {
     expect(() => buildUser({ ...tempUser, userId: "" })).toThrow(

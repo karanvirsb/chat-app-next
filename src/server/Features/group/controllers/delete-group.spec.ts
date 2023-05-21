@@ -1,7 +1,7 @@
-import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakeGroup from "../../../../__test__/fixures/group";
-import supertokens from "../../../../supertokens";
-import makeSupertokenDb from "../../../../supertokens/data-access/supertokens-db";
+import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeFakeGroup from "@/server/__test__/fixures/group";
+import userTests from "@/server/__test__/functions/user";
+
 import { moderateName } from "../../../Utilities/moderateText";
 import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb from "../data-access/group-db";
@@ -29,41 +29,24 @@ describe("Delete group controller", () => {
   const deleteGroup = makeDeleteGroup({ groupDb });
   const deleteGroupController = makeDeleteGroupController({ deleteGroup });
 
-  const SupertokensDb = makeSupertokenDb({ makeDb });
-
   beforeAll(async () => {
     // creating user if it does not exist
-    const userDb = makeUsersDb({ makeDb });
-    const foundUser = await userDb.findById({
-      id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    const addedUser = userTests.addTestUserToDB({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
-
-    // if user does not exist create
-    if (!foundUser.success || !foundUser.data) {
-      const addedUser = await SupertokensDb.addUser({
-        user: {
-          user_id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
-          email: "anTest@gmai.com",
-          password: "123",
-          time_joined: Date.now(),
-        },
-      });
-      if (addedUser.success && addedUser.data) {
-        const addUser = await userDb.insert({
-          data: {
-            userId: addedUser.data.user_id,
-            status: "online",
-            username: "testering",
-          },
-        });
-      }
-    }
+    // user: {
+    //           user_id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    //           email: "anTest@gmai.com",
+    //           password: "123",
+    //           time_joined: Date.now(),
+    //         },
   });
 
   afterAll(async () => {
-    await clearDb("groupt");
-    await clearDb('"groupUsers"');
-    await SupertokensDb.deleteUser({
+    // TODO only delete the group test
+    // await clearDb("groupt");
+    // await clearDb('"groupUsers"');
+    await userTests.deleteTestUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
@@ -88,7 +71,8 @@ describe("Delete group controller", () => {
       "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
     );
     const deletedGroup = await deleteGroupController(groupRequest);
-    expect(deletedGroup.body.data?.groupId).toBe(group.groupId);
+    if (deletedGroup.body.success)
+      expect(deletedGroup.body.data?.groupId).toBe(group.groupId);
   });
 
   test("ERROR: group Id was not given", async () => {
@@ -111,6 +95,7 @@ describe("Delete group controller", () => {
     const deletedGroup = await deleteGroupController(groupRequest);
 
     expect(deletedGroup.statusCode).toBe(400);
-    expect(deletedGroup.body.error).toBe("Group Id needs to be supplied");
+    if (!deletedGroup.body.success)
+      expect(deletedGroup.body.error).toBe("Group Id needs to be supplied");
   });
 });

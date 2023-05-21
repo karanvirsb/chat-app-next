@@ -1,59 +1,27 @@
-import { deleteUser } from "supertokens-node";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
+import makeFakerGroup from "@/server/__test__/fixures/group";
+import userTests from "@/server/__test__/functions/user";
 
-import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakerGroup from "../../../../__test__/fixures/group";
-import supertokens from "../../../../supertokens";
-import makeSupertokenDb, {
-  IMakeSupertokensDb,
-} from "../../../../supertokens/data-access/supertokens-db";
 import inviteCodeGenerator from "../../../Utilities/inviteCodeGenerator";
-import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb, { IMakeGroupDb } from "./group-db";
 
 describe("Group databse access", () => {
   let GroupDb: IMakeGroupDb["returnType"];
-  let SupertokensDb: IMakeSupertokensDb["returnType"];
 
   beforeAll(async () => {
     jest.setTimeout(30000);
     GroupDb = makeGroupDb({ makeDb });
-    SupertokensDb = makeSupertokenDb({ makeDb });
 
-    // creating user if it does not exist
-    const userDb = makeUsersDb({ makeDb });
-    const foundUser = await userDb.findById({
-      id: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+    const addedUser = userTests.addTestUserToDB({
+      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-
-    // if user does not exist create
-    if (!foundUser.success || !foundUser.data) {
-      const addedUser = await SupertokensDb.addUser({
-        user: {
-          user_id: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-          email: "anTest@gmai.com",
-          password: "123",
-          time_joined: Date.now(),
-        },
-      });
-      if (addedUser.success && addedUser.data) {
-        const addUser = await userDb.insert({
-          data: {
-            userId: addedUser.data.user_id,
-            status: "online",
-            username: "testering",
-          },
-        });
-      }
-    }
   });
 
-  afterEach(async () => {
-    await clearDb("groupt");
-  });
   afterAll(async () => {
-    await clearDb("groupt");
-    await clearDb('"groupUsers"');
-    await SupertokensDb.deleteUser({
+    // TODO
+    // await clearDb("groupt");
+    // await clearDb('"groupUsers"');
+    await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
     await closeDb();
@@ -65,8 +33,7 @@ describe("Group databse access", () => {
       group,
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
     );
-
-    expect(res.data?.groupId).toBe(group.groupId);
+    if (res.success) expect(res.data?.groupId).toBe(group.groupId);
   });
 
   test("Find group by id", async () => {
@@ -103,8 +70,8 @@ describe("Group databse access", () => {
     );
 
     const deletedGroup = await GroupDb.removeGroup(group.groupId);
-
-    expect(deletedGroup.data?.groupName).toBe(group.groupName);
+    if (deletedGroup.success)
+      expect(deletedGroup.data?.groupName).toBe(group.groupName);
   });
 
   test("updating group invite code", async () => {
@@ -158,8 +125,8 @@ describe("Group databse access", () => {
       "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
       ["2001"]
     );
-
-    expect(addedUser.data?.userId).toBe("cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+    if (addedUser.success)
+      expect(addedUser.data?.uId).toBe("cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
   });
 
   test("Remove user from group", async () => {

@@ -1,17 +1,8 @@
-import {
-  httpResponseType,
-  IHttpRequest,
-} from "../../../express-callback/index";
+import { IHttpRequest } from "../../../express-callback/index";
 import { IGroup } from "../group";
 import { IDeleteGroup } from "../use-cases/deleteGroup";
 
-interface IDeleteGroupResponse extends httpResponseType {
-  body: {
-    success: boolean;
-    data: IGroup | undefined;
-    error: string;
-  };
-}
+type IDeleteGroupResponse = ControllerReturn<IGroup>;
 
 export default function makeDeleteGroupController({
   deleteGroup,
@@ -29,15 +20,14 @@ export default function makeDeleteGroupController({
         statusCode: 200,
         body: addedGroup,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,
         statusCode: 400,
         body: {
           success: false,
-          data: undefined,
-          error: error.message,
+          error: error,
         },
       };
     }

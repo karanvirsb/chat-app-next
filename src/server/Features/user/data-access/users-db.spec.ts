@@ -1,35 +1,26 @@
-import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakerUser from "../../../../__test__/fixures/user";
-import makeSupertokenDb, {
-  IMakeSupertokensDb,
-} from "../../../../supertokens/data-access/supertokens-db";
+import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeFakerUser from "@/server/__test__/fixures/user";
+import userTests from "@/server/__test__/functions/user";
+
 import makeUsersDb, { IMakeUsersDb } from "./users-db";
 
 describe("Users DB", () => {
   let UsersDb: IMakeUsersDb["returnType"];
-  const SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
-    makeDb,
-  });
 
   beforeAll(async () => {
-    const createdUser = await SupertokensDb.addUser({
-      user: {
-        user_id: "1234",
-        email: "random@gmai.com",
-        password: "123",
-        time_joined: Date.now(),
-      },
+    const createdUser = await userTests.addTestUserToDB({
+      userId: "1234",
     });
     UsersDb = makeUsersDb({ makeDb });
     await clearDb("usert");
   });
 
   afterEach(async () => {
-    await clearDb("usert");
+    const deletedUser = await userTests.deleteTestUser({ userId: "1234" });
   });
 
   afterAll(async () => {
-    const deletedUser = await SupertokensDb.deleteUser({ userId: "1234" });
+    const deletedUser = await userTests.deleteTestUser({ userId: "1234" });
     await closeDb();
   });
   it("Insert a user", async () => {

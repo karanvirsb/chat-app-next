@@ -1,10 +1,11 @@
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeGroup from "@/server/__test__/fixures/group";
+import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
 import { moderateName } from "../../../Utilities/moderateText";
-import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb from "../data-access/group-db";
+import { IGroup } from "../group";
 import makeAddGroup from "./addGroup";
 import makeGetGroupById from "./getGroupbyId";
 import makeGetGroupByInviteCode from "./getGroupByInviteCode";
@@ -21,29 +22,37 @@ describe("Get use cases", () => {
   const getGroupByInviteCode = makeGetGroupByInviteCode({ groupDb });
   const getUsersByGroupId = makeGetUsersByGroupId({ groupDb });
 
+  let group: IGroup;
   beforeAll(async () => {
     // creating user if it does not exist
-    const addedUser = userTests.addTestUserToDB({
+    userTests.addTestUserToDB({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     // if user does not exist creat
   });
+  beforeEach(async () => {
+    group = await makeFakeGroup();
+  });
+  afterEach(async () => {
+    groupTests.deleteTestGroup({
+      groupId: group.groupId,
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+  });
 
   afterAll(async () => {
     // TODO
-    // // TODO await clearDb("groupt");
-    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    groupTests.deleteTestGroup({
+      groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
   });
   test("Get group by id", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     const foundGroup = await getGroupById(group.groupId);
 
@@ -51,13 +60,9 @@ describe("Get use cases", () => {
   });
 
   test("Get group by id error", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     try {
-      const groupErr = await getGroupById("");
+      await getGroupById("");
     } catch (err) {
       if (err instanceof Error)
         expect(err.message).toBe("Group Id needs to be supplied");
@@ -65,11 +70,7 @@ describe("Get use cases", () => {
   });
 
   test("Get group by invite code", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     const foundGroup = await getGroupByInviteCode(group.inviteCode);
 
@@ -77,13 +78,9 @@ describe("Get use cases", () => {
   });
 
   test("Get group by invite code error", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     try {
-      const err = await getGroupByInviteCode("");
+      await getGroupByInviteCode("");
     } catch (err) {
       if (err instanceof Error)
         expect(err.message).toBe("Invite code needs to be supplied");
@@ -91,11 +88,7 @@ describe("Get use cases", () => {
   });
 
   test("Get group by invite code", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     const foundUsers = await getUsersByGroupId(group.inviteCode);
 
@@ -106,11 +99,7 @@ describe("Get use cases", () => {
   });
 
   test("Get group users by id error", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     try {
       await getUsersByGroupId("");
     } catch (error) {

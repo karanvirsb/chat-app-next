@@ -8,6 +8,7 @@ export default function DeleteAccountModal() {
   const dispatch = useAppDispatch();
   return (
     <MutationModal
+      loading={false}
       btnCTAName="Yes"
       btnCancelName="No"
       modalName="Delete Account"

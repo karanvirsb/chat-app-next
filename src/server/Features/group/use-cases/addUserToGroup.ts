@@ -1,4 +1,5 @@
 import { IMakeGroupDb, user } from "../data-access/group-db";
+import { IGroup } from "../group";
 
 type props = {
   groupDb: IMakeGroupDb["returnType"];
@@ -11,7 +12,10 @@ type returnData = Promise<{
 }>;
 
 export interface IAddUserToGroup {
-  addUserToGroup: (groupId: string, userId: string) => Promise<returnData>;
+  addUserToGroup: (
+    groupId: string,
+    userId: string
+  ) => Promise<UseCaseReturn<IGroup>>;
 }
 
 export default function makeAddUserToGroup({ groupDb }: props) {

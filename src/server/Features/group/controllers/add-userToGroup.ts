@@ -1,17 +1,8 @@
-import {
-  httpResponseType,
-  IHttpRequest,
-} from "../../../express-callback/index";
-import { user } from "../data-access/group-db";
+import { IHttpRequest } from "../../../express-callback/index";
+import { IGroup } from "../group";
 import { IAddUserToGroup } from "../use-cases/addUserToGroup";
 
-interface IAddUserToGroupResponse extends httpResponseType {
-  body: {
-    success: boolean;
-    data: user | undefined;
-    error: string;
-  };
-}
+type IAddUserToGroupResponse = ControllerReturn<IGroup>;
 
 export default function makeAddUserToGroupController({
   addUserToGroup,
@@ -32,15 +23,14 @@ export default function makeAddUserToGroupController({
         statusCode: 200,
         body: addedUser,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,
         statusCode: 400,
         body: {
           success: false,
-          data: undefined,
-          error: error.message,
+          error: error,
         },
       };
     }

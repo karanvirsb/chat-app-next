@@ -1,42 +1,27 @@
-import Express from "express";
+import { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeFakeUser from "@/server/__test__/fixures/user";
+import userTests from "@/server/__test__/functions/user";
 
-import { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakeUser from "../../../../__test__/fixures/user";
-import makeSupertokenDb, {
-  IMakeSupertokensDb,
-} from "../../../../supertokens/data-access/supertokens-db";
 import { addUserUC } from "../AddUser";
-import { makeDb } from "../data-access";
-import makeUsersDb, { IMakeUsersDb } from "../data-access/users-db";
 import { deleteUserC } from ".";
 
 describe("delete user controller", () => {
-  let usersDb: IMakeUsersDb["returnType"];
-  const SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
-    makeDb,
-  });
-
   jest.setTimeout(30000);
   beforeAll(async () => {
-    const createdUser = await SupertokensDb.addUser({
-      user: {
-        user_id: "ce3735e4-b3de-48d4-853e-758c06b1a935",
-        email: "randoms@gmai.com",
-        password: "123",
-        time_joined: Date.now(),
-      },
+    const createdUser = await userTests.addTestUserToDB({
+      userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
     });
-    await clearDb("usert");
-    usersDb = makeUsersDb({ makeDb });
   });
 
   afterEach(async () => {
-    await clearDb("usert");
+    const deletedUser = await userTests.deleteTestUser({
+      userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
+    });
   });
 
   jest.setTimeout(3000);
   afterAll(async () => {
-    const deletedUser = await SupertokensDb.deleteUser({
+    const deletedUser = await userTests.deleteTestUser({
       userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
     });
     await closeDb();
@@ -49,11 +34,15 @@ describe("delete user controller", () => {
     });
     const resp = await addUserUC(user);
 
-    const httpRequest = Express.request;
-    httpRequest.body = {
-      id: "ce3735e4-b3de-48d4-853e-758c06b1a935",
-    };
-    const deletedUser = await deleteUserC(httpRequest);
+    const deletedUser = await deleteUserC({
+      body: { id: "ce3735e4-b3de-48d4-853e-758c06b1a935" },
+      headers: {},
+      ip: "string",
+      method: "GET",
+      params: {},
+      path: "",
+      query: {},
+    });
 
     expect(deletedUser.body.data.userId).toBe(
       "ce3735e4-b3de-48d4-853e-758c06b1a935"

@@ -26,7 +26,7 @@ describe("Create private message use case", () => {
   });
 
   afterAll(async () => {
-    await clearDb("private_messages");
+    // TODO await clearDb("private_messages");
     const deletedPrivateChannel =
       await privateChannelTests.deleteTestPrivateChannel({
         channelId: "123",

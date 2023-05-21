@@ -28,7 +28,7 @@ describe("Get messages by id use case", () => {
   });
 
   afterAll(async () => {
-    await clearDb("group_messages");
+    // TODO await clearDb("group_messages");
     const deletedChannel = await channelTests.deleteTestChannel({
       channelId: "123",
     });

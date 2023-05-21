@@ -28,7 +28,7 @@ describe("creating channel use case", () => {
   });
 
   afterAll(async () => {
-    await clearDb("group_channels");
+    // TODO await clearDb("group_channels");
     const deletedUser = await userTests.deleteTestUser({
       userId: "123",
     });

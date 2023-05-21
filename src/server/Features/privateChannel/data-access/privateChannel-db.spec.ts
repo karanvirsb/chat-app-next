@@ -18,7 +18,7 @@ describe("Private Channel db method tests", () => {
   });
 
   afterAll(async () => {
-    await clearDb("group_messages");
+    // TODO await clearDb("group_messages");
     const deletedUser = await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });

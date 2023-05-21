@@ -12,7 +12,7 @@ describe("Users DB", () => {
       userId: "1234",
     });
     UsersDb = makeUsersDb({ makeDb });
-    await clearDb("usert");
+    // TODO await clearDb("usert");
   });
 
   afterEach(async () => {

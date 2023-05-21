@@ -35,7 +35,7 @@ describe("deleting private channel use case", () => {
   });
 
   afterAll(async () => {
-    await clearDb("private_channels");
+    // TODO await clearDb("private_channels");
     const deletedUser = await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });

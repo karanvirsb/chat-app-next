@@ -23,10 +23,10 @@ describe("Get a friend use case", () => {
   });
 
   afterEach(async () => {
-    await clearDb("friends");
+    // TODO await clearDb("friends");
   });
   afterAll(async () => {
-    await clearDb("friends");
+    // TODO await clearDb("friends");
 
     const deletedFakeUser = await userTests.addTestUserToDB({
       userId: users[0],

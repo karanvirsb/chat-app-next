@@ -30,8 +30,8 @@ describe("Add User case", () => {
 
   afterAll(async () => {
     // TODO
-    // await clearDb("groupt");
-    // await clearDb('"groupUsers"');
+    // // TODO await clearDb("groupt");
+    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });

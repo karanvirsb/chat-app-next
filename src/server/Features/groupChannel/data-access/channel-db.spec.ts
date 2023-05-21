@@ -18,7 +18,7 @@ describe("Channel db method tests", () => {
   });
 
   afterAll(async () => {
-    await clearDb("group_channels");
+    // TODO await clearDb("group_channels");
     const deletedUser = await userTests.deleteTestUser({ userId: "123" });
     const deletedGroup = await groupTests.deleteTestGroup({
       groupId: "123",

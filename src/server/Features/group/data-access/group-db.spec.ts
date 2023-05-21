@@ -19,8 +19,8 @@ describe("Group databse access", () => {
 
   afterAll(async () => {
     // TODO
-    // await clearDb("groupt");
-    // await clearDb('"groupUsers"');
+    // // TODO await clearDb("groupt");
+    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });

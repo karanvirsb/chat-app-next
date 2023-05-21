@@ -35,7 +35,7 @@ describe("getting messages by channel id controller", () => {
   });
 
   afterAll(async () => {
-    await clearDb("group_messages");
+    // TODO await clearDb("group_messages");
     const deletedChannel = await channelTests.deleteTestChannel({
       channelId: "123",
     });

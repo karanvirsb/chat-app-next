@@ -1,8 +1,7 @@
-import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakeUser from "../../../../__test__/fixures/user";
-import makeSupertokenDb, {
-  IMakeSupertokensDb,
-} from "../../../../supertokens/data-access/supertokens-db";
+import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeFakeUser from "@/server/__test__/fixures/user";
+import userTests from "@/server/__test__/functions/user";
+
 import { moderateName } from "../../../Utilities/moderateText";
 import makeUsersDb from "../data-access/users-db";
 import makeAddUser from "./addUserUseCase";
@@ -12,40 +11,38 @@ const handleModeration = async (name: string) => {
 };
 
 describe("Add User case", () => {
-  let usersDb = makeUsersDb({ makeDb });
+  const usersDb = makeUsersDb({ makeDb });
   const addUser = makeAddUser({ usersDb, handleModeration });
 
-  const SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
-    makeDb,
-  });
-
   beforeAll(async () => {
-    const createdUser = await SupertokensDb.addUser({
-      user: {
-        user_id: "12345678910",
-        email: "random@gmai.com",
-        password: "123",
-        time_joined: Date.now(),
-      },
+    // creating user if it does not exist
+    const addedUser = userTests.addTestUserToDB({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
-    usersDb = makeUsersDb({ makeDb });
-    await clearDb("usert");
+    // if user does not exist creat
   });
 
   afterEach(async () => {
-    await clearDb("usert");
+    await userTests.deleteTestUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
   });
 
   afterAll(async () => {
-    const deletedUser = await SupertokensDb.deleteUser({
-      userId: "12345678910",
+    // TODO
+    // await clearDb("groupt");
+    // await clearDb('"groupUsers"');
+    await userTests.deleteTestUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
   });
 
   jest.setTimeout(30000);
   it("User added successfully", async () => {
-    const user = await makeFakeUser({ userId: "12345678910" });
+    const user = await makeFakeUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
     const resp = await addUser(user);
     if (resp.success) {
       expect(resp.data?.username).toBe(user.username);
@@ -53,7 +50,9 @@ describe("Add User case", () => {
   });
 
   it("Duplicate User", async () => {
-    const user = await makeFakeUser({ userId: "12345678910" });
+    const user = await makeFakeUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
     const resp = await addUser(user);
     try {
       const err = await addUser(user);
@@ -64,7 +63,9 @@ describe("Add User case", () => {
   });
 
   it("Moderated username", async () => {
-    const user = await makeFakeUser({ userId: "12345678910" });
+    const user = await makeFakeUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
     user["username"] = "bullshit";
 
     try {

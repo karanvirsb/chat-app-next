@@ -73,7 +73,7 @@ export interface IMakeGroupDb {
       groupId: string,
       userId: string,
       roles: string[]
-    ) => Promise<returningUser>;
+    ) => Promise<DBAccessReturn<IGroup>>;
     removeUserFromGroup: (
       groupId: string,
       userId: string
@@ -130,7 +130,7 @@ export default function makeGroupDb({
   async function createGroup(
     groupInfo: IGroup,
     userId: string
-  ): Promise<returningGroupData> {
+  ): Promise<DBAccessReturn<IGroup>> {
     const db = await makeDb();
     try {
       const query = `INSERT INTO groupt VALUES ($1, $2, $3) RETURNING *;`;
@@ -143,11 +143,10 @@ export default function makeGroupDb({
       if (result.rows.length >= 1) {
         const group: IGroup = result.rows[0];
         addUserToGroup(group.groupId, userId, ["2001"]);
-        return { success: true, data: group, error: "" };
+        return { success: true, data: group };
       } else {
         return {
-          success: true,
-          data: undefined,
+          success: false,
           error: "Could not insert group",
         };
       }
@@ -158,8 +157,7 @@ export default function makeGroupDb({
       );
       return {
         success: false,
-        data: undefined,
-        error: error + "",
+        error: error,
       };
     } finally {
       db.release();

@@ -1,3 +1,5 @@
+import { IGroupUser } from "../../groupUsers/groupUsers";
+import { IUser } from "../../user/user";
 import { IGroup } from "../group";
 import { IGroupDb } from ".";
 
@@ -57,7 +59,7 @@ export interface IMakeGroupDb {
     createGroup: (
       groupInfo: IGroup,
       userId: string
-    ) => Promise<returningGroupData>;
+    ) => Promise<DBAccessReturn<IGroup>>;
     updateGroupName: (
       groupId: string,
       groupName: string
@@ -73,7 +75,7 @@ export interface IMakeGroupDb {
       groupId: string,
       userId: string,
       roles: string[]
-    ) => Promise<DBAccessReturn<IGroup>>;
+    ) => Promise<DBAccessReturn<IGroupUser>>;
     removeUserFromGroup: (
       groupId: string,
       userId: string
@@ -142,7 +144,7 @@ export default function makeGroupDb({
       // TODO add group users use case
       if (result.rows.length >= 1) {
         const group: IGroup = result.rows[0];
-        addUserToGroup(group.groupId, userId, ["2001"]);
+        await addUserToGroup(group.groupId, userId, ["2001"]);
         return { success: true, data: group };
       } else {
         return {
@@ -400,8 +402,9 @@ export default function makeGroupDb({
     groupId: string,
     userId: string,
     roles: string[]
-  ): Promise<returningUser> {
+  ): Promise<DBAccessReturn<IGroupUser>> {
     const db = await makeDb();
+
     try {
       const query = `
             WITH insertedUser AS (
@@ -422,16 +425,14 @@ export default function makeGroupDb({
       const res = await db.query(query);
 
       if (res.rows.length >= 1) {
-        const groupUser: user = res.rows[0];
+        const groupUser: IGroupUser = res.rows[0];
         return {
           success: true,
           data: groupUser,
-          error: "",
         };
       } else {
         return {
-          success: true,
-          data: undefined,
+          success: false,
           error: "Could not add user to the group.",
         };
       }
@@ -442,8 +443,8 @@ export default function makeGroupDb({
       );
       return {
         success: false,
-        data: undefined,
-        error: error + "",
+
+        error: error,
       };
     } finally {
       db.release();

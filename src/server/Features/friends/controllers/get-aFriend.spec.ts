@@ -1,6 +1,7 @@
-import makeDb, { clearDb } from "../../../../__test__/fixures/db";
-import makeFakeFriends from "../../../../__test__/fixures/friends";
-import userTests from "../../../../__test__/functions/user";
+import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeFakeFriends from "@/server/__test__/fixures/friends";
+import userTests from "@/server/__test__/functions/user";
+
 import makeFriendsDb from "../data-access/friends-db";
 import makeAddFriend from "../use-cases/addFriend";
 import makeGetAFriend from "../use-cases/getAFriend";

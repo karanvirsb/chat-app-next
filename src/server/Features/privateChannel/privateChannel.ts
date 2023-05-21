@@ -1,3 +1,5 @@
+import { EntityReturn } from "@/shared/types/returns";
+
 import { IId } from "../../Utilities/id";
 
 export interface IPrivateChannel {
@@ -23,7 +25,7 @@ export default function buildPrivateChannel({ Id, sanitizeText }: props) {
     friendsId,
     dateCreated = new Date(),
     lastActive = new Date(),
-  }: IPrivateChannel) {
+  }: IPrivateChannel): EntityReturn<IPrivateChannel> {
     const sanitizedChannelName = sanitizeText(channelName);
 
     if (sanitizedChannelName.length <= 1) {
@@ -54,14 +56,16 @@ export default function buildPrivateChannel({ Id, sanitizeText }: props) {
 
     // replace any ' with a '' to escape
     const newChannelName = sanitizedChannelName.replace(/'/g, "''");
-
-    return Object.freeze({
-      getChannelId: () => channelId,
-      getChannelName: () => newChannelName,
-      getUserId: () => userId,
-      getFriendsId: () => friendsId,
-      getDateCreated: () => dateCreated,
-      getLastActive: () => lastActive,
-    });
+    return {
+      success: true,
+      data: Object.freeze({
+        getChannelId: () => channelId,
+        getChannelName: () => newChannelName,
+        getUserId: () => userId,
+        getFriendsId: () => friendsId,
+        getDateCreated: () => dateCreated,
+        getLastActive: () => lastActive,
+      }),
+    };
   };
 }

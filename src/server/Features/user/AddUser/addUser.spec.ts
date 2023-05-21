@@ -1,4 +1,4 @@
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeUser from "@/server/__test__/fixures/user";
 import userTests from "@/server/__test__/functions/user";
 
@@ -14,14 +14,6 @@ describe("Add User case", () => {
   const usersDb = makeUsersDb({ makeDb });
   const addUser = makeAddUser({ usersDb, handleModeration });
 
-  beforeAll(async () => {
-    // creating user if it does not exist
-    const addedUser = userTests.addTestUserToDB({
-      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
-    });
-    // if user does not exist creat
-  });
-
   afterEach(async () => {
     await userTests.deleteTestUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
@@ -30,8 +22,6 @@ describe("Add User case", () => {
 
   afterAll(async () => {
     // TODO
-    // // TODO await clearDb("groupt");
-    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
@@ -53,9 +43,9 @@ describe("Add User case", () => {
     const user = await makeFakeUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
-    const resp = await addUser(user);
+
     try {
-      const err = await addUser(user);
+      await addUser(user);
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("User already exists");
@@ -69,7 +59,7 @@ describe("Add User case", () => {
     user["username"] = "bullshit";
 
     try {
-      const resp = await addUser(user);
+      await addUser(user);
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("Username contains profanity");

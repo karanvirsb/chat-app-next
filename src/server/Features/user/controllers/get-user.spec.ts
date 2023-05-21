@@ -1,40 +1,29 @@
-import { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakeUser from "../../../../__test__/fixures/user";
-import makeSupertokenDb, {
-  IMakeSupertokensDb,
-} from "../../../../supertokens/data-access/supertokens-db";
+import { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeFakeUser from "@/server/__test__/fixures/user";
+import userTests from "@/server/__test__/functions/user";
+
+import { addUserUC } from "../AddUser";
 import { makeDb } from "../data-access";
 import makeUsersDb, { IMakeUsersDb } from "../data-access/users-db";
-import { addUser } from "../use-cases";
 import { getAnUser } from ".";
 
 describe("Get user controller", () => {
-  let usersDb: IMakeUsersDb["returnType"];
-  const SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
-    makeDb,
-  });
-
   jest.setTimeout(30000);
   beforeAll(async () => {
-    const createdUser = await SupertokensDb.addUser({
-      user: {
-        user_id: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-        email: "randoms@gmai.com",
-        password: "123",
-        time_joined: Date.now(),
-      },
+    const createdUser = await userTests.addTestUserToDB({
+      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    await clearDb("usert");
-    usersDb = makeUsersDb({ makeDb });
   });
 
   afterEach(async () => {
-    await clearDb("usert");
+    const deletedUser = await userTests.deleteTestUser({
+      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+    });
   });
 
   jest.setTimeout(3000);
   afterAll(async () => {
-    const deletedUser = await SupertokensDb.deleteUser({
+    const deletedUser = await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
     await closeDb();
@@ -44,7 +33,7 @@ describe("Get user controller", () => {
     const fakeUser = await makeFakeUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const resp = await addUser(fakeUser);
+    const resp = await addUserUC(fakeUser);
     const user = await getAnUser({
       body: {},
       headers: {},

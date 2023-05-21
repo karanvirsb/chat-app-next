@@ -1,7 +1,8 @@
-import makeDb, { clearDb } from "../../../../__test__/fixures/db";
-import makeFakePrivateMessage from "../../../../__test__/fixures/privateMessage";
-import privateChannelTests from "../../../../__test__/functions/privateChannel";
-import userTests from "../../../../__test__/functions/user";
+import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeFakePrivateMessage from "@/server/__test__/fixures/privateMessage";
+import privateChannelTests from "@/server/__test__/functions/privateChannel";
+import userTests from "@/server/__test__/functions/user";
+
 import makePrivateChannelDb from "../../privateChannel/data-access/privateChannel-db";
 import makePrivateMessageDb from "../data-access/privateMessage-db";
 import makeCreatePrivateMessage from "./createPrivateMessage";

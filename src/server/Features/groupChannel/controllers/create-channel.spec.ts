@@ -1,7 +1,8 @@
-import makeFakeChannel from "../../../../__test__/fixures/channel";
-import makeDb, { clearDb } from "../../../../__test__/fixures/db";
-import groupTests from "../../../../__test__/functions/group";
-import userTests from "../../../../__test__/functions/user";
+import makeFakeChannel from "@/server/__test__/fixures/channel";
+import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import groupTests from "@/server/__test__/functions/group";
+import userTests from "@/server/__test__/functions/user";
+
 import { moderateName } from "../../../Utilities/moderateText";
 import makeChannelDb from "../data-access/channel-db";
 import makeCreateChannel from "../use-cases/createChannel";

@@ -2,9 +2,10 @@ import cuid from "cuid";
 import Express from "express";
 import { ZodError } from "zod";
 
-import groupTests from "../../../../__test__/functions/group";
-import groupUserTests from "../../../../__test__/functions/groupUser";
-import userTests from "../../../../__test__/functions/user";
+import groupTests from "@/server/__test__/functions/group";
+import groupUserTests from "@/server/__test__/functions/groupUser";
+import userTests from "@/server/__test__/functions/user";
+
 import DBUpdateStr from "../../../Utilities/DBUpdateString";
 import id from "../../../Utilities/id";
 import { makeDb } from "../data-access";

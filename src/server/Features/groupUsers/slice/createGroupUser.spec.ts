@@ -1,8 +1,9 @@
 import { ZodError } from "zod";
 
-import makeDb from "../../../../__test__/fixures/db";
-import groupTests from "../../../../__test__/functions/group";
-import userTests from "../../../../__test__/functions/user";
+import makeDb from "@/server/__test__/fixures/db";
+import groupTests from "@/server/__test__/functions/group";
+import userTests from "@/server/__test__/functions/user";
+
 import id from "../../../Utilities/id";
 import { IGroupUser } from "../groupUsers";
 import {

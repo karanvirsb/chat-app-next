@@ -1,6 +1,7 @@
-import makeDb, { clearDb } from "../../../../__test__/fixures/db";
-import makeFakePrivateChannel from "../../../../__test__/fixures/privateChannel";
-import userTests from "../../../../__test__/functions/user";
+import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeFakePrivateChannel from "@/server/__test__/fixures/privateChannel";
+import userTests from "@/server/__test__/functions/user";
+
 import makePrivateChannelDb from "./privateChannel-db";
 
 describe("Private Channel db method tests", () => {

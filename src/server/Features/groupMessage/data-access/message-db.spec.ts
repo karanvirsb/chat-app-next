@@ -1,9 +1,10 @@
-import makeFakeChannel from "../../../../__test__/fixures/channel";
-import makeDb, { clearDb } from "../../../../__test__/fixures/db";
-import makeFakeMessage from "../../../../__test__/fixures/message";
-import groupTests from "../../../../__test__/functions/group";
-import channelTests from "../../../../__test__/functions/groupChannel";
-import userTests from "../../../../__test__/functions/user";
+import makeFakeChannel from "@/server/__test__/fixures/channel";
+import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeFakeMessage from "@/server/__test__/fixures/message";
+import groupTests from "@/server/__test__/functions/group";
+import channelTests from "@/server/__test__/functions/groupChannel";
+import userTests from "@/server/__test__/functions/user";
+
 import makeMessageDb from "./message-db";
 
 describe("Message db method tests", () => {

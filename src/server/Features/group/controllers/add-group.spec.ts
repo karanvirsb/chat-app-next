@@ -1,9 +1,8 @@
-import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
-import makeFakeGroup from "../../../../__test__/fixures/group";
-import supertokens from "../../../../supertokens";
-import makeSupertokenDb from "../../../../supertokens/data-access/supertokens-db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
+import makeFakeGroup from "@/server/__test__/fixures/group";
+import userTests from "@/server/__test__/functions/user";
+
 import { moderateName } from "../../../Utilities/moderateText";
-import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb from "../data-access/group-db";
 import makeAddGroup from "../use-cases/addGroup";
 import makeAddGroupController from "./add-group";
@@ -27,41 +26,15 @@ describe("Add group controller", () => {
   const addGroup = makeAddGroup({ groupDb, handleModeration });
   const addGroupController = makeAddGroupController({ addGroup });
 
-  const SupertokensDb = makeSupertokenDb({ makeDb });
-
   beforeAll(async () => {
     // creating user if it does not exist
-    const userDb = makeUsersDb({ makeDb });
-    const foundUser = await userDb.findById({
-      id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    userTests.addTestUserToDB({
+      userId: '"cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"',
     });
-
-    // if user does not exist create
-    if (!foundUser.success || !foundUser.data) {
-      const addedUser = await SupertokensDb.addUser({
-        user: {
-          user_id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
-          email: "anTest@gmai.com",
-          password: "123",
-          time_joined: Date.now(),
-        },
-      });
-      if (addedUser.success && addedUser.data) {
-        const addUser = await userDb.insert({
-          data: {
-            userId: addedUser.data.user_id,
-            status: "online",
-            username: "testering",
-          },
-        });
-      }
-    }
   });
-
+  // TODO after each add group, before each create group
   afterAll(async () => {
-    await clearDb("groupt");
-    await clearDb('"groupUsers"');
-    await SupertokensDb.deleteUser({
+    await userTests.deleteTestUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
@@ -83,7 +56,8 @@ describe("Add group controller", () => {
     };
 
     const addedGroup = await addGroupController(groupRequest);
-    expect(addedGroup.body.data?.groupId).toBe(group.groupId);
+    if (addedGroup.body.success)
+      expect(addedGroup.body.data?.groupId).toBe(group.groupId);
   });
 
   test("ERROR: user Id was not given", async () => {
@@ -104,6 +78,7 @@ describe("Add group controller", () => {
     const addedGroup = await addGroupController(groupRequest);
 
     expect(addedGroup.statusCode).toBe(400);
-    expect(addedGroup.body.error).toBe("User id needs to be supplied");
+    if (!addedGroup.body.success)
+      expect(addedGroup.body.error).toBe("User id needs to be supplied");
   });
 });

@@ -31,14 +31,7 @@ export default function buildChannel({ Id, sanitizeText }: props) {
     channelName,
     groupId,
     dateCreated = new Date(),
-  }: IGroupChannel): EntityReturn<
-    Readonly<{
-      getChannelId: () => string;
-      getChannelName: () => string;
-      getGroupId: () => string;
-      getDateCreated: () => Date;
-    }>
-  > {
+  }: IGroupChannel): EntityReturn<IGroupChannel> {
     const sanitizedChannelName = sanitizeText(channelName);
 
     const result = GroupChannelSchema.safeParse({

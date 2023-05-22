@@ -15,16 +15,16 @@ describe("Create Group User Tests DBA", () => {
   const createGroupDb = makeCreateGroupDBAccess({ makeDb });
   const uuid = id.makeId();
   beforeAll(async () => {
-    const testUser = await userTests.addTestUserToDB({ userId: uuid });
-    const testGroup = await groupTests.createTestGroup({
+    await userTests.addTestUserToDB({ userId: uuid });
+    await groupTests.createTestGroup({
       groupId: uuid,
       userId: uuid,
     });
   });
 
   afterAll(async () => {
-    const testUser = await userTests.deleteTestUser({ userId: uuid });
-    const testGroup = await groupTests.deleteTestGroup({
+    await userTests.deleteTestUser({ userId: uuid });
+    await groupTests.deleteTestGroup({
       groupId: uuid,
       userId: uuid,
     });
@@ -47,16 +47,16 @@ describe("Testing create group user use case", () => {
   const createGroupDb = makeCreateGroupDBAccess({ makeDb });
   const uuid = id.makeId();
   beforeAll(async () => {
-    const testUser = await userTests.addTestUserToDB({ userId: uuid });
-    const testGroup = await groupTests.createTestGroup({
+    await userTests.addTestUserToDB({ userId: uuid });
+    await groupTests.createTestGroup({
       groupId: uuid,
       userId: uuid,
     });
   });
 
   afterAll(async () => {
-    const testUser = await userTests.deleteTestUser({ userId: uuid });
-    const testGroup = await groupTests.deleteTestGroup({
+    await userTests.deleteTestUser({ userId: uuid });
+    await groupTests.deleteTestGroup({
       groupId: uuid,
       userId: uuid,
     });
@@ -98,7 +98,7 @@ describe("Testing create group user use case", () => {
     });
 
     try {
-      const createdGroupUser = await createGroupUseCase({
+      await createGroupUseCase({
         gId: "",
         uId: uuid,
         roles: ["2000"],

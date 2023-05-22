@@ -1,17 +1,8 @@
-import {
-  httpResponseType,
-  IHttpRequest,
-} from "../../../express-callback/index";
+import { IHttpRequest } from "../../../express-callback/index";
 import { IGroupMessage } from "../groupMessage";
 import { ICreateMessageUseCase } from "../use-cases/createMessage";
 
-interface ICreateMessageResponse extends httpResponseType {
-  body: {
-    success: boolean;
-    data: IGroupMessage | undefined;
-    error: string;
-  };
-}
+type ICreateMessageResponse = ControllerReturn<IGroupMessage>;
 
 export default function makeCreateMessageController({
   createMessage,
@@ -26,22 +17,21 @@ export default function makeCreateMessageController({
       const newMessage: IGroupMessage = httpRequest.body.messageInfo;
       newMessage.dateCreated = new Date(
         httpRequest.body.messageInfo.dateCreated
-      );
+      ).getTime();
       const createdMessage = await createMessage(newMessage);
       return {
         headers,
         statusCode: 200,
         body: createdMessage,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,
         statusCode: 400,
         body: {
           success: false,
-          data: undefined,
-          error: error.message,
+          error: error,
         },
       };
     }

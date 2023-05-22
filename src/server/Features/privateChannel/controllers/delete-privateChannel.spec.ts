@@ -1,9 +1,10 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakePrivateChannel from "@/server/__test__/fixures/privateChannel";
 import userTests from "@/server/__test__/functions/user";
 
 import { moderateName } from "../../../Utilities/moderateText";
 import makePrivateChannelDb from "../data-access/privateChannel-db";
+import { IPrivateChannel } from "../privateChannel";
 import makeCreatePrivateChannel from "../use-cases/createPrivateChannel";
 import makeDeletePrivateChannel from "../use-cases/deletePrivateChannel";
 import makeDeletePrivateChannelController from "./delete-privateChannel";
@@ -33,33 +34,39 @@ describe("Delete private channel controller", () => {
     deletePrivateChannel,
   });
 
+  let channel: IPrivateChannel;
+
   beforeAll(async () => {
     jest.setTimeout(30000);
-    const addedUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const secondUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
   });
 
+  beforeEach(async () => {
+    channel = await makeFakePrivateChannel(
+      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+      "312c0878-04c3-4585-835e-c66900ccc7a1"
+    );
+  });
+
+  afterEach(async () => {
+    await deletePrivateChannel(channel.channelId);
+  });
+
   afterAll(async () => {
-    jest.setTimeout(30000);
-    // TODO await clearDb("private_channels");
-    const deletedUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const deletedSecondUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
   });
 
   test("SUCCESS: delete channel", async () => {
-    const channel = await makeFakePrivateChannel(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
     const channelRequest = {
       body: { channelId: channel.channelId },
       headers: {},
@@ -70,18 +77,13 @@ describe("Delete private channel controller", () => {
       query: {},
     };
 
-    const createdChannel = await createChannel(channel);
+    await createChannel(channel);
 
     const deletedChannel = await deletePrivateChannelController(channelRequest);
     expect(deletedChannel.body.data?.channelId).toBe(channel.channelId);
   });
 
   test("ERROR: channel id does not exist", async () => {
-    const channel = await makeFakePrivateChannel(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
     const channelRequest = {
       body: { channelId: "" },
       headers: {},
@@ -92,7 +94,7 @@ describe("Delete private channel controller", () => {
       query: {},
     };
 
-    const createdChannel = await createChannel(channel);
+    await createChannel(channel);
 
     const deletedChannel = await deletePrivateChannelController(channelRequest);
     expect(deletedChannel.body.error).toBe("Channel Id needs to be supplied");

@@ -1,46 +1,55 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakePrivateMessage from "@/server/__test__/fixures/privateMessage";
 import privateChannelTests from "@/server/__test__/functions/privateChannel";
 import userTests from "@/server/__test__/functions/user";
 
 import sleep from "../../../Utilities/sleep";
-import makePrivateChannelDb from "../../privateChannel/data-access/privateChannel-db";
-import makeCreatePrivateChannel from "../../privateChannel/use-cases/createPrivateChannel";
+import { IPrivateMessage } from "../privateMessage";
 import makePrivateMessageDb from "./privateMessage-db";
 
 describe("Private Message db method tests", () => {
   jest.setTimeout(10000);
   const messageDB = makePrivateMessageDb({ makeDb });
 
+  let message: IPrivateMessage;
+
   jest.setTimeout(30000);
   beforeAll(async () => {
-    const addedUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const secondUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
-    const privateChannel = await privateChannelTests.createTestPrivateChannel({
+    await privateChannelTests.createTestPrivateChannel({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       friendsId: "312c0878-04c3-4585-835e-c66900ccc7a1",
       channelId: "123",
     });
   });
 
+  beforeEach(async () => {
+    message = await makeFakePrivateMessage(
+      "123",
+      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+    );
+  });
+
+  afterEach(async () => {
+    await messageDB.deletePrivateMessage(message.messageId);
+  });
+
   afterAll(async () => {
-    // TODO await clearDb("private_messages");
-    const deletedPrivateChannel =
-      await privateChannelTests.deleteTestPrivateChannel({
-        channelId: "123",
-      });
-    const deletedUser = await userTests.deleteTestUser({
+    await privateChannelTests.deleteTestPrivateChannel({
+      channelId: "123",
+    });
+    await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const deletedSecondUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
   });
-
   test("SUCCESS: creating a message", async () => {
     jest.setTimeout(30000);
     const message = await makeFakePrivateMessage(
@@ -54,12 +63,7 @@ describe("Private Message db method tests", () => {
 
   test("SUCCESS: deleting a message", async () => {
     jest.setTimeout(30000);
-    const message = await makeFakePrivateMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-
-    const insertedMessage = await messageDB.createPrivateMessage(message);
+    await messageDB.createPrivateMessage(message);
     const deletedMessage = await messageDB.deletePrivateMessage(
       message.messageId
     );
@@ -68,12 +72,7 @@ describe("Private Message db method tests", () => {
 
   test("SUCCESS: getting message by id", async () => {
     jest.setTimeout(30000);
-    const message = await makeFakePrivateMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-
-    const insertedMessage = await messageDB.createPrivateMessage(message);
+    await messageDB.createPrivateMessage(message);
     const foundMessage = await messageDB.getPrivateMessageById(
       message.messageId
     );
@@ -109,12 +108,7 @@ describe("Private Message db method tests", () => {
 
   test("SUCCESS: updating message", async () => {
     jest.setTimeout(30000);
-    const message = await makeFakePrivateMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-
-    const insertedMessage = await messageDB.createPrivateMessage(message);
+    await messageDB.createPrivateMessage(message);
     const updatedMessage = await messageDB.updatePrivateMessage(
       "text",
       message.messageId,
@@ -125,12 +119,7 @@ describe("Private Message db method tests", () => {
 
   test("SUCCESS: updating message date", async () => {
     jest.setTimeout(30000);
-    const message = await makeFakePrivateMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-
-    const insertedMessage = await messageDB.createPrivateMessage(message);
+    await messageDB.createPrivateMessage(message);
     const updatedMessage = await messageDB.updatePrivateMessage(
       "dateModified",
       message.messageId,

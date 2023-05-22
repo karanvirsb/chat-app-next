@@ -37,7 +37,7 @@ describe("deleting channel use case", () => {
   });
 
   beforeEach(async () => {
-    channel = await makeFakeChannel();
+    channel = await makeFakeChannel({ groupId: "123" });
   });
 
   afterEach(async () => {
@@ -55,7 +55,6 @@ describe("deleting channel use case", () => {
   });
 
   test("SUCCESS: deleting channel", async () => {
-    channel["groupId"] = "123";
     await createChannel(channel);
 
     const deletedChannel = await deleteChannel(channel.channelId);
@@ -63,7 +62,6 @@ describe("deleting channel use case", () => {
   });
 
   test("ERROR: channel id not provided", async () => {
-    channel["groupId"] = "123";
     await createChannel(channel);
 
     try {

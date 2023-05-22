@@ -1,5 +1,3 @@
-import Express from "express";
-
 import makeDb from "@/server/__test__/fixures/db";
 import groupTests from "@/server/__test__/functions/group";
 import groupUserTests from "@/server/__test__/functions/groupUser";
@@ -72,7 +70,7 @@ describe("Test Delete group user use case", () => {
 
   it("ERROR: GroupId needs to be supplied", async () => {
     try {
-      const result = await deleteGroupUserUC({ groupId: "", userId: "123" });
+      await deleteGroupUserUC({ groupId: "", userId: "123" });
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe(
@@ -83,7 +81,7 @@ describe("Test Delete group user use case", () => {
 
   it("SUCCESS: UserId needs to be supplied", async () => {
     try {
-      const result = await deleteGroupUserUC({ groupId: "123", userId: "" });
+      await deleteGroupUserUC({ groupId: "123", userId: "" });
     } catch (error) {
       if (error instanceof Error) {
         expect(error.message).toBe(
@@ -96,7 +94,7 @@ describe("Test Delete group user use case", () => {
 
 describe("Test Delete group user controller", () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
-  type args = { groupId: string; userId: string };
+
   const deleteGroupUserUC = makeDeleteGroupUserUC({ deleteGroupUserDBA });
   const deleteGroupUserUCMock = jest.fn<typeof deleteGroupUserUC, []>();
   deleteGroupUserUCMock.mockImplementation(() => ({ groupId, userId }) => {
@@ -123,12 +121,13 @@ describe("Test Delete group user controller", () => {
   });
 
   it("SUCCESS: Delete group user", async () => {
-    const httpRequest = Express.request;
-    httpRequest.query = {
-      groupId: "123",
-      userId: "123",
+    const httpRequest = {
+      query: {
+        groupId: "123",
+        userId: "123",
+      },
     };
-
+    // TODO
     const result = await deleteGroupUserC(httpRequest);
 
     expect(result.body.data?.gId).toBe("123");
@@ -136,24 +135,24 @@ describe("Test Delete group user controller", () => {
 });
 
 async function deleteTests(uuid: string) {
-  const testUser = await userTests.deleteTestUser({ userId: uuid });
-  const testGroup = await groupTests.deleteTestGroup({
+  await userTests.deleteTestUser({ userId: uuid });
+  await groupTests.deleteTestGroup({
     groupId: uuid,
     userId: uuid,
   });
-  const testGroupUser = await groupUserTests.deleteGroupUserTest({
+  await groupUserTests.deleteGroupUserTest({
     groupId: uuid,
     userId: uuid,
   });
 }
 
 async function createTests(uuid: string) {
-  const testUser = await userTests.addTestUserToDB({ userId: uuid });
-  const testGroup = await groupTests.createTestGroup({
+  await userTests.addTestUserToDB({ userId: uuid });
+  await groupTests.createTestGroup({
     groupId: uuid,
     userId: uuid,
   });
-  const testGroupUser = await groupUserTests.createGroupUserTest({
+  await groupUserTests.createGroupUserTest({
     groupId: uuid,
     userId: uuid,
   });

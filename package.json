@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint --ext .ts,.tsx src",
     "lint:fix": "eslint --fix --ext .ts,.tsx src",
-    "test": "jest --transformIgnorePatterns '**/node_modules' --watch --runInBand"
+    "test": "jest --transformIgnorePatterns 'node_modules' --watch --runInBand",
+    "vi-test": "vitest --ui"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
@@ -55,16 +56,20 @@
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
+    "@vitest/ui": "^0.31.1",
     "autoprefixer": "^10.4.14",
     "cuid": "^2.1.8",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "jest": "^29.5.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
     "supertest": "^6.3.3",
     "tailwindcss": "^3.2.7",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "unplugin-auto-import": "^0.16.2",
+    "vitest": "^0.31.1"
   }
 }

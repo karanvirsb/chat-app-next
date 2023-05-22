@@ -82,12 +82,12 @@ describe("friends DB testing", () => {
       "312c0878-04c3-4585-835e-c66900ccc7a1"
     );
 
-    let addFriends = await friendsDb.addFriend(friends);
+    await friendsDb.addFriend(friends);
     friends = await makeFakeFriends(
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
     );
-    addFriends = await friendsDb.addFriend(friends);
+    await friendsDb.addFriend(friends);
     const allFriends = await friendsDb.getFriends(friends.userId);
 
     if (allFriends.data)

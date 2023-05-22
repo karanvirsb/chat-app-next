@@ -1,6 +1,7 @@
-import { IGroupUser } from "../../src/Features/groupUsers/groupUsers";
-import { makeCreateGroupDBAccess } from "../../src/Features/groupUsers/slice/createGroupUser";
-import { makeDeleteGroupUserDBA } from "../../src/Features/groupUsers/slice/deleteGroupUser";
+import { IGroupUser } from "@/server/Features/groupUsers/groupUsers";
+import { makeCreateGroupDBAccess } from "@/server/Features/groupUsers/slice/createGroupUser";
+import { makeDeleteGroupUserDBA } from "@/server/Features/groupUsers/slice/deleteGroupUser";
+
 import makeDb from "../fixures/db";
 
 const groupUserTests = Object.freeze({

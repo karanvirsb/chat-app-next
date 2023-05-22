@@ -1,4 +1,4 @@
-import { IGroupMessage } from "../../src/Features/groupMessage/groupMessage";
+import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
 
 export interface ICreateGroupMessageEvent {
   groupId: string;

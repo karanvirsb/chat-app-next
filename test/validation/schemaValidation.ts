@@ -1,6 +1,5 @@
 import { IUser } from "@/server/Features/user/user";
-
-import { IGroup } from "../../src/Hooks/groupHooks";
+import { IGroup } from "@/server/Hooks/groupHooks";
 
 export function isGroupArray(
   arr: IGroup[] | string | undefined

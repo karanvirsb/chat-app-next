@@ -1,3 +1,3 @@
-import { IGroupChannel } from "../../src/Features/groupChannel/groupChannel";
+import { IGroupChannel } from "@/server/Features/groupChannel/groupChannel";
 
 export type UpdateChannelsListEvent = IGroupChannel;

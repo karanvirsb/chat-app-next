@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 
-import makeChannelDb from "../../src/Features/groupChannel/data-access/channel-db";
+import makeChannelDb from "@/server/Features/groupChannel/data-access/channel-db";
+
 import makeDb from "../fixures/db";
 
 const channelTests = Object.freeze({ createTestChannel, deleteTestChannel });

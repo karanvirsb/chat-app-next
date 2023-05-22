@@ -14,8 +14,10 @@ describe("Testing group user", () => {
   };
   it("SUCCESS: group user created", () => {
     const user = buildGroupUser(fakeGroupUser);
-    expect(user.getuId()).toBe(fakeGroupUser.uId);
-    expect(user.getgId()).toBe(fakeGroupUser.gId);
+    if (user.success) {
+      expect(user.data.getUId()).toBe(fakeGroupUser.uId);
+      expect(user.data.getGId()).toBe(fakeGroupUser.gId);
+    }
   });
   it("ERROR: gId needs to exist", () => {
     const userWithoutgId = structuredClone(fakeGroupUser);

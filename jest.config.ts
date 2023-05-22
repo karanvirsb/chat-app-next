@@ -11,5 +11,8 @@ const config: Config.InitialOptions = {
     // "^.+\\.(js|jsx)$": "babel-jest",
   },
   transformIgnorePatterns: ["**/node_modules/**"],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
 };
 export default config;

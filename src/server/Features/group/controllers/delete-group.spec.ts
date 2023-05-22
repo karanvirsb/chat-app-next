@@ -1,10 +1,11 @@
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeGroup from "@/server/__test__/fixures/group";
+import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
 import { moderateName } from "../../../Utilities/moderateText";
-import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb from "../data-access/group-db";
+import { IGroup } from "../group";
 import makeAddGroup from "../use-cases/addGroup";
 import makeDeleteGroup from "../use-cases/deleteGroup";
 import makeDeleteGroupController from "./delete-group";
@@ -29,31 +30,35 @@ describe("Delete group controller", () => {
   const deleteGroup = makeDeleteGroup({ groupDb });
   const deleteGroupController = makeDeleteGroupController({ deleteGroup });
 
+  let group: IGroup;
   beforeAll(async () => {
     // creating user if it does not exist
-    const addedUser = userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
-    // user: {
-    //           user_id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
-    //           email: "anTest@gmai.com",
-    //           password: "123",
-    //           time_joined: Date.now(),
-    //         },
+    // if user does not exist creat
+  });
+  beforeEach(async () => {
+    group = await makeFakeGroup();
+  });
+  afterEach(async () => {
+    await groupTests.deleteTestGroup({
+      groupId: group.groupId,
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
   });
 
   afterAll(async () => {
-    // TODO only delete the group test
-    // // TODO await clearDb("groupt");
-    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    groupTests.deleteTestGroup({
+      groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
   });
-
   test("SUCCESS: add group to the database", async () => {
-    const group = await makeFakeGroup();
     const groupRequest = {
       body: {
         groupId: group.groupId,
@@ -66,17 +71,13 @@ describe("Delete group controller", () => {
       query: {},
     };
 
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const deletedGroup = await deleteGroupController(groupRequest);
     if (deletedGroup.body.success)
       expect(deletedGroup.body.data?.groupId).toBe(group.groupId);
   });
 
   test("ERROR: group Id was not given", async () => {
-    const group = await makeFakeGroup();
     const groupRequest = {
       body: {
         groupId: "",
@@ -88,10 +89,7 @@ describe("Delete group controller", () => {
       path: "",
       query: {},
     };
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const deletedGroup = await deleteGroupController(groupRequest);
 
     expect(deletedGroup.statusCode).toBe(400);

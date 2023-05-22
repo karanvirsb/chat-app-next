@@ -1,13 +1,12 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakePrivateMessage from "@/server/__test__/fixures/privateMessage";
 import privateChannelTests from "@/server/__test__/functions/privateChannel";
 import userTests from "@/server/__test__/functions/user";
 
-import makePrivateChannelDb from "../../privateChannel/data-access/privateChannel-db";
 import makePrivateMessageDb from "../data-access/privateMessage-db";
+import { IPrivateMessage } from "../privateMessage";
 import makeCreatePrivateMessage from "../use-cases/createPrivateMessage";
 import makeDeletePrivateMessage from "../use-cases/deletePrivateMessage";
-import makeCreatePrivateMessageController from "./create-privateMessage";
 import makeDeletePrivateMessageController from "./delete-privateMessage";
 
 describe("deleting a private message controller", () => {
@@ -19,40 +18,46 @@ describe("deleting a private message controller", () => {
     deletePrivateMessage,
   });
 
+  let message: IPrivateMessage;
+
   jest.setTimeout(30000);
   beforeAll(async () => {
-    const addedUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const secondUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
-    const privateChannel = await privateChannelTests.createTestPrivateChannel({
+    await privateChannelTests.createTestPrivateChannel({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       friendsId: "312c0878-04c3-4585-835e-c66900ccc7a1",
       channelId: "123",
     });
   });
 
-  afterAll(async () => {
-    // TODO await clearDb("private_messages");
-    const deletedPrivateChannel =
-      await privateChannelTests.deleteTestPrivateChannel({
-        channelId: "123",
-      });
-    const deletedUser = await userTests.deleteTestUser({
-      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-    });
-    const deletedSecondUser = await userTests.deleteTestUser({
-      userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
-    });
-  });
-
-  test("SUCCESS: deleting a message", async () => {
-    const message = await makeFakePrivateMessage(
+  beforeEach(async () => {
+    message = await makeFakePrivateMessage(
       "123",
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
     );
+  });
+
+  afterEach(async () => {
+    await deletePrivateMessage(message.messageId);
+  });
+
+  afterAll(async () => {
+    await privateChannelTests.deleteTestPrivateChannel({
+      channelId: "123",
+    });
+    await userTests.deleteTestUser({
+      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+    });
+    await userTests.deleteTestUser({
+      userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
+    });
+  });
+  test("SUCCESS: deleting a message", async () => {
     const messageRequest = {
       body: {
         messageId: message.messageId,
@@ -65,17 +70,13 @@ describe("deleting a private message controller", () => {
       query: {},
     };
 
-    const createdMessage = await createMessage(message);
+    await createMessage(message);
 
     const deletedMessage = await deletePrivateMessageController(messageRequest);
     expect(deletedMessage.body.data?.text).toBe(message.text);
   });
 
   test("ERROR: message id missing ", async () => {
-    const message = await makeFakePrivateMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
     const messageRequest = {
       body: {
         messageId: "",
@@ -88,7 +89,7 @@ describe("deleting a private message controller", () => {
       query: {},
     };
 
-    const createdMessage = await createMessage(message);
+    await createMessage(message);
 
     const deletedMessage = await deletePrivateMessageController(messageRequest);
 

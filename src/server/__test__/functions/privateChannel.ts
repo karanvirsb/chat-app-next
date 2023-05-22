@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-import cuid from "cuid";
 
 import makePrivateChannelDb from "@/server/Features/privateChannel/data-access/privateChannel-db";
 import { IPrivateChannel } from "@/server/Features/privateChannel/privateChannel";

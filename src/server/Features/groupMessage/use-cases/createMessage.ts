@@ -6,14 +6,10 @@ type props = {
   messageDb: IMakeMessageDb["returnType"];
 };
 
-type returnData = Promise<{
-  success: boolean;
-  data: IGroupMessage | undefined;
-  error: string;
-}>;
-
 export interface ICreateMessageUseCase {
-  createMessage: (messageInfo: IGroupMessage) => returnData;
+  createMessage: (
+    messageInfo: IGroupMessage
+  ) => Promise<UseCaseReturn<IGroupMessage>>;
 }
 
 export default function makeCreateMessage({ messageDb }: props) {
@@ -30,8 +26,8 @@ export default function makeCreateMessage({ messageDb }: props) {
       messageId: message.data.getMessageId(),
       text: message.data.getText(),
       userId: message.data.getUserId(),
-      dateModified: message.data.getDateModified(),
-      replyTo: message.data.getReplyTo(),
+      dateModified: message?.data?.getDateModified() ?? undefined,
+      replyTo: message?.data?.getReplyTo() ?? undefined,
     });
   };
 }

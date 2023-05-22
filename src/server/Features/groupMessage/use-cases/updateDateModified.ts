@@ -12,7 +12,10 @@ type returnData = Promise<{
 }>;
 
 export interface IUpdateDateModifiedUseCase {
-  updateDateModified: (messageId: string, updateValue: Date) => returnData;
+  updateDateModified: (
+    messageId: string,
+    updateValue: IGroupMessage["dateModified"]
+  ) => returnData;
 }
 
 export default function makeUpdateDateModified({ messageDb }: props) {

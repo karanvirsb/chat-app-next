@@ -1,11 +1,13 @@
 import makeFakeChannel from "@/server/__test__/fixures/channel";
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
 import { moderateName } from "../../../Utilities/moderateText";
 import makeChannelDb from "../data-access/channel-db";
+import { IGroupChannel } from "../groupChannel";
 import makeCreateChannel from "../use-cases/createChannel";
+import makeDeleteChannel from "../use-cases/deleteChannel";
 import makeUpdateChannelName from "../use-cases/updateChannelName";
 import makeUpdateChannelNameController from "./update-groupName";
 
@@ -35,27 +37,37 @@ describe("Update group name controller", () => {
     updateChannelName,
   });
 
+  const deleteGroupChannel = makeDeleteChannel({ channelDb });
+  let channel: IGroupChannel;
+
   beforeAll(async () => {
     jest.setTimeout(30000);
-    const addedUser = await userTests.addTestUserToDB({ userId: "123" });
-    const addedGroup = await groupTests.createTestGroup({
+    await userTests.addTestUserToDB({ userId: "123" });
+    await groupTests.createTestGroup({
       groupId: "123",
       userId: "123",
     });
   });
 
+  beforeEach(async () => {
+    channel = await makeFakeChannel({ groupId: "123" });
+  });
+
+  afterEach(async () => {
+    await deleteGroupChannel(channel.channelId);
+  });
+
   afterAll(async () => {
-    // TODO await clearDb("group_channels");
-    const deletedUser = await userTests.deleteTestUser({ userId: "123" });
-    const deletedGroup = await groupTests.deleteTestGroup({
+    await userTests.deleteTestUser({
+      userId: "123",
+    });
+    await groupTests.deleteTestGroup({
       groupId: "123",
       userId: "123",
     });
   });
 
   test("SUCCESS: updating channel name", async () => {
-    const channel = await makeFakeChannel();
-    channel.groupId = "123";
     const channelRequest = {
       body: { channelId: channel.channelId, newName: "coders" },
       headers: {},
@@ -66,7 +78,7 @@ describe("Update group name controller", () => {
       query: {},
     };
 
-    const createdChannel = await createChannel(channel);
+    await createChannel(channel);
 
     const updatedChannel = await updateChannelNameController(channelRequest);
 
@@ -74,8 +86,6 @@ describe("Update group name controller", () => {
   });
 
   test("ERROR: channel id does not exist", async () => {
-    const channel = await makeFakeChannel();
-    channel.groupId = "123";
     const channelRequest = {
       body: { channelId: "", newName: "coders" },
       headers: {},
@@ -86,15 +96,13 @@ describe("Update group name controller", () => {
       query: {},
     };
 
-    const createdChannel = await createChannel(channel);
+    await createChannel(channel);
 
     const updatedChannel = await updateChannelNameController(channelRequest);
     expect(updatedChannel.body.error).toBe("Channel Id needs to be supplied");
   });
 
   test("ERROR: new name does not exist", async () => {
-    const channel = await makeFakeChannel();
-    channel.groupId = "123";
     const channelRequest = {
       body: { channelId: channel.channelId, newName: "" },
       headers: {},
@@ -105,7 +113,7 @@ describe("Update group name controller", () => {
       query: {},
     };
 
-    const createdChannel = await createChannel(channel);
+    await createChannel(channel);
 
     const updatedChannel = await updateChannelNameController(channelRequest);
     expect(updatedChannel.body.error).toBe(
@@ -114,8 +122,6 @@ describe("Update group name controller", () => {
   });
 
   test("ERROR: new name contains profanity", async () => {
-    const channel = await makeFakeChannel();
-    channel.groupId = "123";
     const channelRequest = {
       body: { channelId: channel.channelId, newName: "bullshit" },
       headers: {},
@@ -126,7 +132,7 @@ describe("Update group name controller", () => {
       query: {},
     };
 
-    const createdChannel = await createChannel(channel);
+    await createChannel(channel);
 
     const updatedChannel = await updateChannelNameController(channelRequest);
     expect(updatedChannel.body.error).toBe(

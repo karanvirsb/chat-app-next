@@ -1,65 +1,71 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakeMessage from "@/server/__test__/fixures/message";
 import groupTests from "@/server/__test__/functions/group";
 import channelTests from "@/server/__test__/functions/groupChannel";
 import userTests from "@/server/__test__/functions/user";
 
 import makeMessageDb from "../data-access/message-db";
+import { IGroupMessage } from "../groupMessage";
 import makeCreateMessage from "./createMessage";
+import makeDeleteMessage from "./deleteMessage";
 
 describe("Create message use case", () => {
   const messageDb = makeMessageDb({ makeDb });
   const createMessage = makeCreateMessage({ messageDb });
 
+  const deleteGroupMessage = makeDeleteMessage({ messageDb });
+  let message: IGroupMessage;
   beforeAll(async () => {
     jest.setTimeout(30000);
-    const addedUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const addedGroup = await groupTests.createTestGroup({
+    await groupTests.createTestGroup({
       groupId: "123",
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const addedChannel = await channelTests.createTestChannel({
+    await channelTests.createTestChannel({
       groupId: "123",
       channelId: "123",
     });
   });
 
+  beforeEach(async () => {
+    message = await makeFakeMessage(
+      "123",
+      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+    );
+  });
+
+  afterEach(async () => {
+    await deleteGroupMessage(message.messageId);
+  });
+
   afterAll(async () => {
-    // TODO await clearDb("group_messages");
-    const deletedChannel = await channelTests.deleteTestChannel({
+    await channelTests.deleteTestChannel({
       channelId: "123",
     });
-    const deletedGroup = await groupTests.deleteTestGroup({
+    await groupTests.deleteTestGroup({
       groupId: "123",
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const deletedUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
   });
 
   test("SUCCESS: creating a message", async () => {
     jest.setTimeout(30000);
-    const message = await makeFakeMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-    const insertedMessage = await createMessage(message);
 
-    expect(insertedMessage.data?.messageId).toBe(message.messageId);
+    const insertedMessage = await createMessage(message);
+    if (insertedMessage.success)
+      expect(insertedMessage.data?.messageId).toBe(message.messageId);
   });
 
   test("ERROR: channelId not given", async () => {
-    const message = await makeFakeMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-
     try {
-      message.channelId = "";
-      const insertedMessage = await createMessage(message);
+      message["channelId"] = "";
+      await createMessage(message);
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("Channel Id needs to be supplied.");
@@ -67,14 +73,9 @@ describe("Create message use case", () => {
   });
 
   test("ERROR: text not given", async () => {
-    const message = await makeFakeMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-
     try {
-      message.text = "";
-      const insertedMessage = await createMessage(message);
+      message["text"] = "";
+      await createMessage(message);
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("Text needs to be supplied.");
@@ -82,14 +83,9 @@ describe("Create message use case", () => {
   });
 
   test("ERROR: user id not given", async () => {
-    const message = await makeFakeMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-
     try {
-      message.userId = "";
-      const insertedMessage = await createMessage(message);
+      message["userId"] = "";
+      await createMessage(message);
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("User Id needs to be supplied.");

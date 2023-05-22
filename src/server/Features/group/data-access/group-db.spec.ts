@@ -1,34 +1,45 @@
-import makeDb, { closeDb } from "@/server/__test__/fixures/db";
-import makeFakerGroup from "@/server/__test__/fixures/group";
+import { closeDb } from "@/server/__test__/fixures/db";
+import makeFakeGroup from "@/server/__test__/fixures/group";
+import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
 import inviteCodeGenerator from "../../../Utilities/inviteCodeGenerator";
-import makeGroupDb, { IMakeGroupDb } from "./group-db";
+import { IGroup } from "../group";
+import { IMakeGroupDb } from "./group-db";
 
 describe("Group databse access", () => {
   let GroupDb: IMakeGroupDb["returnType"];
 
+  let group: IGroup;
   beforeAll(async () => {
-    jest.setTimeout(30000);
-    GroupDb = makeGroupDb({ makeDb });
-
-    const addedUser = userTests.addTestUserToDB({
-      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+    // creating user if it does not exist
+    await userTests.addTestUserToDB({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    // if user does not exist creat
+  });
+  beforeEach(async () => {
+    group = await makeFakeGroup();
+  });
+  afterEach(async () => {
+    await groupTests.deleteTestGroup({
+      groupId: group.groupId,
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
   });
 
   afterAll(async () => {
-    // TODO
-    // // TODO await clearDb("groupt");
-    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
-      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    groupTests.deleteTestGroup({
+      groupId: group.groupId,
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
   });
-  test("inserted group correctly", async () => {
-    const group = await makeFakerGroup();
 
+  test("inserted group correctly", async () => {
     const res = await GroupDb.createGroup(
       group,
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
@@ -37,24 +48,14 @@ describe("Group databse access", () => {
   });
 
   test("Find group by id", async () => {
-    const group = await makeFakerGroup();
-
-    const res = await GroupDb.createGroup(
-      group,
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
+    await GroupDb.createGroup(group, "5c0fc896-1af1-4c26-b917-550ac5eefa9e");
 
     const foundGroup = await GroupDb.findById(group.groupId);
     expect(foundGroup.data?.groupName).toBe(group.groupName);
   });
 
   test("updating group name", async () => {
-    const group = await makeFakerGroup();
-
-    const res = await GroupDb.createGroup(
-      group,
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
+    await GroupDb.createGroup(group, "5c0fc896-1af1-4c26-b917-550ac5eefa9e");
 
     const updatedGroup = await GroupDb.updateGroupName(group.groupId, "Coders");
 
@@ -62,12 +63,7 @@ describe("Group databse access", () => {
   });
 
   test("deleting group", async () => {
-    const group = await makeFakerGroup();
-
-    const res = await GroupDb.createGroup(
-      group,
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
+    await GroupDb.createGroup(group, "5c0fc896-1af1-4c26-b917-550ac5eefa9e");
 
     const deletedGroup = await GroupDb.removeGroup(group.groupId);
     if (deletedGroup.success)
@@ -75,12 +71,7 @@ describe("Group databse access", () => {
   });
 
   test("updating group invite code", async () => {
-    const group = await makeFakerGroup();
-
-    const res = await GroupDb.createGroup(
-      group,
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
+    await GroupDb.createGroup(group, "5c0fc896-1af1-4c26-b917-550ac5eefa9e");
     const newCode = inviteCodeGenerator.makeInviteCode();
     const updatedGroup = await GroupDb.updateInviteCode(group.groupId, newCode);
 
@@ -88,24 +79,14 @@ describe("Group databse access", () => {
   });
 
   test("Find group by invite code", async () => {
-    const group = await makeFakerGroup();
-
-    const res = await GroupDb.createGroup(
-      group,
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
+    await GroupDb.createGroup(group, "5c0fc896-1af1-4c26-b917-550ac5eefa9e");
 
     const foundGroup = await GroupDb.findByInviteCode(group.inviteCode);
     expect(foundGroup.data?.groupName).toBe(group.groupName);
   });
 
   test("Find users of group", async () => {
-    const group = await makeFakerGroup();
-
-    const res = await GroupDb.createGroup(
-      group,
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
+    await GroupDb.createGroup(group, "5c0fc896-1af1-4c26-b917-550ac5eefa9e");
 
     const users = await GroupDb.findUsersByGroupId(group.groupId);
     if (users.data)
@@ -113,12 +94,7 @@ describe("Group databse access", () => {
   });
 
   test("Adding user to group", async () => {
-    const group = await makeFakerGroup();
-
-    const res = await GroupDb.createGroup(
-      group,
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
+    await GroupDb.createGroup(group, "5c0fc896-1af1-4c26-b917-550ac5eefa9e");
 
     const addedUser = await GroupDb.addUserToGroup(
       group.groupId,
@@ -130,14 +106,9 @@ describe("Group databse access", () => {
   });
 
   test("Remove user from group", async () => {
-    const group = await makeFakerGroup();
+    await GroupDb.createGroup(group, "5c0fc896-1af1-4c26-b917-550ac5eefa9e");
 
-    const res = await GroupDb.createGroup(
-      group,
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-
-    const addedUser = await GroupDb.addUserToGroup(
+    await GroupDb.addUserToGroup(
       group.groupId,
       "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
       ["2001"]

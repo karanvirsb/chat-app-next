@@ -71,27 +71,27 @@ describe("Private Channel db method tests", () => {
       "312c0878-04c3-4585-835e-c66900ccc7a1"
     );
 
-    let res = await privateChannelDB.createPrivateChannel(channel);
+    await privateChannelDB.createPrivateChannel(channel);
 
     channel = await makeFakePrivateChannel(
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       "312c0878-04c3-4585-835e-c66900ccc7a1"
     );
 
-    res = await privateChannelDB.createPrivateChannel(channel);
+    await privateChannelDB.createPrivateChannel(channel);
 
     channel = await makeFakePrivateChannel(
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       "312c0878-04c3-4585-835e-c66900ccc7a1"
     );
 
-    res = await privateChannelDB.createPrivateChannel(channel);
+    await privateChannelDB.createPrivateChannel(channel);
 
     channel = await makeFakePrivateChannel(
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       "312c0878-04c3-4585-835e-c66900ccc7a1"
     );
-    res = await privateChannelDB.createPrivateChannel(channel);
+    await privateChannelDB.createPrivateChannel(channel);
 
     const foundChannels = await privateChannelDB.getPrivateChannelsByUserId(
       channel.userId

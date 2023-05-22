@@ -10,12 +10,13 @@ export function makeCreateGroupUseCase({
 }: createGroupUserUCDeps) {
   return async function createGroupUseCase(groupUserInfo: IGroupUser) {
     const groupUser = buildGroupUser(groupUserInfo);
+    if (!groupUser.success) return groupUser;
 
     return await createGroupDb({
-      gId: groupUser.getgId(),
-      uId: groupUser.getuId(),
-      lastChecked: groupUser.getLastChecked(),
-      roles: groupUser.getRoles(),
+      gId: groupUser.data.getGId(),
+      uId: groupUser.data.getUId(),
+      lastChecked: groupUser.data.getLastChecked(),
+      roles: groupUser.data.getRoles(),
     });
   };
 }

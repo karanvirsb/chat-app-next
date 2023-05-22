@@ -1,4 +1,4 @@
-import { IFriends } from "../../src/Features/friends/friends";
+import { IFriends } from "@/server/Features/friends/friends";
 
 export default async function makeFakeFriends(
   userId: string,

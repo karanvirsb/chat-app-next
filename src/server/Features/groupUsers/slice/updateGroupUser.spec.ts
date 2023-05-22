@@ -1,5 +1,4 @@
 import cuid from "cuid";
-import Express from "express";
 import { ZodError } from "zod";
 
 import groupTests from "@/server/__test__/functions/group";
@@ -68,7 +67,7 @@ describe("Testing update group user use case", () => {
       });
     });
   const updateGroupUserUC = makeUpdateGroupUserUC({ updateGroupUserDBA });
-  const updateGroupUserUCMock = makeUpdateGroupUserUC({
+  makeUpdateGroupUserUC({
     updateGroupUserDBA: new updateGroupUserDBAMock(),
   });
   beforeAll(async () => {
@@ -191,13 +190,14 @@ describe("Testing update group user controller", () => {
   });
 
   test("SUCCESS: update group user", async () => {
-    const httpRequest = Express.request;
-    httpRequest.body = {
-      groupId: uuid,
-      userId: uuid,
-      updates: {
-        roles: ["2000", "2001"],
-        lastChecked: new Date().toISOString(),
+    const httpRequest = {
+      body: {
+        groupId: uuid,
+        userId: uuid,
+        updates: {
+          roles: ["2000", "2001"],
+          lastChecked: new Date().toISOString(),
+        },
       },
     };
 
@@ -208,24 +208,24 @@ describe("Testing update group user controller", () => {
 });
 
 async function deleteTests(uuid: string) {
-  const testUser = await userTests.deleteTestUser({ userId: uuid });
-  const testGroup = await groupTests.deleteTestGroup({
+  await userTests.deleteTestUser({ userId: uuid });
+  await groupTests.deleteTestGroup({
     groupId: uuid,
     userId: uuid,
   });
-  const testGroupUser = await groupUserTests.deleteGroupUserTest({
+  await groupUserTests.deleteGroupUserTest({
     groupId: uuid,
     userId: uuid,
   });
 }
 
 async function createTests(uuid: string) {
-  const testUser = await userTests.addTestUserToDB({ userId: uuid });
-  const testGroup = await groupTests.createTestGroup({
+  await userTests.addTestUserToDB({ userId: uuid });
+  await groupTests.createTestGroup({
     groupId: uuid,
     userId: uuid,
   });
-  const testGroupUser = await groupUserTests.createGroupUserTest({
+  await groupUserTests.createGroupUserTest({
     groupId: uuid,
     userId: uuid,
   });

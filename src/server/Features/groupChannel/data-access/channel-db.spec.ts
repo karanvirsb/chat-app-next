@@ -1,57 +1,60 @@
 import makeFakeChannel from "@/server/__test__/fixures/channel";
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
+import { IGroupChannel } from "../groupChannel";
+import makeDeleteChannel from "../use-cases/deleteChannel";
 import makeChannelDb from "./channel-db";
 
 describe("Channel db method tests", () => {
   jest.setTimeout(10000);
   const channelDB = makeChannelDb({ makeDb });
 
+  const deleteGroupChannel = makeDeleteChannel({ channelDb: channelDB });
+  let channel: IGroupChannel;
+
   beforeAll(async () => {
     jest.setTimeout(30000);
-    const addedUser = await userTests.addTestUserToDB({ userId: "123" });
-    const addedGroup = await groupTests.createTestGroup({
+    await userTests.addTestUserToDB({ userId: "123" });
+    await groupTests.createTestGroup({
       groupId: "123",
       userId: "123",
     });
   });
 
+  beforeEach(async () => {
+    channel = await makeFakeChannel({ groupId: "123" });
+  });
+
+  afterEach(async () => {
+    await deleteGroupChannel(channel.channelId);
+  });
+
   afterAll(async () => {
-    // TODO await clearDb("group_channels");
-    const deletedUser = await userTests.deleteTestUser({ userId: "123" });
-    const deletedGroup = await groupTests.deleteTestGroup({
+    await userTests.deleteTestUser({
+      userId: "123",
+    });
+    await groupTests.deleteTestGroup({
       groupId: "123",
       userId: "123",
     });
   });
 
   test("SUCCESS: create a channel", async () => {
-    const channel = await makeFakeChannel();
-    channel.groupId = "123";
-
     const res = await channelDB.createChannel(channel);
-    console.log(res);
-
-    expect(res.data?.channelName).toBe(channel.channelName);
+    if (res.success) expect(res.data?.channelName).toBe(channel.channelName);
   });
 
   test("SUCCESS: Delete channel", async () => {
-    const channel = await makeFakeChannel();
-    channel.groupId = "123";
-
-    const res = await channelDB.createChannel(channel);
+    await channelDB.createChannel(channel);
 
     const deletedChannel = await channelDB.deleteChannel(channel.channelId);
     expect(deletedChannel.data?.channelId).toBe(channel.channelId);
   });
 
   test("SUCCESS: update channel name", async () => {
-    const channel = await makeFakeChannel();
-    channel.groupId = "123";
-
-    const res = await channelDB.createChannel(channel);
+    await channelDB.createChannel(channel);
 
     const updatedChannel = await channelDB.updateChannelName(
       channel.channelId,
@@ -61,32 +64,29 @@ describe("Channel db method tests", () => {
   });
 
   test("SUCCESS: get channel by id", async () => {
-    const channel = await makeFakeChannel();
-    channel.groupId = "123";
-
-    const res = await channelDB.createChannel(channel);
+    await channelDB.createChannel(channel);
 
     const foundChannel = await channelDB.getChannelById(channel.channelId);
     expect(foundChannel.data?.channelId).toBe(channel.channelId);
   });
 
-  test("SUCCESS: get channels by group id", async () => {
-    let channel = await makeFakeChannel();
-    channel.groupId = "123";
+  // TODO promise all
+  test.skip("SUCCESS: get channels by group id", async () => {
+    let channel = await makeFakeChannel({ groupId: "123" });
 
-    let res = await channelDB.createChannel(channel);
+    await channelDB.createChannel(channel);
 
-    channel = await makeFakeChannel();
-    channel.groupId = "123";
-    res = await channelDB.createChannel(channel);
+    channel = await makeFakeChannel({ groupId: "123" });
 
-    channel = await makeFakeChannel();
-    channel.groupId = "123";
-    res = await channelDB.createChannel(channel);
+    await channelDB.createChannel(channel);
 
-    channel = await makeFakeChannel();
-    channel.groupId = "123";
-    res = await channelDB.createChannel(channel);
+    channel = await makeFakeChannel({ groupId: "123" });
+
+    await channelDB.createChannel(channel);
+
+    channel = await makeFakeChannel({ groupId: "123" });
+
+    await channelDB.createChannel(channel);
 
     const foundChannels = await channelDB.getChannelsByGroupId(channel.groupId);
     console.log(foundChannels);

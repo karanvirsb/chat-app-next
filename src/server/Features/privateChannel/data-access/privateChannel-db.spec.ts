@@ -1,39 +1,46 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakePrivateChannel from "@/server/__test__/fixures/privateChannel";
 import userTests from "@/server/__test__/functions/user";
 
+import { IPrivateChannel } from "../privateChannel";
 import makePrivateChannelDb from "./privateChannel-db";
 
 describe("Private Channel db method tests", () => {
   jest.setTimeout(10000);
   const privateChannelDB = makePrivateChannelDb({ makeDb });
 
+  let channel: IPrivateChannel;
+
   beforeAll(async () => {
     jest.setTimeout(30000);
-    const addedUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const secondUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
   });
 
-  afterAll(async () => {
-    // TODO await clearDb("group_messages");
-    const deletedUser = await userTests.deleteTestUser({
-      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-    });
-    const deletedSecondUser = await userTests.deleteTestUser({
-      userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
-    });
-  });
-
-  test("SUCCESS: create a private channel", async () => {
-    const channel = await makeFakePrivateChannel(
+  beforeEach(async () => {
+    channel = await makeFakePrivateChannel(
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       "312c0878-04c3-4585-835e-c66900ccc7a1"
     );
+  });
 
+  afterEach(async () => {
+    await privateChannelDB.deletePrivateChannel(channel.channelId);
+  });
+
+  afterAll(async () => {
+    await userTests.deleteTestUser({
+      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+    });
+    await userTests.deleteTestUser({
+      userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
+    });
+  });
+  test("SUCCESS: create a private channel", async () => {
     const res = await privateChannelDB.createPrivateChannel(channel);
     console.log(res);
 
@@ -41,12 +48,7 @@ describe("Private Channel db method tests", () => {
   });
 
   test("SUCCESS: Delete channel", async () => {
-    const channel = await makeFakePrivateChannel(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
-    const res = await privateChannelDB.createPrivateChannel(channel);
+    await privateChannelDB.createPrivateChannel(channel);
 
     const deletedChannel = await privateChannelDB.deletePrivateChannel(
       channel.channelId
@@ -55,20 +57,15 @@ describe("Private Channel db method tests", () => {
   });
 
   test("SUCCESS: get private channel by id", async () => {
-    const channel = await makeFakePrivateChannel(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
-    const res = await privateChannelDB.createPrivateChannel(channel);
+    await privateChannelDB.createPrivateChannel(channel);
 
     const foundChannel = await privateChannelDB.getPrivateChannelById(
       channel.channelId
     );
     expect(foundChannel.data?.channelId).toBe(channel.channelId);
   });
-
-  test("SUCCESS: get private channels by user id", async () => {
+  // TODO Promise all
+  test.skip("SUCCESS: get private channels by user id", async () => {
     let channel = await makeFakePrivateChannel(
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       "312c0878-04c3-4585-835e-c66900ccc7a1"

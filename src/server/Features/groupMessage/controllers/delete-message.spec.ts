@@ -60,10 +60,6 @@ describe("deleting a message controller", () => {
   });
 
   test("SUCCESS: deleting a message", async () => {
-    const message = await makeFakeMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
     const messageRequest = {
       body: {
         messageId: message.messageId,
@@ -83,10 +79,6 @@ describe("deleting a message controller", () => {
   });
 
   test("ERROR: message id missing ", async () => {
-    const message = await makeFakeMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
     const messageRequest = {
       body: {
         messageId: "",

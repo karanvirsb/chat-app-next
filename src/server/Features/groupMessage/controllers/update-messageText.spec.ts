@@ -1,14 +1,14 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakeMessage from "@/server/__test__/fixures/message";
 import groupTests from "@/server/__test__/functions/group";
 import channelTests from "@/server/__test__/functions/groupChannel";
 import userTests from "@/server/__test__/functions/user";
 
 import makeMessageDb from "../data-access/message-db";
+import { IGroupMessage } from "../groupMessage";
 import makeCreateMessage from "../use-cases/createMessage";
-import makeUpdateDateModified from "../use-cases/updateDateModified";
+import makeDeleteMessage from "../use-cases/deleteMessage";
 import makeUpdateMessageText from "../use-cases/updateMessageText";
-import makeUpdateDateModifiedController from "./update-dateModified";
 import makeUpdateMessageTextController from "./update-messageText";
 
 describe("updating message text controller", () => {
@@ -20,39 +20,48 @@ describe("updating message text controller", () => {
     updateMessageText,
   });
 
+  const deleteGroupMessage = makeDeleteMessage({ messageDb: messageDb });
+  let message: IGroupMessage;
   beforeAll(async () => {
     jest.setTimeout(30000);
-    const addedUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const addedGroup = await groupTests.createTestGroup({
+    await groupTests.createTestGroup({
       groupId: "123",
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const addedChannel = await channelTests.createTestChannel({
+    await channelTests.createTestChannel({
       groupId: "123",
       channelId: "123",
     });
   });
 
-  afterAll(async () => {
-    // TODO await clearDb("group_messages");
-    const deletedChannel = await channelTests.deleteTestChannel({
-      channelId: "123",
-    });
-    const deletedGroup = await groupTests.deleteTestGroup({
-      groupId: "123",
-      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-    });
-    const deletedUser = await userTests.deleteTestUser({
-      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-    });
-  });
-  test("SUCCESS: updated message text", async () => {
-    const message = await makeFakeMessage(
+  beforeEach(async () => {
+    message = await makeFakeMessage(
       "123",
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
     );
+  });
+
+  afterEach(async () => {
+    await deleteGroupMessage(message.messageId);
+  });
+
+  afterAll(async () => {
+    await channelTests.deleteTestChannel({
+      channelId: "123",
+    });
+    await groupTests.deleteTestGroup({
+      groupId: "123",
+      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+    });
+    await userTests.deleteTestUser({
+      userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+    });
+  });
+
+  test("SUCCESS: updated message text", async () => {
     const messageRequest = {
       body: {
         messageId: message.messageId,
@@ -66,7 +75,7 @@ describe("updating message text controller", () => {
       query: {},
     };
 
-    const createdMessage = await createMessage(message);
+    await createMessage(message);
 
     const updatedMessage = await updateMessageTextController(messageRequest);
 
@@ -74,10 +83,6 @@ describe("updating message text controller", () => {
   });
 
   test("ERROR: message id missing ", async () => {
-    const message = await makeFakeMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
     const messageRequest = {
       body: {
         messageId: "",
@@ -91,7 +96,7 @@ describe("updating message text controller", () => {
       query: {},
     };
 
-    const createdMessage = await createMessage(message);
+    await createMessage(message);
 
     const updatedMessage = await updateMessageTextController(messageRequest);
 
@@ -99,10 +104,6 @@ describe("updating message text controller", () => {
   });
 
   test("ERROR: text missing ", async () => {
-    const message = await makeFakeMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
     const messageRequest = {
       body: {
         messageId: message.messageId,
@@ -116,7 +117,7 @@ describe("updating message text controller", () => {
       query: {},
     };
 
-    const createdMessage = await createMessage(message);
+    await createMessage(message);
     const updatedMessage = await updateMessageTextController(messageRequest);
     expect(updatedMessage.body.error).toBe(
       "Update Value needs to be supplied."

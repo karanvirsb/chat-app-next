@@ -1,8 +1,9 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakeFriends from "@/server/__test__/fixures/friends";
 import userTests from "@/server/__test__/functions/user";
 
 import { IFriends } from "../friends";
+import makeDeleteFriend from "../use-cases/deleteFriend";
 import makeFriendsDb from "./friends-db";
 
 describe("friends DB testing", () => {
@@ -14,44 +15,49 @@ describe("friends DB testing", () => {
     "312c0878-04c3-4585-835e-c66900ccc7a1",
     "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
   ];
+  const deleteFriends = makeDeleteFriend({ friendsDb });
+  let friends: IFriends;
+
   beforeAll(async () => {
-    const fakeUser = await userTests.addTestUserToDB({ userId: users[0] });
-    const fakeUser1 = await userTests.addTestUserToDB({ userId: users[1] });
-    const fakeUser2 = await userTests.addTestUserToDB({ userId: users[2] });
+    await userTests.addTestUserToDB({ userId: users[0] });
+    await userTests.addTestUserToDB({ userId: users[1] });
+    await userTests.addTestUserToDB({ userId: users[2] });
+  });
+
+  beforeEach(async () => {
+    friends = await makeFakeFriends(
+      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+      "312c0878-04c3-4585-835e-c66900ccc7a1"
+    );
+  });
+
+  afterEach(async () => {
+    await deleteFriends(
+      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+      "312c0878-04c3-4585-835e-c66900ccc7a1"
+    );
   });
 
   afterAll(async () => {
-    // TODO await clearDb("friends");
-
-    const deletedFakeUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: users[0],
     });
-    const deletedFakeUser1 = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: users[1],
     });
-    const deletedFakeUser2 = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: users[2],
     });
   });
 
   test("SUCCESS: creating a friend", async () => {
-    const friends = await makeFakeFriends(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
     const addedFriend = await friendsDb.addFriend(friends);
 
     expect(addedFriend.data?.userId).toBe(friends.userId);
   });
 
   test("SUCCESS: Deleted friend", async () => {
-    const friends = await makeFakeFriends(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
-    const addedFriend = await friendsDb.addFriend(friends);
+    await friendsDb.addFriend(friends);
     const deletedFriend = await friendsDb.deleteFriend(
       friends.userId,
       friends.friendId
@@ -61,12 +67,7 @@ describe("friends DB testing", () => {
   });
 
   test("SUCCESS: getting a friend", async () => {
-    const friends = await makeFakeFriends(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
-    const addedFriend = await friendsDb.addFriend(friends);
+    await friendsDb.addFriend(friends);
     const foundAFriend = await friendsDb.getAFriend(
       friends.userId,
       friends.friendId

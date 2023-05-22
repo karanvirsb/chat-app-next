@@ -1,11 +1,13 @@
 import sanitizeHtml from "sanitize-html";
 
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeGroup from "@/server/__test__/fixures/group";
+import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
 import { moderateName } from "../../../Utilities/moderateText";
 import makeGroupDb from "../data-access/group-db";
+import { IGroup } from "../group";
 import makeAddGroup from "./addGroup";
 import makeUpdateGroupName from "./updateGroupName";
 
@@ -27,19 +29,30 @@ describe("Updating group name use case", () => {
     sanitizeName: sanitizeText,
   });
 
+  let group: IGroup;
   beforeAll(async () => {
     // creating user if it does not exist
-    const addedUser = userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     // if user does not exist creat
   });
+  beforeEach(async () => {
+    group = await makeFakeGroup();
+  });
+  afterEach(async () => {
+    await groupTests.deleteTestGroup({
+      groupId: group.groupId,
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+  });
 
   afterAll(async () => {
-    // TODO
-    // // TODO await clearDb("groupt");
-    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    groupTests.deleteTestGroup({
+      groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
@@ -56,11 +69,10 @@ describe("Updating group name use case", () => {
   });
 
   test("ERROR: Update group name no group id", async () => {
-    const group = await makeFakeGroup();
-    const res = await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     try {
-      const updatedGroup = await updateGroupName("", "Coders");
+      await updateGroupName("", "Coders");
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("Group id needs to be supplied");
@@ -68,11 +80,10 @@ describe("Updating group name use case", () => {
   });
 
   test("ERROR: Update group name no new group name", async () => {
-    const group = await makeFakeGroup();
-    const res = await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     try {
-      const updatedGroup = await updateGroupName(group.groupId, "");
+      await updateGroupName(group.groupId, "");
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("A new group name must be supplied");
@@ -80,11 +91,10 @@ describe("Updating group name use case", () => {
   });
 
   test("ERROR: Update group name contains profanity", async () => {
-    const group = await makeFakeGroup();
-    const res = await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     try {
-      const updatedGroup = await updateGroupName(group.groupId, "bullshit");
+      await updateGroupName(group.groupId, "bullshit");
     } catch (error) {
       console.log((error as Error).message);
       if (error instanceof Error) {
@@ -94,14 +104,10 @@ describe("Updating group name use case", () => {
   });
 
   test("ERROR: Update group name contains html", async () => {
-    const group = await makeFakeGroup();
-    const res = await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     try {
-      const updatedGroup = await updateGroupName(
-        group.groupId,
-        "<html>n</html>"
-      );
+      await updateGroupName(group.groupId, "<html>n</html>");
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("Group name must contain valid characters");
@@ -109,11 +115,10 @@ describe("Updating group name use case", () => {
   });
 
   test("ERROR: Update group name must be between 3 - 50 characters", async () => {
-    const group = await makeFakeGroup();
-    const res = await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     try {
-      const updatedGroup = await updateGroupName(
+      await updateGroupName(
         group.groupId,
         "123456789012345678901234567890123456789012345678901234567890"
       );

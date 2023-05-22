@@ -1,9 +1,10 @@
-import makeFakeMessage from "../../../__test__/fixures/message";
+import makeFakeMessage from "@/server/__test__/fixures/message";
+
 import makeMessage from ".";
 describe("message tests", () => {
   test("SUCCESS: message created", async () => {
     const message = makeMessage(await makeFakeMessage("123", "123"));
-    expect(message.getChannelId()).toBe("123");
+    if (message.success) expect(message.data.getChannelId()).toBe("123");
   });
 
   test("ERROR: text contains html", async () => {

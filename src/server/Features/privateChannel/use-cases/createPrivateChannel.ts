@@ -11,12 +11,6 @@ type props = {
   handleModeration: handleModerationType;
 };
 
-type returnData = Promise<{
-  success: boolean;
-  data: IPrivateChannel | undefined;
-  error: string;
-}>;
-
 export interface ICreatePrivateChannelUseCase {
   createPrivateChannel: (
     channelInfo: IPrivateChannel

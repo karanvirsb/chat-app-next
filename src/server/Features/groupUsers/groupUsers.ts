@@ -1,4 +1,7 @@
-import { z, ZodError } from "zod";
+import { z } from "zod";
+
+import { EntityReturn } from "@/shared/types/returns";
+
 export const IGroupUserSchema = z.object({
   gId: z.string().min(21),
   lastChecked: z.date(),
@@ -14,7 +17,7 @@ export default function makeGroupUser() {
     uId,
     roles,
     lastChecked,
-  }: IGroupUser) {
+  }: IGroupUser): EntityReturn<IGroupUser> {
     // if (gId === null || gId.length <= 0)
     //   throw new Error("Group Id must be string.");
     // if (uId === null || uId.length <= 0) throw new Error("uId must be string.");
@@ -25,14 +28,20 @@ export default function makeGroupUser() {
 
     const result = IGroupUserSchema.safeParse({ gId, uId, roles, lastChecked });
     if (!result.success) {
-      throw new ZodError<IGroupUser>(result.error.errors);
+      return {
+        success: false,
+        error: result.error,
+      };
     }
 
-    return Object.freeze({
-      getgId: () => gId,
-      getuId: () => uId,
-      getRoles: () => roles,
-      getLastChecked: () => (!lastChecked ? new Date() : lastChecked),
-    });
+    return {
+      success: true,
+      data: Object.freeze({
+        getGId: () => gId,
+        getUId: () => uId,
+        getRoles: () => roles,
+        getLastChecked: () => (!lastChecked ? new Date() : lastChecked),
+      }),
+    };
   };
 }

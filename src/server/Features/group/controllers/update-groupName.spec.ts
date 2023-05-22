@@ -1,12 +1,13 @@
 import sanitizeHtml from "sanitize-html";
 
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeGroup from "@/server/__test__/fixures/group";
+import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
 import { moderateName } from "../../../Utilities/moderateText";
-import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb from "../data-access/group-db";
+import { IGroup } from "../group";
 import makeAddGroup from "../use-cases/addGroup";
 import makeUpdateGroupName from "../use-cases/updateGroupName";
 import makeUpdateGroupNameController from "./update-groupName";
@@ -41,28 +42,37 @@ describe("Update group name controller", () => {
     updateGroupName,
   });
 
+  let group: IGroup;
   beforeAll(async () => {
-    const addedUser = userTests.addTestUserToDB({
+    // creating user if it does not exist
+    await userTests.addTestUserToDB({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    // if user does not exist creat
+  });
+  beforeEach(async () => {
+    group = await makeFakeGroup();
+  });
+  afterEach(async () => {
+    await groupTests.deleteTestGroup({
+      groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
   });
 
   afterAll(async () => {
-    // TODO
-    // // TODO await clearDb("groupt");
-    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    groupTests.deleteTestGroup({
+      groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
   });
 
   test("SUCCESS: update group name", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const groupRequest = {
       body: {
         groupId: group.groupId,
@@ -81,11 +91,7 @@ describe("Update group name controller", () => {
   });
 
   test("ERROR: group id was not given for updateGroupNameController", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const groupRequest = {
       body: {
         groupId: "",
@@ -106,11 +112,7 @@ describe("Update group name controller", () => {
   });
 
   test("ERROR: group name was not given for updateGroupNameController", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const groupRequest = {
       body: {
         groupId: group.groupId,
@@ -131,11 +133,7 @@ describe("Update group name controller", () => {
   });
 
   test("ERROR: contains profanity:  updateGroupNameController", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const groupRequest = {
       body: {
         groupId: group.groupId,
@@ -155,11 +153,7 @@ describe("Update group name controller", () => {
   });
 
   test("ERROR: contains html:  updateGroupNameController", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const groupRequest = {
       body: {
         groupId: group.groupId,
@@ -181,11 +175,7 @@ describe("Update group name controller", () => {
   });
 
   test("ERROR: name needs to be between 3 to 50 characters:  updateGroupNameController", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const groupRequest = {
       body: {
         groupId: group.groupId,

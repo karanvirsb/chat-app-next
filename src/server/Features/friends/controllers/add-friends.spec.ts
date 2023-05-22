@@ -1,9 +1,11 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakeFriends from "@/server/__test__/fixures/friends";
 import userTests from "@/server/__test__/functions/user";
 
 import makeFriendsDb from "../data-access/friends-db";
+import { IFriends } from "../friends";
 import makeAddFriend from "../use-cases/addFriend";
+import makeDeleteFriend from "../use-cases/deleteFriend";
 import makeAddFriendController from "./add-friends";
 
 describe("Adding friend controller", () => {
@@ -18,46 +20,42 @@ describe("Adding friend controller", () => {
     "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     "3443c648-3323-4d6b-8830-c8a1b66a043a",
   ];
+  const deleteFriends = makeDeleteFriend({ friendsDb });
+  let friend: IFriends;
+
   beforeAll(async () => {
-    const fakeUser = await userTests.addTestUserToDB({ userId: users[0] });
-    const fakeUser1 = await userTests.addTestUserToDB({
-      userId: users[1],
-    });
-    const fakeUser2 = await userTests.addTestUserToDB({
-      userId: users[2],
-    });
-    const fakeUser3 = await userTests.addTestUserToDB({
-      userId: users[3],
-    });
+    await userTests.addTestUserToDB({ userId: users[0] });
+    await userTests.addTestUserToDB({ userId: users[1] });
+    await userTests.addTestUserToDB({ userId: users[2] });
+  });
+
+  beforeEach(async () => {
+    friend = await makeFakeFriends(
+      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+      "312c0878-04c3-4585-835e-c66900ccc7a1"
+    );
   });
 
   afterEach(async () => {
-    // // TODO await clearDb("friends");
+    await deleteFriends(
+      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+      "312c0878-04c3-4585-835e-c66900ccc7a1"
+    );
   });
-  afterAll(async () => {
-    // TODO
-    // // TODO await clearDb("friends");
 
-    const deletedFakeUser = await userTests.addTestUserToDB({
+  afterAll(async () => {
+    await userTests.addTestUserToDB({
       userId: users[0],
     });
-    const deletedFakeUser1 = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: users[1],
     });
-    const deletedFakeUser2 = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: users[2],
-    });
-    const deletedFakeUser3 = await userTests.addTestUserToDB({
-      userId: users[3],
     });
   });
 
   test("SUCCESS: adding friend", async () => {
-    const friend = await makeFakeFriends(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
     const friendRequest = {
       body: { userId: friend.userId, friendId: friend.friendId },
       headers: {},
@@ -73,11 +71,6 @@ describe("Adding friend controller", () => {
   });
 
   test("ERROR: user id missing", async () => {
-    const friend = await makeFakeFriends(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
     const friendRequest = {
       body: { userId: "", friendId: friend.friendId },
       headers: {},
@@ -93,11 +86,6 @@ describe("Adding friend controller", () => {
   });
 
   test("ERROR: friend id missing", async () => {
-    const friend = await makeFakeFriends(
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
-      "312c0878-04c3-4585-835e-c66900ccc7a1"
-    );
-
     const friendRequest = {
       body: { userId: friend.userId, friendId: "" },
       headers: {},

@@ -18,7 +18,9 @@ type returnData = Promise<{
 }>;
 
 export interface ICreatePrivateChannelUseCase {
-  createPrivateChannel: (channelInfo: IPrivateChannel) => Promise<returnData>;
+  createPrivateChannel: (
+    channelInfo: IPrivateChannel
+  ) => Promise<UseCaseReturn<IPrivateChannel>>;
 }
 
 export default function makeCreatePrivateChannel({
@@ -27,10 +29,11 @@ export default function makeCreatePrivateChannel({
 }: props): ICreatePrivateChannelUseCase["createPrivateChannel"] {
   return async function createPrivateChannel(
     channelInfo: IPrivateChannel
-  ): Promise<returnData> {
+  ): Promise<UseCaseReturn<IPrivateChannel>> {
     const channel = makeChannel(channelInfo);
+    if (!channel.success) return channel;
 
-    const moderatedName = await handleModeration(channel.getChannelName());
+    const moderatedName = await handleModeration(channel.data.getChannelName());
 
     if (moderatedName) {
       throw new Error("Channel name contains profanity");
@@ -41,7 +44,7 @@ export default function makeCreatePrivateChannel({
     }
 
     const privateChannelExists = await privateChannelDb.getPrivateChannelById(
-      channel.getChannelId()
+      channel.data.getChannelId()
     );
 
     if (
@@ -52,12 +55,12 @@ export default function makeCreatePrivateChannel({
     }
 
     return await privateChannelDb.createPrivateChannel({
-      channelId: channel.getChannelId(),
-      channelName: channel.getChannelName(),
-      dateCreated: channel.getDateCreated(),
-      userId: channel.getUserId(),
-      friendsId: channel.getFriendsId(),
-      lastActive: channel.getLastActive(),
+      channelId: channel.data.getChannelId(),
+      channelName: channel.data.getChannelName(),
+      dateCreated: channel.data.getDateCreated(),
+      userId: channel.data.getUserId(),
+      friendsId: channel.data.getFriendsId(),
+      lastActive: channel.data.getLastActive(),
     });
   };
 }

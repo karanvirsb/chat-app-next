@@ -31,7 +31,7 @@ export default function makeDeletePrivateMessageController({
         statusCode: 200,
         body: deletedMessage,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

@@ -37,7 +37,7 @@ async function getChannelRequest(
       statusCode: 200,
       body: foundChannel,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
@@ -69,7 +69,7 @@ async function createChannelRequest(
       statusCode: 200,
       body: createdChannel,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
@@ -95,7 +95,7 @@ async function deleteChannelRequest(
       statusCode: 200,
       body: deletedChannel,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

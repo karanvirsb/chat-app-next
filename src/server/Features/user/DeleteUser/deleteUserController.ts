@@ -21,7 +21,7 @@ export default function makeDeleteUserController({
         statusCode: 200,
         body: deletedUser,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

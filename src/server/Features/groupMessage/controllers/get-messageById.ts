@@ -29,7 +29,7 @@ export default function makeGetMessageByIdController({
         statusCode: 200,
         body: foundMessage,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

@@ -22,7 +22,7 @@ export default function makeEditUser({ editUser }: IEditUserUseCase) {
         statusCode: 200,
         body: edittedUser,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

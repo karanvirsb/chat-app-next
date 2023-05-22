@@ -27,7 +27,7 @@ async function getGroupByInviteCodeRequest(
       statusCode: 200,
       body: foundGroup,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

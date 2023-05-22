@@ -31,7 +31,7 @@ export default function makeGetPrivateChannelByIdController({
         statusCode: 200,
         body: foundChannel,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

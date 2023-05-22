@@ -42,7 +42,7 @@ async function createGroupUserRequest(
       statusCode: 200,
       body: createdGroupUser,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
@@ -69,7 +69,7 @@ async function deleteGroupUserRequest(
       statusCode: 200,
       body: deletedGroupUser,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
@@ -101,7 +101,7 @@ async function updateGroupUserRequest(
       statusCode: 200,
       body: updatedGroupUser,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

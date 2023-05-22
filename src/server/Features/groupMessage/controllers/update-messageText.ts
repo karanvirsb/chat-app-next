@@ -32,7 +32,7 @@ export default function makeUpdateMessageTextController({
         statusCode: 200,
         body: updatedMessage,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

@@ -36,7 +36,7 @@ async function createChannelRequest(
       statusCode: 200,
       body: createdChannel,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

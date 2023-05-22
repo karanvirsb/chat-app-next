@@ -31,7 +31,7 @@ export default function makeGetChannelsByGroupIdController({
         statusCode: 200,
         body: foundChannels,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

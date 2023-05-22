@@ -31,7 +31,7 @@ export default function makeCreatePrivateChannelController({
         statusCode: 200,
         body: addedChannel,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

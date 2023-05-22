@@ -27,7 +27,7 @@ async function getGroupsByUserIdRequest(
       statusCode: 200,
       body: foundGroups,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

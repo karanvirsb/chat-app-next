@@ -27,7 +27,7 @@ async function getGroupMessage(
       statusCode: 200,
       body: foundMessage,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

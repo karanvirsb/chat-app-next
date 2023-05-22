@@ -29,7 +29,7 @@ export default function makeCreateChannelController({
         statusCode: 200,
         body: addedChannel,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

@@ -28,7 +28,7 @@ async function addGroupRequest(
       statusCode: 200,
       body: addedGroup,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
@@ -54,7 +54,7 @@ async function updateGroupRequest(
       statusCode: 200,
       body: updatedGroup,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

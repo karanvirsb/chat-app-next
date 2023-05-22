@@ -65,7 +65,7 @@ export default function makeUsersDb({ makeDb }: props) {
           error: "Could not find any user with that id",
         };
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return { success: false, data: undefined, error: error };
     } finally {
@@ -116,7 +116,7 @@ export default function makeUsersDb({ makeDb }: props) {
           error: "Could not update user",
         };
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return { success: false, data: undefined, error: error };
     } finally {
@@ -145,7 +145,7 @@ export default function makeUsersDb({ makeDb }: props) {
           error: "Could not update user",
         };
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return { success: false, data: undefined, error: error };
     } finally {

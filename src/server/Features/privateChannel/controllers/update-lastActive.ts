@@ -32,7 +32,7 @@ export default function makeUpdateLastActiveController({
         statusCode: 200,
         body: updatedChannel,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

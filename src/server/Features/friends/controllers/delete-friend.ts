@@ -32,7 +32,7 @@ export default function makeDeleteFriendController({
         statusCode: 200,
         body: deletedFriend,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

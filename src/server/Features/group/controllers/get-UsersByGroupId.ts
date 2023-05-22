@@ -29,7 +29,7 @@ export default function makeGetUsersByGroupIdController({
         statusCode: 200,
         body: foundUsers,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

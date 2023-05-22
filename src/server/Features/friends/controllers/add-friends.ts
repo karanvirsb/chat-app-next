@@ -32,7 +32,7 @@ export default function makeAddFriendController({
         statusCode: 200,
         body: addedFriend,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

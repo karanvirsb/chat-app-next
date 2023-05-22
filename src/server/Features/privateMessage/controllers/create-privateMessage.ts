@@ -31,7 +31,7 @@ export default function makeCreatePrivateMessageController({
         statusCode: 200,
         body: createdMessage,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

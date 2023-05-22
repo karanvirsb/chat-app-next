@@ -19,7 +19,7 @@ export default function makePostUser({ addUser }: IAddUserUseCase) {
         statusCode: 200,
         body: addedUser,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

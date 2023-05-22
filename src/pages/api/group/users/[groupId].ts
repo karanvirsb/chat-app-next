@@ -27,7 +27,7 @@ async function getUsersByGroupIdRequest(
       statusCode: 200,
       body: users,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

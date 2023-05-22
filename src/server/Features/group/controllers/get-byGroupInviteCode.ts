@@ -31,7 +31,7 @@ export default function makeGetGroupByInviteCodeController({
         statusCode: 200,
         body: foundGroup,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

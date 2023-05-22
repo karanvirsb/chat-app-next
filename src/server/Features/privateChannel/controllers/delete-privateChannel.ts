@@ -31,7 +31,7 @@ export default function makeDeletePrivateChannelController({
         statusCode: 200,
         body: deletedChannel,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

@@ -27,7 +27,7 @@ async function getChannelsByGroupIdRequest(
       statusCode: 200,
       body: foundChannels,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

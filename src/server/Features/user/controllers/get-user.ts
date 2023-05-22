@@ -19,7 +19,7 @@ export default function makeGetUser({ getUser }: IGetUserUseCase) {
         statusCode: 200,
         body: user,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

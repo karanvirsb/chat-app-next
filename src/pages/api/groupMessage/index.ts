@@ -39,7 +39,7 @@ async function createGroupMessage(
       statusCode: 200,
       body: createdMessage,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
@@ -65,7 +65,7 @@ async function deleteGroupMessage(
       statusCode: 200,
       body: deletedMessage,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
@@ -91,7 +91,7 @@ async function updateGroupMessage(
       statusCode: 200,
       body: updatedMessage,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

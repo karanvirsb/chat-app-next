@@ -44,7 +44,7 @@ export default function makeGetMessagesByChannelIdController({
         statusCode: 200,
         body: foundMessages,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
       return {
         headers,

@@ -29,7 +29,7 @@ async function getGroupRequest(
       statusCode: 200,
       body: foundGroup,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,
@@ -55,7 +55,7 @@ async function deleteGroupRequest(
       statusCode: 200,
       body: deletedGroup,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.json({
       headers,
       statusCode: 400,

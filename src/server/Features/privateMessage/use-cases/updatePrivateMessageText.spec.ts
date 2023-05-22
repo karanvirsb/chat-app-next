@@ -81,14 +81,10 @@ describe("updating private message text use case", () => {
   });
 
   test("ERROR: missing text ", async () => {
-    const message = await makeFakePrivateMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-    const insertedMessage = await createMessage(message);
+    await createMessage(message);
 
     try {
-      const updateMessage = await updateMessageText(message.messageId, "");
+      await updateMessageText(message.messageId, "");
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("Update Value needs to be supplied.");

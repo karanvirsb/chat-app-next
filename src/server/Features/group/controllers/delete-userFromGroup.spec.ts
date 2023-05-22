@@ -1,10 +1,11 @@
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeGroup from "@/server/__test__/fixures/group";
+import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
 import { moderateName } from "../../../Utilities/moderateText";
-import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb from "../data-access/group-db";
+import { IGroup } from "../group";
 import makeAddGroup from "../use-cases/addGroup";
 import makeRemoveUserFromGroup from "../use-cases/removeUserFromGroup";
 import makeDeleteUserFromGroupController from "./delete-userFromGroup";
@@ -32,31 +33,36 @@ describe("Remove user from group controller", () => {
     removeUserFromGroup,
   });
 
+  let group: IGroup;
   beforeAll(async () => {
-    const addedUser = userTests.addTestUserToDB({
+    // creating user if it does not exist
+    await userTests.addTestUserToDB({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
-    // user: {
-    //       user_id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
-    //       email: "anTest@gmai.com",
-    //       password: "123",
-    //       time_joined: Date.now(),
-    //     },
-    // if user does not exist create
+    // if user does not exist creat
+  });
+  beforeEach(async () => {
+    group = await makeFakeGroup();
+  });
+  afterEach(async () => {
+    await groupTests.deleteTestGroup({
+      groupId: group.groupId,
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
   });
 
   afterAll(async () => {
-    // TODO
-    // // TODO await clearDb("groupt");
-    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    groupTests.deleteTestGroup({
+      groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
   });
 
   test("SUCCESS: remove user from group", async () => {
-    const group = await makeFakeGroup();
     const groupRequest = {
       body: {
         groupId: group.groupId,
@@ -70,10 +76,7 @@ describe("Remove user from group controller", () => {
       query: {},
     };
 
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const deletedUser = await deleteUserFromGroupController(groupRequest);
     expect(deletedUser.body.data?.uId).toBe(
       "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
@@ -81,7 +84,6 @@ describe("Remove user from group controller", () => {
   });
 
   test("ERROR: missing group id to the group", async () => {
-    const group = await makeFakeGroup();
     const groupRequest = {
       body: {
         groupId: "",
@@ -95,10 +97,7 @@ describe("Remove user from group controller", () => {
       query: {},
     };
 
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const deletedUser = await deleteUserFromGroupController(groupRequest);
     expect(deletedUser.body.error).toBe("Group Id needs to be supplied");
   });
@@ -118,10 +117,7 @@ describe("Remove user from group controller", () => {
       query: {},
     };
 
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     const deletedUser = await deleteUserFromGroupController(groupRequest);
     expect(deletedUser.body.error).toBe("User Id needs to be supplied");
   });

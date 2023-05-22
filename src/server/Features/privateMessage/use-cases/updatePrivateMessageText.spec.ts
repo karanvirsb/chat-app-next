@@ -1,11 +1,12 @@
-import makeDb, { clearDb } from "@/server/__test__/fixures/db";
+import makeDb from "@/server/__test__/fixures/db";
 import makeFakePrivateMessage from "@/server/__test__/fixures/privateMessage";
 import privateChannelTests from "@/server/__test__/functions/privateChannel";
 import userTests from "@/server/__test__/functions/user";
 
-import makePrivateChannelDb from "../../privateChannel/data-access/privateChannel-db";
 import makePrivateMessageDb from "../data-access/privateMessage-db";
+import { IPrivateMessage } from "../privateMessage";
 import makeCreatePrivateMessage from "./createPrivateMessage";
+import makeDeletePrivateMessage from "./deletePrivateMessage";
 import makeUpdatePrivateMessageText from "./updatePrivateMessageText";
 
 describe("updating private message text use case", () => {
@@ -16,41 +17,49 @@ describe("updating private message text use case", () => {
     privateMessageDb,
   });
 
+  const deletePrivateMessage = makeDeletePrivateMessage({ privateMessageDb });
+  let message: IPrivateMessage;
+
   jest.setTimeout(30000);
   beforeAll(async () => {
-    const addedUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const secondUser = await userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
-    const privateChannel = await privateChannelTests.createTestPrivateChannel({
+    await privateChannelTests.createTestPrivateChannel({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       friendsId: "312c0878-04c3-4585-835e-c66900ccc7a1",
       channelId: "123",
     });
   });
 
+  beforeEach(async () => {
+    message = await makeFakePrivateMessage(
+      "123",
+      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+    );
+  });
+
+  afterEach(async () => {
+    await deletePrivateMessage(message.messageId);
+  });
+
   afterAll(async () => {
-    // TODO await clearDb("private_messages");
-    const deletedPrivateChannel =
-      await privateChannelTests.deleteTestPrivateChannel({
-        channelId: "123",
-      });
-    const deletedUser = await userTests.deleteTestUser({
+    await privateChannelTests.deleteTestPrivateChannel({
+      channelId: "123",
+    });
+    await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
-    const deletedSecondUser = await userTests.deleteTestUser({
+    await userTests.deleteTestUser({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
     });
   });
 
   test("SUCCESS: updating a message text", async () => {
-    const message = await makeFakePrivateMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-    const insertedMessage = await createMessage(message);
+    await createMessage(message);
 
     const updatedMessage = await updateMessageText(
       message.messageId,
@@ -61,14 +70,10 @@ describe("updating private message text use case", () => {
   });
 
   test("ERROR: missing message id ", async () => {
-    const message = await makeFakePrivateMessage(
-      "123",
-      "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
-    );
-    const insertedMessage = await createMessage(message);
+    await createMessage(message);
 
     try {
-      const updateMessage = await updateMessageText("", "Coding");
+      await updateMessageText("", "Coding");
     } catch (error) {
       if (error instanceof Error)
         expect(error.message).toBe("Message Id needs to be supplied.");

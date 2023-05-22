@@ -51,7 +51,7 @@ describe("Updating group name use case", () => {
     await userTests.deleteTestUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
-    groupTests.deleteTestGroup({
+    await groupTests.deleteTestGroup({
       groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });

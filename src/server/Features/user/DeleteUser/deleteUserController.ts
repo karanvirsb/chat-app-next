@@ -29,7 +29,7 @@ export default function makeDeleteUserController({
         body: {
           success: false,
           data: [],
-          error: error.message,
+          error,
         },
       };
     }

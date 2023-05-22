@@ -27,7 +27,7 @@ export default function makeGetUser({ getUser }: IGetUserUseCase) {
         body: {
           success: false,
           data: [],
-          error: error.message,
+          error,
         },
       };
     }

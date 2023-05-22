@@ -49,7 +49,7 @@ async function createGroupUserRequest(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }
@@ -76,7 +76,7 @@ async function deleteGroupUserRequest(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }
@@ -108,7 +108,7 @@ async function updateGroupUserRequest(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }

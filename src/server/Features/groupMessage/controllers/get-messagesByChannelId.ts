@@ -52,7 +52,7 @@ export default function makeGetMessagesByChannelIdController({
         body: {
           success: false,
           data: undefined,
-          error: error.message,
+          error,
         },
       };
     }

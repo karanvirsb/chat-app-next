@@ -39,7 +39,7 @@ export default function makeGetPrivateChannelByIdController({
         body: {
           success: false,
           data: undefined,
-          error: error.message,
+          error,
         },
       };
     }

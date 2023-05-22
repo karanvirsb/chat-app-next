@@ -37,7 +37,7 @@ export default function makeCreateChannelController({
         body: {
           success: false,
           data: undefined,
-          error: error.message,
+          error,
         },
       };
     }

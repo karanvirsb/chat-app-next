@@ -40,7 +40,7 @@ export default function makeUpdatePrivateMessageTextController({
         body: {
           success: false,
           data: undefined,
-          error: error.message,
+          error,
         },
       };
     }

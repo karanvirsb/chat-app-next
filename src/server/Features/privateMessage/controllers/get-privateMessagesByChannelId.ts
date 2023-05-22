@@ -41,7 +41,7 @@ export default function makeGetPrivateMessagesByChannelIdController({
         body: {
           success: false,
           data: undefined,
-          error: error.message,
+          error,
         },
       };
     }

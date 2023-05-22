@@ -34,7 +34,7 @@ async function getGroupsByUserIdRequest(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }

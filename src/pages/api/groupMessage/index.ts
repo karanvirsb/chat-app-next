@@ -46,7 +46,7 @@ async function createGroupMessage(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }
@@ -72,7 +72,7 @@ async function deleteGroupMessage(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }
@@ -98,7 +98,7 @@ async function updateGroupMessage(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }

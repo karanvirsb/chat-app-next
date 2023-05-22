@@ -30,7 +30,7 @@ export function makeDeleteGroupUserController({
         return {
           headers,
           statusCode: 400,
-          body: { success: false, data: undefined, error: error.message },
+          body: { success: false, data: undefined, error },
         };
       } else {
         return {

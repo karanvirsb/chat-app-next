@@ -27,7 +27,7 @@ export default function makePostUser({ addUser }: IAddUserUseCase) {
         body: {
           success: false,
           data: [],
-          error: error.message,
+          error,
         },
       };
     }

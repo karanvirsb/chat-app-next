@@ -38,7 +38,7 @@ export default function makeGetGroupsByUserIdController({
         body: {
           success: false,
           data: undefined,
-          error: error.message,
+          error,
         },
       };
     }

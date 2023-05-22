@@ -34,7 +34,7 @@ async function getGroupMessage(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }

@@ -43,7 +43,7 @@ async function createChannelRequest(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }

@@ -40,7 +40,7 @@ export default function makeAddFriendController({
         body: {
           success: false,
           data: undefined,
-          error: error.message,
+          error,
         },
       };
     }

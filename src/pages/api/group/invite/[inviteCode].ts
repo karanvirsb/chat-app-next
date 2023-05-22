@@ -34,7 +34,7 @@ async function getGroupByInviteCodeRequest(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }

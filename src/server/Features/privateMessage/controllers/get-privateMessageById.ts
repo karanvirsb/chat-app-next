@@ -39,7 +39,7 @@ export default function makeGetPrivateMessageByIdController({
         body: {
           success: false,
           data: undefined,
-          error: error.message,
+          error,
         },
       };
     }

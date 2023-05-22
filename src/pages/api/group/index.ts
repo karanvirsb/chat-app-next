@@ -35,7 +35,7 @@ async function addGroupRequest(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }
@@ -61,7 +61,7 @@ async function updateGroupRequest(
       body: {
         success: false,
         data: undefined,
-        error: error.message,
+        error,
       },
     });
   }

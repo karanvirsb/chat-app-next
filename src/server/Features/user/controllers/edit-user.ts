@@ -30,7 +30,7 @@ export default function makeEditUser({ editUser }: IEditUserUseCase) {
         body: {
           success: false,
           data: [],
-          error: error.message,
+          error,
         },
       };
     }

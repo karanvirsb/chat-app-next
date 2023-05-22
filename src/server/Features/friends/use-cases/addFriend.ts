@@ -6,14 +6,11 @@ type props = {
   friendsDb: IMakeFriendsDb["returnType"];
 };
 
-type returnData = Promise<{
-  success: boolean;
-  data: undefined | IFriends;
-  error: string;
-}>;
-
 export interface IAddFriendsUseCase {
-  addFriend: (userId: string, friendId: string) => returnData;
+  addFriend: (
+    userId: string,
+    friendId: string
+  ) => Promise<UseCaseReturn<IFriends>>;
 }
 
 export default function makeAddFriend({
@@ -25,6 +22,9 @@ export default function makeAddFriend({
       friendId,
       dateAdded: new Date(),
     });
+
+    if (!friends.success) return friends;
+
     const foundFriends = await friendsDb.getAFriend(userId, friendId);
 
     if (foundFriends.success && foundFriends.data !== undefined) {
@@ -32,9 +32,9 @@ export default function makeAddFriend({
     }
 
     return await friendsDb.addFriend({
-      userId: friends.getUserId(),
-      friendId: friends.getFriendsId(),
-      dateAdded: friends.getDateAdded(),
+      userId: friends.data.getUserId(),
+      friendId: friends.data.getFriendId(),
+      dateAdded: friends.data.getDateAdded(),
     });
   };
 }

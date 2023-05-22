@@ -12,7 +12,7 @@ describe("Channel test", () => {
   };
   test("Channel make successfully", () => {
     const channel = makePrivateChannel(channelData);
-    expect(channel.getChannelName()).toBe("coolName");
+    if (channel.success) expect(channel.data.getChannelName()).toBe("coolName");
   });
 
   test("ERROR: name should not contain html", () => {

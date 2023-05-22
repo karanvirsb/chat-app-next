@@ -62,7 +62,7 @@ describe("Testing create group user use case", () => {
     });
   });
   it("SUCCESS: Created group user", async () => {
-    const createGroupMocked = jest.fn(createGroupDb);
+    const createGroupMocked = vi.fn(createGroupDb);
     createGroupMocked.mockResolvedValueOnce(
       Promise.resolve({
         success: true,
@@ -91,7 +91,7 @@ describe("Testing create group user use case", () => {
   });
 
   it("ERROR: Created group user does not have group id", async () => {
-    const createGroupMocked = jest.fn(createGroupDb);
+    const createGroupMocked = vi.fn(createGroupDb);
 
     const createGroupUseCase = makeCreateGroupUseCase({
       createGroupDb: createGroupMocked,

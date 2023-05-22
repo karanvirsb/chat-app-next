@@ -36,7 +36,7 @@ describe("Testing deleting group user DB", () => {
 
 describe("Test Delete group user use case", () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
-  const deleteGroupUserMockedDBA = jest.fn(deleteGroupUserDBA);
+  const deleteGroupUserMockedDBA = vi.fn(deleteGroupUserDBA);
   deleteGroupUserMockedDBA.mockResolvedValueOnce(
     Promise.resolve({
       success: true,
@@ -96,7 +96,7 @@ describe("Test Delete group user controller", () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
 
   const deleteGroupUserUC = makeDeleteGroupUserUC({ deleteGroupUserDBA });
-  const deleteGroupUserUCMock = jest.fn<typeof deleteGroupUserUC, []>();
+  const deleteGroupUserUCMock = vi.fn<typeof deleteGroupUserUC, []>();
   deleteGroupUserUCMock.mockImplementation(() => ({ groupId, userId }) => {
     return Promise.resolve({
       success: true,

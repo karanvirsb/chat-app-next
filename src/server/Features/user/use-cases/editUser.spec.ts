@@ -10,11 +10,11 @@ const handleModeration = async (name: string) => {
   return await moderateName(name);
 };
 describe("Edit Users use case", () => {
-  jest.setTimeout(50000);
+  visetTimeout(50000);
   let usersDb = makeUsersDb({ makeDb });
   const editUser = makeEditUser({ usersDb, handleModeration });
 
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   beforeAll(async () => {
     usersDb = makeUsersDb({ makeDb });
   });
@@ -25,7 +25,7 @@ describe("Edit Users use case", () => {
     });
   });
 
-  jest.setTimeout(50000);
+  visetTimeout(50000);
   afterAll(async () => {
     await userTests.deleteTestUser({
       userId: "12345678910",

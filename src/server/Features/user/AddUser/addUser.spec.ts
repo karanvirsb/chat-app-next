@@ -28,7 +28,7 @@ describe("Add User case", () => {
     await closeDb();
   });
 
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   it("User added successfully", async () => {
     const user = await makeFakeUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",

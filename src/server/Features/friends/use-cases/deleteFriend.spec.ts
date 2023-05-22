@@ -12,7 +12,7 @@ describe("Delete friend use case", () => {
   const addFriend = makeAddFriend({ friendsDb });
   const deleteFriends = makeDeleteFriend({ friendsDb });
 
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   const users = [
     "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     "312c0878-04c3-4585-835e-c66900ccc7a1",

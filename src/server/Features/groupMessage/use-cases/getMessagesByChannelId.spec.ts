@@ -19,7 +19,7 @@ describe("Getting messages by channel id use case", () => {
   let message: IGroupMessage;
 
   beforeAll(async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
@@ -58,7 +58,7 @@ describe("Getting messages by channel id use case", () => {
   });
 
   test("SUCCESS: getting a message", async () => {
-    jest.setTimeout(15000);
+    visetTimeout(15000);
     await createMessage(message);
 
     const foundMessage = await getMessagesByChannelId(

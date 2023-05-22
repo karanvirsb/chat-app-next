@@ -6,11 +6,11 @@ import makeUsersDb from "../data-access/users-db";
 import makeGetUser from "./getUser";
 
 describe("Get use case", () => {
-  jest.setTimeout(50000);
+  visetTimeout(50000);
   let usersDb = makeUsersDb({ makeDb });
   const getUser = makeGetUser({ usersDb });
 
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   beforeAll(async () => {
     usersDb = makeUsersDb({ makeDb });
   });
@@ -21,7 +21,7 @@ describe("Get use case", () => {
     });
   });
 
-  jest.setTimeout(3000);
+  visetTimeout(3000);
   afterAll(async () => {
     await userTests.deleteTestUser({
       userId: "12345678910",

@@ -37,7 +37,7 @@ describe("Delete private channel controller", () => {
   let channel: IPrivateChannel;
 
   beforeAll(async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });

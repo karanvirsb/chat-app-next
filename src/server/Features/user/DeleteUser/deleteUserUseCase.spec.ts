@@ -10,7 +10,7 @@ describe("Delete use case", () => {
   let usersDb = makeUsersDb({ makeDb });
   const deleteUser = makeDeleteUser({ usersDb });
   let user: IUser;
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   beforeAll(async () => {
     user = await makeFakeUser({ userId: "12345678910" });
     usersDb = makeUsersDb({ makeDb });
@@ -22,7 +22,7 @@ describe("Delete use case", () => {
     });
   });
 
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   afterAll(async () => {
     await userTests.deleteTestUser({
       userId: "12345678910",

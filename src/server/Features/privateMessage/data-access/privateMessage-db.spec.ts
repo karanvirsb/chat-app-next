@@ -8,12 +8,12 @@ import { IPrivateMessage } from "../privateMessage";
 import makePrivateMessageDb from "./privateMessage-db";
 
 describe("Private Message db method tests", () => {
-  jest.setTimeout(10000);
+  visetTimeout(10000);
   const messageDB = makePrivateMessageDb({ makeDb });
 
   let message: IPrivateMessage;
 
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   beforeAll(async () => {
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
@@ -51,7 +51,7 @@ describe("Private Message db method tests", () => {
     });
   });
   test("SUCCESS: creating a message", async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     const message = await makeFakePrivateMessage(
       "123",
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
@@ -62,7 +62,7 @@ describe("Private Message db method tests", () => {
   });
 
   test("SUCCESS: deleting a message", async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await messageDB.createPrivateMessage(message);
     const deletedMessage = await messageDB.deletePrivateMessage(
       message.messageId
@@ -71,7 +71,7 @@ describe("Private Message db method tests", () => {
   });
 
   test("SUCCESS: getting message by id", async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await messageDB.createPrivateMessage(message);
     const foundMessage = await messageDB.getPrivateMessageById(
       message.messageId
@@ -79,7 +79,7 @@ describe("Private Message db method tests", () => {
     expect(foundMessage.data?.text).toBe(message.text);
   });
 
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   test("SUCCESS: getting messages by channel id", async () => {
     let message = await makeFakePrivateMessage(
       "123",
@@ -107,7 +107,7 @@ describe("Private Message db method tests", () => {
   });
 
   test("SUCCESS: updating message", async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await messageDB.createPrivateMessage(message);
     const updatedMessage = await messageDB.updatePrivateMessage(
       "text",
@@ -118,7 +118,7 @@ describe("Private Message db method tests", () => {
   });
 
   test("SUCCESS: updating message date", async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await messageDB.createPrivateMessage(message);
     const updatedMessage = await messageDB.updatePrivateMessage(
       "dateModified",

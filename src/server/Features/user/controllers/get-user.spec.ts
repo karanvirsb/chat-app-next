@@ -23,7 +23,7 @@ describe("Get user controller", () => {
     });
   });
 
-  jest.setTimeout(3000);
+  visetTimeout(3000);
   afterAll(async () => {
     await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",

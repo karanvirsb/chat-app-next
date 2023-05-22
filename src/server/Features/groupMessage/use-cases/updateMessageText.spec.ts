@@ -11,7 +11,7 @@ import makeDeleteMessage from "./deleteMessage";
 import makeUpdateMessageText from "./updateMessageText";
 
 describe("updating message text use case", () => {
-  jest.setTimeout(15000);
+  visetTimeout(15000);
   const messageDb = makeMessageDb({ makeDb });
   const createMessage = makeCreateMessage({ messageDb });
   const updateMessageText = makeUpdateMessageText({ messageDb });
@@ -20,7 +20,7 @@ describe("updating message text use case", () => {
   let message: IGroupMessage;
 
   beforeAll(async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });

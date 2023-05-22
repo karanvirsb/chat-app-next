@@ -59,7 +59,7 @@ describe("Test Delete group user use case", () => {
 
   afterAll(async () => {
     await deleteTests("123");
-    jest.resetAllMocks();
+    viresetAllMocks();
   });
 
   it("SUCCESS: Delete group user", async () => {

@@ -14,7 +14,7 @@ const handleModeration = async (name: string) => {
 };
 
 describe("Removing user from a group use case", () => {
-  jest.setTimeout(15000);
+  visetTimeout(15000);
   const groupDb = makeGroupDb({ makeDb });
   const addGroup = makeAddGroup({ groupDb, handleModeration });
   const removeUserFromGroup = makeRemoveUserFromGroup({ groupDb });

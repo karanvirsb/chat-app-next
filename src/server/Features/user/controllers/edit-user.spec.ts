@@ -7,7 +7,7 @@ import { IUser } from "../user";
 import { editAnUser } from ".";
 
 describe("Edit user controller", () => {
-  jest.setTimeout(30000);
+  visetTimeout(30000);
   let user: IUser;
   beforeAll(async () => {
     user = await makeFakeUser({
@@ -21,7 +21,7 @@ describe("Edit user controller", () => {
     });
   });
 
-  jest.setTimeout(3000);
+  visetTimeout(3000);
   afterAll(async () => {
     await userTests.deleteTestUser({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",

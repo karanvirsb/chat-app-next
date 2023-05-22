@@ -15,7 +15,7 @@ const handleModeration = async (name: string) => {
 };
 
 describe("Updating invite code of group use case", () => {
-  jest.setTimeout(15000);
+  visetTimeout(15000);
   const groupDb = makeGroupDb({ makeDb });
   const addGroup = makeAddGroup({ groupDb, handleModeration });
   const updateInviteCode = makeUpdateInviteCode({

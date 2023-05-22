@@ -20,7 +20,7 @@ function sanitizeText(text: string) {
 }
 
 describe("Updating group name use case", () => {
-  jest.setTimeout(15000);
+  visetTimeout(15000);
   const groupDb = makeGroupDb({ makeDb });
   const addGroup = makeAddGroup({ groupDb, handleModeration });
   const updateGroupName = makeUpdateGroupName({

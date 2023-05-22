@@ -8,14 +8,14 @@ import makeDeleteChannel from "../use-cases/deleteChannel";
 import makeChannelDb from "./channel-db";
 
 describe("Channel db method tests", () => {
-  jest.setTimeout(10000);
+  visetTimeout(10000);
   const channelDB = makeChannelDb({ makeDb });
 
   const deleteGroupChannel = makeDeleteChannel({ channelDb: channelDB });
   let channel: IGroupChannel;
 
   beforeAll(async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await userTests.addTestUserToDB({ userId: "123" });
     await groupTests.createTestGroup({
       groupId: "123",

@@ -12,7 +12,7 @@ import makeGetChannelById from "../use-cases/getChannelById";
 import makeGetChannelByIdController from "./get-channelbyId";
 
 describe("Get channel by id controller", () => {
-  jest.setTimeout(10000);
+  visetTimeout(10000);
   // const channelRequest = {
   //     body: {},
   //     headers: {},
@@ -38,7 +38,7 @@ describe("Get channel by id controller", () => {
   let channel: IGroupChannel;
 
   beforeAll(async () => {
-    jest.setTimeout(30000);
+    visetTimeout(30000);
     await userTests.addTestUserToDB({ userId: "123" });
     await groupTests.createTestGroup({
       groupId: "123",

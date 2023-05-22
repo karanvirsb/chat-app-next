@@ -1,11 +1,12 @@
-import makeDb, { clearDb, closeDb } from "@/server/__test__/fixures/db";
+import makeDb, { closeDb } from "@/server/__test__/fixures/db";
 import makeFakeGroup from "@/server/__test__/fixures/group";
+import groupTests from "@/server/__test__/functions/group";
 import userTests from "@/server/__test__/functions/user";
 
 import inviteCodeGenerator from "../../../Utilities/inviteCodeGenerator";
 import { moderateName } from "../../../Utilities/moderateText";
-import makeUsersDb from "../../user/data-access/users-db";
 import makeGroupDb from "../data-access/group-db";
+import { IGroup } from "../group";
 import makeAddGroup from "./addGroup";
 import makeUpdateInviteCode from "./updateInviteCode";
 
@@ -22,28 +23,37 @@ describe("Updating invite code of group use case", () => {
     inviteCodeGenerator,
   });
 
+  let group: IGroup;
   beforeAll(async () => {
     // creating user if it does not exist
-    const addedUser = userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     // if user does not exist creat
   });
+  beforeEach(async () => {
+    group = await makeFakeGroup();
+  });
+  afterEach(async () => {
+    await groupTests.deleteTestGroup({
+      groupId: group.groupId,
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+  });
 
   afterAll(async () => {
-    // TODO
-    // // TODO await clearDb("groupt");
-    // // TODO await clearDb('"groupUsers"');
     await userTests.deleteTestUser({
+      userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    });
+    groupTests.deleteTestGroup({
+      groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     await closeDb();
   });
 
   test("SUCCESS: update invite code", async () => {
-    const group = await makeFakeGroup();
-    console.log(group);
-    const res = await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 
     const updatedGroup = await updateInviteCode(group.groupId);
 
@@ -51,13 +61,9 @@ describe("Updating invite code of group use case", () => {
   });
 
   test("ERROR: update invite code group id not given", async () => {
-    const group = await makeFakeGroup();
-    const addedGroup = await addGroup(
-      group,
-      "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
-    );
+    await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
     try {
-      const groupErr = await updateInviteCode("");
+      await updateInviteCode("");
     } catch (err) {
       if (err instanceof Error)
         expect(err.message).toBe("Group Id needs to be supplied");

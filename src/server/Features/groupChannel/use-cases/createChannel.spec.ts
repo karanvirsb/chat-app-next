@@ -34,7 +34,7 @@ describe("creating channel use case", () => {
   });
 
   beforeEach(async () => {
-    channel = await makeFakeChannel();
+    channel = await makeFakeChannel({ groupId: "123" });
   });
 
   afterEach(async () => {
@@ -52,7 +52,6 @@ describe("creating channel use case", () => {
   });
 
   test("SUCCESS: created channel", async () => {
-    channel["groupId"] = "123";
     console.log(new Date().toUTCString());
     const createdChannel = await createChannel(channel);
 
@@ -71,7 +70,6 @@ describe("creating channel use case", () => {
   });
 
   test("ERROR: group id was not provided", async () => {
-    channel["groupId"] = "";
     try {
       await createChannel(channel);
     } catch (err) {

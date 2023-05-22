@@ -11,12 +11,6 @@ type props = {
   handleModeration: handleModerationType;
 };
 
-type returnData = Promise<{
-  success: boolean;
-  data: IGroupChannel | undefined;
-  error: string;
-}>;
-
 export interface ICreateChannelUseCase {
   createChannel: (
     channelInfo: IGroupChannel

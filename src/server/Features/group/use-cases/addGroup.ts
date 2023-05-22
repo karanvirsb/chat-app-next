@@ -8,12 +8,6 @@ type props = {
   handleModeration: handleModerationType;
 };
 
-type returnData = Promise<{
-  success: boolean;
-  data: IGroup | undefined;
-  error: string;
-}>;
-
 export interface IAddGroup {
   addGroup: (
     groupInfo: IGroup,

@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
-import cuid from "cuid";
 
-import { IPrivateMessage } from "../../src/Features/privateMessage/privateMessage";
+import { IPrivateMessage } from "@/server/Features/privateMessage/privateMessage";
+import id from "@/server/Utilities/id";
 
 export default async function makeFakePrivateMessage(
   privateChannelId: string,
@@ -10,7 +10,7 @@ export default async function makeFakePrivateMessage(
   return {
     privateChannelId: privateChannelId,
     dateCreated: new Date(),
-    messageId: cuid(),
+    messageId: id.makeId(),
     text: faker.lorem.lines(1),
     userId: userId,
     dateModified: new Date(),

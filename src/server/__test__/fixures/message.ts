@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
-import cuid from "cuid";
 
-import { IGroupMessage } from "../../src/Features/groupMessage/groupMessage";
+import { IGroupMessage } from "@/server/Features/groupMessage/groupMessage";
+import id from "@/server/Utilities/id";
 
 export default async function makeFakeMessage(
   channelId: string,
@@ -9,11 +9,11 @@ export default async function makeFakeMessage(
 ): Promise<IGroupMessage> {
   return {
     channelId: channelId,
-    dateCreated: new Date(),
-    messageId: cuid(),
+    dateCreated: new Date().getTime(),
+    messageId: id.makeId(),
     text: faker.lorem.lines(1),
     userId: userId,
-    dateModified: new Date(),
+    dateModified: new Date().getTime(),
     replyTo: "",
   };
 }

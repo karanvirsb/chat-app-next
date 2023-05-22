@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
-import cuid from "cuid";
 
-import { IUser } from "../../src/Features/user/user";
+import { IUser } from "@/server/Features/user/user";
+import id from "@/server/Utilities/id";
 
 export default async function makeFakeUser({
   userId,
@@ -11,6 +11,7 @@ export default async function makeFakeUser({
   return {
     userId,
     username: faker.name.firstName() + faker.color.human(),
+    password: id.makeId(),
     status: "online",
   };
 }

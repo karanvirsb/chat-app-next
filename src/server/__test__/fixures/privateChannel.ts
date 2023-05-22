@@ -1,14 +1,14 @@
 import { faker } from "@faker-js/faker";
-import cuid from "cuid";
 
-import { IPrivateChannel } from "../../src/Features/privateChannel/privateChannel";
+import { IPrivateChannel } from "@/server/Features/privateChannel/privateChannel";
+import id from "@/server/Utilities/id";
 
 export default async function makeFakePrivateChannel(
   userId: string,
   friendsId: string
 ): Promise<IPrivateChannel> {
   return {
-    channelId: cuid(),
+    channelId: id.makeId(),
     channelName: faker.animal.cat().toString(),
     dateCreated: new Date(),
     userId,

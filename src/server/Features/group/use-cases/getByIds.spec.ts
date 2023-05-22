@@ -25,7 +25,7 @@ describe("Get use cases", () => {
   let group: IGroup;
   beforeAll(async () => {
     // creating user if it does not exist
-    userTests.addTestUserToDB({
+    await userTests.addTestUserToDB({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
     // if user does not exist creat
@@ -34,14 +34,13 @@ describe("Get use cases", () => {
     group = await makeFakeGroup();
   });
   afterEach(async () => {
-    groupTests.deleteTestGroup({
+    await groupTests.deleteTestGroup({
       groupId: group.groupId,
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
   });
 
   afterAll(async () => {
-    // TODO
     await userTests.deleteTestUser({
       userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
     });
@@ -51,6 +50,7 @@ describe("Get use cases", () => {
     });
     await closeDb();
   });
+
   test("Get group by id", async () => {
     await addGroup(group, "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
 

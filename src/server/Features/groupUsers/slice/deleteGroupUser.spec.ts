@@ -34,11 +34,11 @@ describe("Testing deleting group user DB", () => {
   });
 });
 
-describe("Test Delete group user use case", () => {
+describe("Test Delete group user use case", async () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
   const deleteGroupUserMockedDBA = vi.fn(deleteGroupUserDBA);
   deleteGroupUserMockedDBA.mockResolvedValueOnce(
-    Promise.resolve({
+    await Promise.resolve({
       success: true,
       data: {
         gId: "123",
@@ -59,7 +59,7 @@ describe("Test Delete group user use case", () => {
 
   afterAll(async () => {
     await deleteTests("123");
-    viresetAllMocks();
+    vi.resetAllMocks();
   });
 
   it("SUCCESS: Delete group user", async () => {
@@ -92,23 +92,24 @@ describe("Test Delete group user use case", () => {
   });
 });
 
-describe("Test Delete group user controller", () => {
+describe("Test Delete group user controller", async () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
 
   const deleteGroupUserUC = makeDeleteGroupUserUC({ deleteGroupUserDBA });
-  const deleteGroupUserUCMock = vi.fn<typeof deleteGroupUserUC, []>();
-  deleteGroupUserUCMock.mockImplementation(() => ({ groupId, userId }) => {
-    return Promise.resolve({
-      success: true,
-      data: {
-        gId: groupId,
-        uId: userId,
-        roles: ["2000"],
-        lastChecked: new Date(),
-      } as IGroupUser,
-      error: "",
-    });
-  });
+  const deleteGroupUserUCMock = vi.fn(deleteGroupUserUC);
+  deleteGroupUserUCMock.mockImplementation(
+    async ({ groupId, userId }) =>
+      await Promise.resolve({
+        success: true,
+        data: {
+          gId: groupId,
+          uId: userId,
+          roles: ["2000"],
+          lastChecked: new Date(),
+        } as IGroupUser,
+        error: "",
+      })
+  );
 
   const deleteGroupUserC = makeDeleteGroupUserController({ deleteGroupUserUC });
 

@@ -11,7 +11,6 @@ import makeDeleteMessage from "./deleteMessage";
 import makeUpdateMessageText from "./updateMessageText";
 
 describe("updating message text use case", () => {
-  visetTimeout(15000);
   const messageDb = makeMessageDb({ makeDb });
   const createMessage = makeCreateMessage({ messageDb });
   const updateMessageText = makeUpdateMessageText({ messageDb });

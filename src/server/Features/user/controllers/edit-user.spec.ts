@@ -20,7 +20,6 @@ describe("Edit user controller", () => {
     });
   });
 
-  visetTimeout(3000);
   afterAll(async () => {
     await userTests.deleteTestUser({
       userId: "312c0878-04c3-4585-835e-c66900ccc7a1",

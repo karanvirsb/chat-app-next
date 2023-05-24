@@ -12,7 +12,6 @@ import makeUpdateChannelName from "../use-cases/updateChannelName";
 import makeUpdateChannelNameController from "./update-groupName";
 
 describe("Update group name controller", () => {
-  visetTimeout(10000);
   // const channelRequest = {
   //     body: {},
   //     headers: {},

@@ -10,7 +10,6 @@ const handleModeration = async (name: string) => {
   return await moderateName(name);
 };
 describe("Edit Users use case", () => {
-  visetTimeout(50000);
   let usersDb = makeUsersDb({ makeDb });
   const editUser = makeEditUser({ usersDb, handleModeration });
 
@@ -24,7 +23,6 @@ describe("Edit Users use case", () => {
     });
   });
 
-  visetTimeout(50000);
   afterAll(async () => {
     await userTests.deleteTestUser({
       userId: "12345678910",

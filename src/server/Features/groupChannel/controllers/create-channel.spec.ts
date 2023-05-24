@@ -11,7 +11,6 @@ import makeDeleteChannel from "../use-cases/deleteChannel";
 import makeCreateChannelController from "./create-channel";
 
 describe("Create channel controller", () => {
-  visetTimeout(10000);
   // const channelRequest = {
   //     body: {},
   //     headers: {},

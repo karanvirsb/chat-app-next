@@ -10,7 +10,6 @@ import makeDeletePrivateChannel from "../use-cases/deletePrivateChannel";
 import makeCreatePrivateChannelController from "./create-privateChannel";
 
 describe("Create private channel controller", () => {
-  visetTimeout(10000);
   // const channelRequest = {
   //     body: {},
   //     headers: {},

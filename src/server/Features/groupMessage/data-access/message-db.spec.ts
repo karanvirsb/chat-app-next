@@ -9,7 +9,6 @@ import makeDeleteMessage from "../use-cases/deleteMessage";
 import makeMessageDb from "./message-db";
 
 describe("Message db method tests", () => {
-  visetTimeout(10000);
   const messageDB = makeMessageDb({ makeDb });
 
   const deleteGroupMessage = makeDeleteMessage({ messageDb: messageDB });

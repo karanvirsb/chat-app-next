@@ -56,7 +56,6 @@ describe("Getting private messages by channel id use case", () => {
   });
 
   test("SUCCESS: getting a message", async () => {
-    visetTimeout(15000);
     await createMessage(message);
 
     const foundMessage = await getMessagesByChannelId(

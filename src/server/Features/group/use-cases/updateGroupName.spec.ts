@@ -20,7 +20,6 @@ function sanitizeText(text: string) {
 }
 
 describe("Updating group name use case", () => {
-  visetTimeout(15000);
   const groupDb = makeGroupDb({ makeDb });
   const addGroup = makeAddGroup({ groupDb, handleModeration });
   const updateGroupName = makeUpdateGroupName({

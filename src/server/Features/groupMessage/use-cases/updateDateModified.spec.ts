@@ -56,8 +56,6 @@ describe("Update message date modified use case", () => {
   });
 
   test("SUCCESS: updating date modified", async () => {
-    visetTimeout(15000);
-
     await createMessage(message);
 
     const updatedMessage = await updateDateModified(

@@ -11,7 +11,6 @@ import makeGetPrivateChannelById from "../use-cases/getPrivateChannelById";
 import makeGetPrivateChannelByIdController from "./get-privateChannelById";
 
 describe("Get private channel by id controller", () => {
-  visetTimeout(10000);
   // const channelRequest = {
   //     body: {},
   //     headers: {},

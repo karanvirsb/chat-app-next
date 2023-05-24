@@ -12,7 +12,6 @@ import makeGetChannelById from "../use-cases/getChannelById";
 import makeGetChannelByIdController from "./get-channelbyId";
 
 describe("Get channel by id controller", () => {
-  visetTimeout(10000);
   // const channelRequest = {
   //     body: {},
   //     headers: {},

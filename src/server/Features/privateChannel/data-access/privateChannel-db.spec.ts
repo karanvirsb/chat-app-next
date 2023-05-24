@@ -6,7 +6,6 @@ import { IPrivateChannel } from "../privateChannel";
 import makePrivateChannelDb from "./privateChannel-db";
 
 describe("Private Channel db method tests", () => {
-  visetTimeout(10000);
   const privateChannelDB = makePrivateChannelDb({ makeDb });
 
   let channel: IPrivateChannel;

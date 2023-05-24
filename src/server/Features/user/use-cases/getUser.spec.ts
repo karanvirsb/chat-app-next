@@ -6,7 +6,6 @@ import makeUsersDb from "../data-access/users-db";
 import makeGetUser from "./getUser";
 
 describe("Get use case", () => {
-  visetTimeout(50000);
   let usersDb = makeUsersDb({ makeDb });
   const getUser = makeGetUser({ usersDb });
 
@@ -20,7 +19,6 @@ describe("Get use case", () => {
     });
   });
 
-  visetTimeout(3000);
   afterAll(async () => {
     await userTests.deleteTestUser({
       userId: "12345678910",

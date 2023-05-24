@@ -8,7 +8,6 @@ import { IPrivateMessage } from "../privateMessage";
 import makePrivateMessageDb from "./privateMessage-db";
 
 describe("Private Message db method tests", () => {
-  visetTimeout(10000);
   const messageDB = makePrivateMessageDb({ makeDb });
 
   let message: IPrivateMessage;

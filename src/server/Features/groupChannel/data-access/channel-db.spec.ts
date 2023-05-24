@@ -8,7 +8,6 @@ import makeDeleteChannel from "../use-cases/deleteChannel";
 import makeChannelDb from "./channel-db";
 
 describe("Channel db method tests", () => {
-  visetTimeout(10000);
   const channelDB = makeChannelDb({ makeDb });
 
   const deleteGroupChannel = makeDeleteChannel({ channelDb: channelDB });

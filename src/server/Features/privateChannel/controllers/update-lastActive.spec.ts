@@ -11,7 +11,6 @@ import makeUpdateLastActive from "../use-cases/updateLastActive";
 import makeUpdateLastActiveController from "./update-lastActive";
 
 describe("Create private channel controller", () => {
-  visetTimeout(10000);
   // const channelRequest = {
   //     body: {},
   //     headers: {},

@@ -10,7 +10,6 @@ import makeDeletePrivateMessage from "./deletePrivateMessage";
 import makeUpdatePrivateMessageText from "./updatePrivateMessageText";
 
 describe("updating private message text use case", () => {
-  visetTimeout(15000);
   const privateMessageDb = makePrivateMessageDb({ makeDb });
   const createMessage = makeCreatePrivateMessage({ privateMessageDb });
   const updateMessageText = makeUpdatePrivateMessageText({

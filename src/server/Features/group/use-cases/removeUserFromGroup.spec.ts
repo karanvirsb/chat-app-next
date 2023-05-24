@@ -14,7 +14,6 @@ const handleModeration = async (name: string) => {
 };
 
 describe("Removing user from a group use case", () => {
-  visetTimeout(15000);
   const groupDb = makeGroupDb({ makeDb });
   const addGroup = makeAddGroup({ groupDb, handleModeration });
   const removeUserFromGroup = makeRemoveUserFromGroup({ groupDb });

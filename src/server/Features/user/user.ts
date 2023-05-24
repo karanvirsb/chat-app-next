@@ -26,6 +26,13 @@ const UserSchema = z.object({
 
 export type IUser = z.infer<typeof UserSchema>;
 
+type MarkDeleted = {
+  markedDeleted: () => void;
+};
+type IsDeleted = {
+  isDelete: () => boolean;
+};
+
 export default function buildUser({ sanitizeText }: props) {
   return function makeUser({
     userId,
@@ -36,7 +43,7 @@ export default function buildUser({ sanitizeText }: props) {
     // if (userId.length <= 10) {
     //   throw new Error("User must have an Id greater than 10 characters");
     // }
-    let sanitizedText = sanitizeText(username).trim();
+    const sanitizedText = sanitizeText(username).trim();
     // if (sanitizedText.length < 1) {
     //   throw new Error("Username does not contain any valid characters");
     // }
@@ -70,11 +77,6 @@ export default function buildUser({ sanitizeText }: props) {
         getUsername: () => sanitizedText,
         getStatus: () => status,
         getPassword: () => password,
-        markDeleted: () => {
-          sanitizedText = deletedUsername;
-          userId = "deleted-" + userId;
-        },
-        isDeleted: () => sanitizedText === deletedUsername,
       }),
     };
   };

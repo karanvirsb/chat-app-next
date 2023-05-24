@@ -7,7 +7,6 @@ import { IUser } from "../user";
 import { deleteUserC } from ".";
 
 describe("delete user controller", () => {
-  visetTimeout(30000);
   let user: IUser;
   beforeAll(async () => {
     user = await makeFakeUser({
@@ -29,7 +28,6 @@ describe("delete user controller", () => {
     await closeDb();
   });
 
-  visetTimeout(30000);
   it("deleting user", async () => {
     await addUserUC(user);
 

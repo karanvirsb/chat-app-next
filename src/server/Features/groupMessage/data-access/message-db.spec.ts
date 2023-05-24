@@ -15,7 +15,6 @@ describe("Message db method tests", () => {
   const deleteGroupMessage = makeDeleteMessage({ messageDb: messageDB });
   let message: IGroupMessage;
   beforeAll(async () => {
-    visetTimeout(30000);
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });
@@ -59,14 +58,12 @@ describe("Message db method tests", () => {
   });
 
   test("SUCCESS: deleting a message", async () => {
-    visetTimeout(30000);
     await messageDB.createMessage(message);
     const deletedMessage = await messageDB.deleteMessage(message.messageId);
     expect(deletedMessage.data?.messageId).toBe(message.messageId);
   });
 
   test("SUCCESS: getting message by id", async () => {
-    visetTimeout(30000);
     await messageDB.createMessage(message);
     const foundMessage = await messageDB.getMessageById(message.messageId);
     expect(foundMessage.data?.text).toBe(message.text);
@@ -74,7 +71,6 @@ describe("Message db method tests", () => {
 
   // TODO promise all
   test.skip("SUCCESS: getting messages by channel id", async () => {
-    visetTimeout(30000);
     let message = await makeFakeMessage("123", "1234");
     let insertedMessage = await messageDB.createMessage(message);
     for (let i = 0; i < 10; i++) {
@@ -93,7 +89,6 @@ describe("Message db method tests", () => {
   });
 
   test("SUCCESS: updating message", async () => {
-    visetTimeout(30000);
     await messageDB.createMessage(message);
     const updatedMessage = await messageDB.updateMessage(
       "text",
@@ -104,7 +99,6 @@ describe("Message db method tests", () => {
   });
 
   test("SUCCESS: updating message date", async () => {
-    visetTimeout(30000);
     await messageDB.createMessage(message);
     const updatedMessage = await messageDB.updateMessage(
       "dateModified",

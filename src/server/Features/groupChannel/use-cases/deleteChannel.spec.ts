@@ -28,7 +28,6 @@ describe("deleting channel use case", () => {
   let channel: IGroupChannel;
 
   beforeAll(async () => {
-    visetTimeout(30000);
     await userTests.addTestUserToDB({ userId: "123" });
     await groupTests.createTestGroup({
       groupId: "123",

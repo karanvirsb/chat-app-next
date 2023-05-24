@@ -16,7 +16,6 @@ describe("Get private messages by id use case", () => {
   const deletePrivateMessage = makeDeletePrivateMessage({ privateMessageDb });
   let message: IPrivateMessage;
 
-  visetTimeout(30000);
   beforeAll(async () => {
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",

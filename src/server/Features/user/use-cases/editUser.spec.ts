@@ -14,7 +14,6 @@ describe("Edit Users use case", () => {
   let usersDb = makeUsersDb({ makeDb });
   const editUser = makeEditUser({ usersDb, handleModeration });
 
-  visetTimeout(30000);
   beforeAll(async () => {
     usersDb = makeUsersDb({ makeDb });
   });

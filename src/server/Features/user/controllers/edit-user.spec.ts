@@ -7,7 +7,6 @@ import { IUser } from "../user";
 import { editAnUser } from ".";
 
 describe("Edit user controller", () => {
-  visetTimeout(30000);
   let user: IUser;
   beforeAll(async () => {
     user = await makeFakeUser({

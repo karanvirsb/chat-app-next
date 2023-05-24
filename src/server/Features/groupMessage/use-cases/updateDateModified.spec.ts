@@ -18,7 +18,6 @@ describe("Update message date modified use case", () => {
   const deleteGroupMessage = makeDeleteMessage({ messageDb });
   let message: IGroupMessage;
   beforeAll(async () => {
-    visetTimeout(30000);
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
     });

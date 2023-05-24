@@ -13,7 +13,7 @@ describe("Create private message use case", () => {
   const createMessage = makeCreatePrivateMessage({ privateMessageDb });
   const deleteMessage = makeDeletePrivateMessage({ privateMessageDb });
   let message: IPrivateMessage;
-  visetTimeout(30000);
+
   beforeAll(async () => {
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
@@ -54,8 +54,6 @@ describe("Create private message use case", () => {
   });
 
   test("SUCCESS: creating a message", async () => {
-    visetTimeout(30000);
-
     const insertedMessage = await createMessage(message);
 
     expect(insertedMessage.data?.messageId).toBe(message.messageId);

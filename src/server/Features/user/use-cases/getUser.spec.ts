@@ -10,7 +10,6 @@ describe("Get use case", () => {
   let usersDb = makeUsersDb({ makeDb });
   const getUser = makeGetUser({ usersDb });
 
-  visetTimeout(30000);
   beforeAll(async () => {
     usersDb = makeUsersDb({ makeDb });
   });

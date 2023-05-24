@@ -1,10 +1,14 @@
+import { z } from "zod";
+
 import { EntityReturn } from "@/shared/types/returns";
 
-export interface IFriends {
-  userId: string;
-  friendId: string;
-  dateAdded: Date;
-}
+const FriendsSchema = z.object({
+  userId: z.string().uuid(),
+  friendId: z.string().uuid(),
+  dateAdded: z.date(),
+});
+
+export type IFriends = z.infer<typeof FriendsSchema>;
 
 export default function buildFriends() {
   return function makeFriends({

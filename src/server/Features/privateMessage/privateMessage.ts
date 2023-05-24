@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import { EntityReturn } from "@/shared/types/returns";
 
 import { IId } from "../../Utilities/id";
@@ -11,6 +13,19 @@ export interface IPrivateMessage {
   text: string;
   privateChannelId: string;
 }
+
+const PrivateMessageSchema = z.object({
+  userId: z.string().uuid(),
+  dateCreated: z.date(),
+  messageId: z.string().uuid(),
+  dateModified: z.date().optional(),
+  replyTo: z.string().optional(),
+  text: z
+    .string()
+    .min(1, "Message needs to be atleast 1 character long.")
+    .max(200, "Message cannot be more than 200 characters long."),
+  privateChannelId: z.string().uuid(),
+});
 
 type props = {
   Id: IId;

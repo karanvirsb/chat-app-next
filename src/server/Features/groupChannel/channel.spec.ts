@@ -1,37 +1,37 @@
+import id from "@/server/Utilities/id";
+
 import makeChannel from ".";
 import { IGroupChannel } from "./groupChannel";
 
 describe("Channel test", () => {
   const channelData: IGroupChannel = {
-    channelId: "123456789",
+    channelId: id.makeId(),
     channelName: "coolName",
     dateCreated: new Date(),
-    groupId: "123456789",
+    groupId: id.makeId(),
   };
   test("Channel make successfully", () => {
     const channel = makeChannel(channelData);
+    expect(channel.success).toBeTruthy();
     if (channel.success) expect(channel.data.getChannelName()).toBe("coolName");
   });
 
   test("ERROR: name should not contain html", () => {
-    expect(() =>
-      makeChannel({
-        ...channelData,
-        channelName: "<html></html>",
-      })
-    ).toThrow("Channel name should contain valid characters");
+    const result = makeChannel({
+      ...channelData,
+      channelName: "<html></html>",
+    });
+    expect(result.success).toBeFalsy();
   });
 
   test("ERROR: channel name should be between 3-50", () => {
-    expect(() => makeChannel({ ...channelData, channelName: "12" })).toThrow(
-      "Channel name should be between 3 to 50 characters long"
-    );
+    const result = makeChannel({ ...channelData, channelName: "12" });
+    expect(result.success).toBeFalsy();
   });
 
   test("ERROR: group id does not exist", () => {
-    expect(() => makeChannel({ ...channelData, groupId: "" })).toThrow(
-      "Group Id needs to be supplied"
-    );
+    const result = makeChannel({ ...channelData, groupId: "" });
+    expect(result.success).toBeFalsy();
   });
 
   // test("ERROR: date needed", () => {
@@ -41,8 +41,7 @@ describe("Channel test", () => {
   // });
 
   test("ERROR: channel id is needed", () => {
-    expect(() => makeChannel({ ...channelData, channelId: "" })).toThrow(
-      "Channel Id needs to be supplied"
-    );
+    const result = makeChannel({ ...channelData, channelId: "" });
+    expect(result.success).toBeFalsy();
   });
 });

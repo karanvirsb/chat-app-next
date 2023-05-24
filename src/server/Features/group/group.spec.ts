@@ -1,3 +1,5 @@
+import { ZodError } from "zod";
+
 import id from "@/server/Utilities/id";
 
 import buildGroup from ".";
@@ -19,6 +21,17 @@ describe("Group creation test", () => {
   test("Group name contains html", () => {
     const result = buildGroup({ ...group, groupName: "<html></html>" });
     expect(result.success).toBeFalsy();
+
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IGroup>).flatten().fieldErrors;
+        console.log(err);
+        expect(err.groupName?.join("")).toBe(
+          "Group name must be at least 3 characters long"
+        );
+      }
+    }
   });
 
   test("Group Name must be a certain length", () => {

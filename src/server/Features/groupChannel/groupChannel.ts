@@ -15,7 +15,7 @@ export const GroupChannelSchema = z.object({
       message: "Channel name should be less than 50 characters",
     }),
   dateCreated: z.date(),
-  groupId: z.string(),
+  groupId: z.string().uuid(),
 });
 
 export type IGroupChannel = z.infer<typeof GroupChannelSchema>;

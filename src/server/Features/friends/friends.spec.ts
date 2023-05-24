@@ -34,12 +34,19 @@ describe("Friends test", () => {
   });
 
   test("ERROR: friends id does not exist", () => {
-    expect(() =>
-      buildFriends({
-        userId: "123",
-        friendId: "",
-        dateAdded: new Date(),
-      })
-    ).toThrow("Friends Id needs to be supplied");
+    const result = buildFriends({
+      userId: id.makeId(),
+      friendId: "",
+      dateAdded: new Date(),
+    });
+    expect(result.success).toBeFalsy();
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError<IFriends>) {
+        const err = (result.error as ZodError<IFriends>).flatten().fieldErrors;
+        console.log(err);
+        expect(err.friendId?.join("")).toBe("Invalid uuid");
+      }
+    }
   });
 });

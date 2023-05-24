@@ -1,3 +1,5 @@
+import { ZodError } from "zod";
+
 import id from "@/server/Utilities/id";
 
 import makeChannel from ".";
@@ -22,16 +24,49 @@ describe("Channel test", () => {
       channelName: "<html></html>",
     });
     expect(result.success).toBeFalsy();
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IGroupChannel>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.channelName?.join("")).toBe(
+          "Channel name should be greater than 3 characters"
+        );
+      }
+    }
   });
 
   test("ERROR: channel name should be between 3-50", () => {
     const result = makeChannel({ ...channelData, channelName: "12" });
     expect(result.success).toBeFalsy();
+
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IGroupChannel>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.channelName?.join("")).toBe(
+          "Channel name should be greater than 3 characters"
+        );
+      }
+    }
   });
 
   test("ERROR: group id does not exist", () => {
     const result = makeChannel({ ...channelData, groupId: "" });
     expect(result.success).toBeFalsy();
+
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IGroupChannel>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.groupId?.join("")).toBe("Invalid uuid");
+      }
+    }
   });
 
   // test("ERROR: date needed", () => {
@@ -43,5 +78,15 @@ describe("Channel test", () => {
   test("ERROR: channel id is needed", () => {
     const result = makeChannel({ ...channelData, channelId: "" });
     expect(result.success).toBeFalsy();
+
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IGroupChannel>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.channelId?.join("")).toBe("Invalid uuid");
+      }
+    }
   });
 });

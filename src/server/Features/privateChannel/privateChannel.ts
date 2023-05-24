@@ -17,7 +17,7 @@ const PrivateChannelSchema = z.object({
   // lastRead: z.date()
 });
 
-type IPrivateChannel = z.infer<typeof PrivateChannelSchema>;
+export type IPrivateChannel = z.infer<typeof PrivateChannelSchema>;
 
 type props = {
   Id: IId;

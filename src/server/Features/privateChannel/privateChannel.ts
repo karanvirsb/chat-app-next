@@ -35,31 +35,44 @@ export default function buildPrivateChannel({ Id, sanitizeText }: props) {
   }: IPrivateChannel): EntityReturn<IPrivateChannel> {
     const sanitizedChannelName = sanitizeText(channelName);
 
-    if (sanitizedChannelName.length <= 1) {
-      throw new Error("Channel name should contain valid characters");
+    const result = PrivateChannelSchema.safeParse({
+      channelId,
+      channelName: sanitizedChannelName,
+      userId,
+      friendsId,
+      dateCreated,
+      lastActive,
+    });
+
+    if (!result.success) {
+      return { success: false, error: result.error };
     }
 
-    if (sanitizedChannelName.length < 3 || sanitizedChannelName.length > 50) {
-      throw new Error("Channel name should be between 3 to 50 characters long");
-    }
+    // if (sanitizedChannelName.length <= 1) {
+    //   throw new Error("Channel name should contain valid characters");
+    // }
 
-    if (!userId) {
-      throw new Error("User Id needs to be supplied");
-    }
+    // if (sanitizedChannelName.length < 3 || sanitizedChannelName.length > 50) {
+    //   throw new Error("Channel name should be between 3 to 50 characters long");
+    // }
 
-    if (!friendsId) throw new Error("Friends Id needs to be supplied");
+    // if (!userId) {
+    //   throw new Error("User Id needs to be supplied");
+    // }
 
-    if (!dateCreated) {
-      throw new Error("Date needs to be supplied");
-    }
+    // if (!friendsId) throw new Error("Friends Id needs to be supplied");
 
-    if (!channelId) {
-      throw new Error("Channel Id needs to be supplied");
-    }
+    // if (!dateCreated) {
+    //   throw new Error("Date needs to be supplied");
+    // }
 
-    if (!lastActive || Number.isNaN(lastActive.getTime())) {
-      throw new Error("Last active needs to be supplied");
-    }
+    // if (!channelId) {
+    //   throw new Error("Channel Id needs to be supplied");
+    // }
+
+    // if (!lastActive || Number.isNaN(lastActive.getTime())) {
+    //   throw new Error("Last active needs to be supplied");
+    // }
 
     // replace any ' with a '' to escape
     const newChannelName = sanitizedChannelName.replace(/'/g, "''");

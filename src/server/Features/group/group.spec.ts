@@ -1,35 +1,38 @@
+import id from "@/server/Utilities/id";
+
 import buildGroup from ".";
 import { IGroup } from "./group";
 
 describe("Group creation test", () => {
   const group: IGroup = {
-    groupId: "1234",
+    groupId: id.makeId(),
     groupName: "Coders",
     inviteCode: "abcdefg",
     dateCreated: new Date(),
   };
 
+  test("Group created successfully", () => {
+    const result = buildGroup(group);
+    expect(result.success).toBeTruthy();
+  });
+
   test("Group name contains html", () => {
-    expect(() => buildGroup({ ...group, groupName: "<html></html>" })).toThrow(
-      "Group name must contain valid characters"
-    );
+    const result = buildGroup({ ...group, groupName: "<html></html>" });
+    expect(result.success).toBeFalsy();
   });
 
   test("Group Name must be a certain length", () => {
-    expect(() => buildGroup({ ...group, groupName: "bo" })).toThrow(
-      "Group name must be between 3 and 50 characters long"
-    );
+    const result = buildGroup({ ...group, groupName: "bo" });
+    expect(result.success).toBeFalsy();
   });
 
   test("Group id is required", () => {
-    expect(() => buildGroup({ ...group, groupId: "" })).toThrow(
-      "Group requires an Id"
-    );
+    const result = buildGroup({ ...group, groupId: "" });
+    expect(result.success).toBeFalsy();
   });
 
   test("Group requires an invite code", () => {
-    expect(() => buildGroup({ ...group, inviteCode: "" })).toThrow(
-      "Group requires an invite code"
-    );
+    const result = buildGroup({ ...group, inviteCode: "" });
+    expect(result.success).toBeFalsy();
   });
 });

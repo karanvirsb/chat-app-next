@@ -1,16 +1,23 @@
+import { z } from "zod";
+
 import { EntityReturn } from "@/shared/types/returns";
 
 import { IId } from "../../Utilities/id";
 
-export interface IPrivateChannel {
-  channelId: string;
-  channelName: string;
-  dateCreated: Date;
-  userId: string;
-  friendsId: string;
-  lastActive: Date;
-  // lastRead: Date;
-}
+const PrivateChannelSchema = z.object({
+  channelId: z.string().uuid(),
+  channelName: z
+    .string()
+    .min(3, "Channel name has to be atleast 3 characters.")
+    .max(50, "Channel name cannot be more than 50 characters"),
+  dateCreated: z.date(),
+  userId: z.string().uuid(),
+  friendsId: z.string().uuid(),
+  lastActive: z.date(),
+  // lastRead: z.date()
+});
+
+type IPrivateChannel = z.infer<typeof PrivateChannelSchema>;
 
 type props = {
   Id: IId;

@@ -48,14 +48,10 @@ describe("user", () => {
     expect(result.success).toBeFalsy();
     console.log(result);
     if (!result.success) {
-      expect(result.error).toBeInstanceOf(ZodError);
-      if (result.error instanceof ZodError) {
-        const err = (result.error as ZodError<IUser>).flatten().fieldErrors;
-
-        expect(err.username?.join("")).toBe(
-          "Username must be atleast 3 characters long."
-        );
-      }
+      expect(result.error).toBeTypeOf("string");
+      expect(result.error).toBe(
+        "Username does not contain any valid characters."
+      );
     }
   });
 });

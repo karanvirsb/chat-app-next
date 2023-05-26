@@ -2,6 +2,7 @@ import makeDb from "@/server/__test__/fixures/db";
 import makeFakePrivateMessage from "@/server/__test__/fixures/privateMessage";
 import privateChannelTests from "@/server/__test__/functions/privateChannel";
 import userTests from "@/server/__test__/functions/user";
+import id from "@/server/Utilities/id";
 
 import makePrivateMessageDb from "../data-access/privateMessage-db";
 import { IPrivateMessage } from "../privateMessage";
@@ -16,7 +17,7 @@ describe("Update private message date modified use case", () => {
 
   const deletePrivateMessage = makeDeletePrivateMessage({ privateMessageDb });
   let message: IPrivateMessage;
-
+  const channelUUID = id.makeId();
   beforeAll(async () => {
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
@@ -27,13 +28,13 @@ describe("Update private message date modified use case", () => {
     await privateChannelTests.createTestPrivateChannel({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       friendsId: "312c0878-04c3-4585-835e-c66900ccc7a1",
-      channelId: "123",
+      channelId: channelUUID,
     });
   });
 
   beforeEach(async () => {
     message = await makeFakePrivateMessage(
-      "123",
+      channelUUID,
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
     );
   });
@@ -44,7 +45,7 @@ describe("Update private message date modified use case", () => {
 
   afterAll(async () => {
     await privateChannelTests.deleteTestPrivateChannel({
-      channelId: "123",
+      channelId: channelUUID,
     });
     await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
@@ -55,7 +56,8 @@ describe("Update private message date modified use case", () => {
   });
 
   test("SUCCESS: updating date modified", async () => {
-    await createMessage(message);
+    const result = await createMessage(message);
+    expect(result.success).toBeTruthy();
 
     const updatedMessage = await updateDateModified(
       message.messageId,
@@ -66,7 +68,8 @@ describe("Update private message date modified use case", () => {
   });
 
   test("ERROR: missing message id ", async () => {
-    await createMessage(message);
+    const result = await createMessage(message);
+    expect(result.success).toBeTruthy();
 
     try {
       await updateDateModified("", new Date());

@@ -22,34 +22,50 @@ describe("Testing group user", () => {
   it("ERROR: gId needs to exist", () => {
     const userWithoutgId = structuredClone(fakeGroupUser);
     userWithoutgId.gId = "";
-    try {
-      buildGroupUser(userWithoutgId);
-    } catch (error) {
-      expect((error as ZodError<IGroupUser>).format().gId?._errors[0]).toBe(
-        "String must contain at least 21 character(s)"
-      );
+
+    const result = buildGroupUser(userWithoutgId);
+    expect(result.success).toBeFalsy();
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IGroupUser>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.gId?.join("")).toBe("Invalid uuid");
+      }
     }
   });
   it("ERROR: uId needs to exist", () => {
     const userWithoutuId = structuredClone(fakeGroupUser);
     userWithoutuId.uId = "";
-    try {
-      buildGroupUser(userWithoutuId);
-    } catch (error) {
-      expect((error as ZodError<IGroupUser>).format().uId?._errors[0]).toBe(
-        "String must contain at least 21 character(s)"
-      );
+
+    const result = buildGroupUser(userWithoutuId);
+    expect(result.success).toBeFalsy();
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IGroupUser>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.uId?.join("")).toBe("Invalid uuid");
+      }
     }
   });
   it("ERROR: roles needs to exist", () => {
     const userWithoutRoles = structuredClone(fakeGroupUser);
     userWithoutRoles.roles = [];
-    try {
-      buildGroupUser(userWithoutRoles);
-    } catch (error) {
-      expect((error as ZodError<IGroupUser>).format().roles?._errors[0]).toBe(
-        "Array must contain at least 1 element(s)"
-      );
+    const result = buildGroupUser(userWithoutRoles);
+    expect(result.success).toBeFalsy();
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IGroupUser>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.roles?.join("")).toBe(
+          "Array must contain at least 1 element(s)"
+        );
+      }
     }
   });
 });

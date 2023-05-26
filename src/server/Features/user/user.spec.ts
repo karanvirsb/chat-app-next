@@ -7,32 +7,28 @@ describe("user", () => {
     userId: Id.makeId(),
     username: "John123",
     status: "offline",
-    password: Id.makeId(),
+    password: "John_123",
   };
   it("User id has to be valid", () => {
-    expect(() => buildUser({ ...tempUser, userId: "" })).toThrow(
-      "User must have an Id greater than 10 characters"
-    );
+    const result = buildUser({ ...tempUser, userId: "" });
+    expect(result.success).toBeFalsy();
   });
   it("Have to have username greater than 3 letters", () => {
-    expect(() => buildUser({ ...tempUser, username: "wq" })).toThrow(
-      "Username must be greater than 3 characters but less than 30"
-    );
+    const result = buildUser({ ...tempUser, username: "wq" });
+    expect(result.success).toBeFalsy();
   });
 
   it("Username contains html", () => {
-    expect(() =>
-      buildUser({
-        ...tempUser,
-        username: "<img src=x onerror=alert('img') />",
-      })
-    ).toThrow("Username does not contain any valid characters");
+    const result = buildUser({
+      ...tempUser,
+      username: "<img src=x onerror=alert('img') />",
+    });
+    expect(result.success).toBeFalsy();
   });
 
   it("Must have a status", () => {
-    expect(() => buildUser({ ...tempUser, status: "online" })).toThrow(
-      "Must have a valid status"
-    );
+    const result = buildUser({ ...tempUser, status: "online" });
+    expect(result.success).toBeFalsy();
   });
 
   // it("User is deleted name changes", () => {

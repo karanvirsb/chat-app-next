@@ -1,7 +1,10 @@
+import { ZodError } from "zod";
+
 import makeFakePrivateMessage from "@/server/__test__/fixures/privateMessage";
 import id from "@/server/Utilities/id";
 
 import makePrivateMessage from ".";
+import { IPrivateMessage } from "./privateMessage";
 
 describe("private message tests", () => {
   const uuid = id.makeId();
@@ -18,6 +21,18 @@ describe("private message tests", () => {
     const result = makePrivateMessage(fakeMessage);
 
     expect(result.success).toBeFalsy();
+
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IPrivateMessage>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.text?.join("")).toBe(
+          "Message needs to be atleast 1 character long."
+        );
+      }
+    }
   });
 
   test("ERROR: text needs to 1-200 characters long", async () => {
@@ -27,6 +42,18 @@ describe("private message tests", () => {
     const result = makePrivateMessage(fakeMessage);
 
     expect(result.success).toBeFalsy();
+
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IPrivateMessage>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.text?.join("")).toBe(
+          "Message cannot be more than 200 characters long."
+        );
+      }
+    }
   });
 
   test("ERROR: missing user id", async () => {
@@ -35,6 +62,16 @@ describe("private message tests", () => {
     const result = makePrivateMessage(fakeMessage);
 
     expect(result.success).toBeFalsy();
+
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IPrivateMessage>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.userId?.join("")).toBe("Invalid uuid");
+      }
+    }
   });
 
   test("ERROR: missing message id", async () => {
@@ -43,6 +80,15 @@ describe("private message tests", () => {
     const result = makePrivateMessage(fakeMessage);
 
     expect(result.success).toBeFalsy();
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IPrivateMessage>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.messageId?.join("")).toBe("Invalid uuid");
+      }
+    }
   });
 
   test("ERROR: missing channel id", async () => {
@@ -51,5 +97,14 @@ describe("private message tests", () => {
     const result = makePrivateMessage(fakeMessage);
 
     expect(result.success).toBeFalsy();
+    if (!result.success) {
+      expect(result.error).toBeInstanceOf(ZodError);
+      if (result.error instanceof ZodError) {
+        const err = (result.error as ZodError<IPrivateMessage>).flatten()
+          .fieldErrors;
+        console.log(err);
+        expect(err.privateChannelId?.join("")).toBe("Invalid uuid");
+      }
+    }
   });
 });

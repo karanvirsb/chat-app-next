@@ -14,6 +14,12 @@ describe("delete user controller", () => {
     });
   });
 
+  beforeEach(async () => {
+    await userTests.addTestUserToDB({
+      userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
+    });
+  });
+
   afterEach(async () => {
     await userTests.deleteTestUser({
       userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
@@ -39,6 +45,8 @@ describe("delete user controller", () => {
       path: "",
       query: {},
     });
+
+    console.log(deletedUser);
 
     expect(deletedUser.body.data.userId).toBe(
       "ce3735e4-b3de-48d4-853e-758c06b1a935"

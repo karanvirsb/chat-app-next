@@ -29,7 +29,6 @@ describe("Channel test", () => {
       if (result.error instanceof ZodError) {
         const err = (result.error as ZodError<IGroupChannel>).flatten()
           .fieldErrors;
-        console.log(err);
         expect(err.channelName?.join("")).toBe(
           "Channel name should be greater than 3 characters"
         );
@@ -46,7 +45,6 @@ describe("Channel test", () => {
       if (result.error instanceof ZodError) {
         const err = (result.error as ZodError<IGroupChannel>).flatten()
           .fieldErrors;
-        console.log(err);
         expect(err.channelName?.join("")).toBe(
           "Channel name should be greater than 3 characters"
         );
@@ -63,7 +61,6 @@ describe("Channel test", () => {
       if (result.error instanceof ZodError) {
         const err = (result.error as ZodError<IGroupChannel>).flatten()
           .fieldErrors;
-        console.log(err);
         expect(err.groupId?.join("")).toBe("Invalid uuid");
       }
     }
@@ -84,7 +81,6 @@ describe("Channel test", () => {
       if (result.error instanceof ZodError) {
         const err = (result.error as ZodError<IGroupChannel>).flatten()
           .fieldErrors;
-        console.log(err);
         expect(err.channelId?.join("")).toBe("Invalid uuid");
       }
     }

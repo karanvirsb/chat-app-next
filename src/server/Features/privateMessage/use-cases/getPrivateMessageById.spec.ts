@@ -2,6 +2,7 @@ import makeDb from "@/server/__test__/fixures/db";
 import makeFakePrivateMessage from "@/server/__test__/fixures/privateMessage";
 import privateChannelTests from "@/server/__test__/functions/privateChannel";
 import userTests from "@/server/__test__/functions/user";
+import id from "@/server/Utilities/id";
 
 import makePrivateMessageDb from "../data-access/privateMessage-db";
 import { IPrivateMessage } from "../privateMessage";
@@ -15,7 +16,7 @@ describe("Get private messages by id use case", () => {
   const getMessageById = makeGetPrivateMessageById({ privateMessageDb });
   const deletePrivateMessage = makeDeletePrivateMessage({ privateMessageDb });
   let message: IPrivateMessage;
-
+  const channelUUID = id.makeId();
   beforeAll(async () => {
     await userTests.addTestUserToDB({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
@@ -26,13 +27,13 @@ describe("Get private messages by id use case", () => {
     await privateChannelTests.createTestPrivateChannel({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
       friendsId: "312c0878-04c3-4585-835e-c66900ccc7a1",
-      channelId: "123",
+      channelId: channelUUID,
     });
   });
 
   beforeEach(async () => {
     message = await makeFakePrivateMessage(
-      "123",
+      channelUUID,
       "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
     );
   });
@@ -43,7 +44,7 @@ describe("Get private messages by id use case", () => {
 
   afterAll(async () => {
     await privateChannelTests.deleteTestPrivateChannel({
-      channelId: "123",
+      channelId: channelUUID,
     });
     await userTests.deleteTestUser({
       userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
@@ -53,16 +54,16 @@ describe("Get private messages by id use case", () => {
     });
   });
   test("SUCCESS: getting a message", async () => {
-    await createMessage(message);
-
+    const result = await createMessage(message);
+    expect(result.success).toBeTruthy();
     const foundMessage = await getMessageById(message.messageId);
 
     expect(foundMessage.data?.messageId).toBe(message.messageId);
   });
 
   test("ERROR: missing message id ", async () => {
-    await createMessage(message);
-
+    const result = await createMessage(message);
+    expect(result.success).toBeTruthy();
     try {
       await getMessageById("");
     } catch (error) {

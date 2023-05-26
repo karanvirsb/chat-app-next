@@ -8,7 +8,10 @@ type props = {
 
 const UserSchema = z.object({
   userId: z.string().uuid(),
-  username: z.string().min(3).max(30),
+  username: z
+    .string()
+    .min(3, "Username must be atleast 3 characters long.")
+    .max(30, "Username cannot be more than 30 characters long."),
   status: z.enum(["online", "offline"]),
   password: z
     .string()

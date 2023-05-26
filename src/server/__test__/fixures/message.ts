@@ -14,6 +14,6 @@ export default async function makeFakeMessage(
     text: faker.lorem.lines(1),
     userId: userId,
     dateModified: new Date().getTime(),
-    replyTo: "",
+    replyTo: id.makeId(),
   };
 }

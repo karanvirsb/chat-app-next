@@ -16,35 +16,30 @@ describe("Channel test", () => {
   });
 
   test("ERROR: name should not contain html", () => {
-    expect(() =>
-      makePrivateChannel({
-        ...channelData,
-        channelName: "<html></html>",
-      })
-    ).toThrow("Channel name should contain valid characters");
+    const result = makePrivateChannel({
+      ...channelData,
+      channelName: "<html></html>",
+    });
+    expect(result.success).toBeFalsy();
   });
 
   test("ERROR: channel name should be between 3-50", () => {
-    expect(() =>
-      makePrivateChannel({ ...channelData, channelName: "12" })
-    ).toThrow("Channel name should be between 3 to 50 characters long");
+    const result = makePrivateChannel({ ...channelData, channelName: "12" });
+    expect(result.success).toBeFalsy();
   });
 
   test("ERROR: user id does not exist", () => {
-    expect(() => makePrivateChannel({ ...channelData, userId: "" })).toThrow(
-      "User Id needs to be supplied"
-    );
+    const result = makePrivateChannel({ ...channelData, userId: "" });
+    expect(result.success).toBeFalsy();
   });
 
   test("ERROR: friends id is needed", () => {
-    expect(() => makePrivateChannel({ ...channelData, friendsId: "" })).toThrow(
-      "Friends Id needs to be supplied"
-    );
+    const result = makePrivateChannel({ ...channelData, friendsId: "" });
+    expect(result.success).toBeFalsy();
   });
 
   test("ERROR: channel id is needed", () => {
-    expect(() => makePrivateChannel({ ...channelData, channelId: "" })).toThrow(
-      "Channel Id needs to be supplied"
-    );
+    const result = makePrivateChannel({ ...channelData, channelId: "" });
+    expect(result.success).toBeFalsy();
   });
 });

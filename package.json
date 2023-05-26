@@ -12,6 +12,7 @@
     "vi-test": "vitest --ui"
   },
   "dependencies": {
+    "@next/env": "^13.4.4",
     "@reduxjs/toolkit": "^1.8.6",
     "@tanstack/react-query": "^4.16.1",
     "@types/bcrypt": "^5.0.0",

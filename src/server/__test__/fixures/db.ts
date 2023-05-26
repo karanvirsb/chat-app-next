@@ -1,3 +1,10 @@
+// The below can be used in a Jest global setup file or similar for your testing set-up
+import { loadEnvConfig } from "@next/env";
+
+(async () => {
+  const projectDir = process.cwd();
+  loadEnvConfig(projectDir);
+})();
 import { Pool } from "pg";
 
 const pool = new Pool({
@@ -5,7 +12,7 @@ const pool = new Pool({
   host: process.env.PGHOST,
   database: process.env.TEST_DATABASE,
   password: process.env.PGPASSWORD,
-  port: parseInt(process.env.PGPORT ?? "3211"),
+  port: parseInt(process.env.PGPORT ?? "5432"),
 });
 
 export default async function makeDb() {

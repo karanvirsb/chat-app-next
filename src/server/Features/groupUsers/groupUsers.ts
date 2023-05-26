@@ -3,10 +3,10 @@ import { z } from "zod";
 import { EntityReturn } from "@/shared/types/returns";
 
 export const IGroupUserSchema = z.object({
-  gId: z.string().min(21),
+  gId: z.string().uuid(),
   lastChecked: z.date(),
   roles: z.array(z.string()).min(1),
-  uId: z.string().min(21),
+  uId: z.string().uuid(),
 });
 
 export type IGroupUser = z.infer<typeof IGroupUserSchema>;

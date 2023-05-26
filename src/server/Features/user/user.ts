@@ -43,23 +43,13 @@ export default function buildUser({ sanitizeText }: props) {
     status,
     password,
   }: IUser): EntityReturn<IUser> {
-    // if (userId.length <= 10) {
-    //   throw new Error("User must have an Id greater than 10 characters");
-    // }
     const sanitizedText = sanitizeText(username).trim();
-    // if (sanitizedText.length < 1) {
-    //   throw new Error("Username does not contain any valid characters");
-    // }
-
-    // if (sanitizedText.length < 3 || sanitizedText.length >= 30) {
-    //   throw new Error(
-    //     "Username must be greater than 3 characters but less than 30"
-    //   );
-    // }
-
-    // if (!status) {
-    //   throw new Error("Must have a valid status");
-    // }
+    if (sanitizedText !== username) {
+      return {
+        success: false,
+        error: "Username does not contain any valid characters.",
+      };
+    }
 
     const result = UserSchema.safeParse({
       userId,
